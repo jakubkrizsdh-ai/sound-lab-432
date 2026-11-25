@@ -6,9 +6,9 @@ Každý milník končí funkční aplikací, kontrolou podle TESTS.md a schvále
 | --- | --- | --- |
 | M0 | Kostra aplikace, navigace (cs/en), tmavý motiv, PWA/offline, dokumentace, CI | **Hotovo (0.1.0)** |
 | M1 | Zvukové jádro: AudioContext, master limiter, STOP ALL, −24 dBFS, modul ladění se všemi systémy | **Hotovo (0.2.0)** |
-| M2 | Frekvenční laboratoř: generátory, průběhy, šumy, fáze, panoráma, obálka, sweep, glissando | Další |
-| M3 | Základní analýza: osciloskop, FFT, peak/RMS, vypočtené hodnoty, panel měření | Plán |
-| M4 | Handpan v1: modální engine, rozložení 8/9 + Ding a spodní pole, multitouch, klávesnice | Plán |
+| M2 | Frekvenční laboratoř: generátory, průběhy, šumy, fáze, panoráma, obálka, sweep, glissando | **Hotovo (0.3.0)** |
+| M3 | Základní analýza: osciloskop, FFT, peak/RMS, vypočtené hodnoty, panel měření | Další |
+| M4 | Handpan v1: modální engine, rozložení 8/9 + Ding a spodní pole, multitouch, klávesnice | **Hotovo (0.3.0)** |
 | M5 | Ukládání: IndexedDB, autosave, obnova, presety, import/export projektu | Plán |
 | M6 | Záznam a export: události, časová osa, offline render do WAV, JSON, round-trip test | Plán |
 | M7 | Experimenty: interference, rázy, intervaly, porovnání ladění, drone, binaurální rázy, Lissajous | Plán |
@@ -17,19 +17,22 @@ Každý milník končí funkční aplikací, kontrolou podle TESTS.md a schvále
 | M10 | Meditace (více tradic) a další nástroje: mísy, gong, kalimba, klavír, vlastní nástroj | Plán |
 | M11 | Model cymatiky, výkon, přístupnost, testy na iPhonu a Windows, vydání 1.0 | Plán |
 
-## M2 – plán
-1. `src/lib/audio/generators.ts`: generátor jako hlas (oscilátor / šum / aditivní tabulka), rampy pro všechny parametry.
-2. Šumy: bílý, růžový, hnědý jako smyčkové buffery (případně Worklet).
-3. Fáze: `PeriodicWave` s fázovým posunem; panoráma `StereoPannerNode`; náběh a dozvuk.
-4. Sweep (lineární / exponenciální), glissando mezi tóny ladění, automatické přechody (seznam frekvencí a časů).
-5. Rozhraní podle schváleného návrhu obrazovek (iPhone i Windows); frekvence z ladicí tabulky jedním klepnutím.
-6. Testy: přesnost frekvence v offline renderu (odhad f₀), plynulost změn, mute/solo.
+## M3 – plán
+1. Měřicí AudioWorklet na masteru: peak, RMS, true peak (dBFS), detekce f₀ (YIN/McLeod).
+2. Osciloskop a FFT spektrum z reálného výstupu (Canvas 2D), stabilní zobrazení periodického signálu.
+3. Panel měření dostupný při hraní na handpan i v laboratoři (štítek „Měřeno“).
+4. Rychlost zvuku podle teploty / prostředí v Nastavení (λ se přepočítá).
+5. Testy: měřená f₀ sinusu 432 Hz s chybou < 0,1 Hz, peak/RMS známých signálů.
 
 ## Dluh a rizika
 - **GitHub Pages:** na bezplatném účtu funguje jen pro veřejný repozitář. Krok nasazení v CI do té doby selže (build a testy projdou).
 - **iOS Safari:** AudioWorklet, tichý režim a latenci je potřeba ověřit na skutečném iPhonu (automatické testy běží v Chrome).
 - **Limiter:** strop −1 dBFS na vzorcích, mezivzorkové špičky odhaduje interpolace (test: do +0,2 dB). Plné true-peak měření přijde s analyzátorem (M3).
 - **Měkký saturátor** z původního návrhu master řetězce zatím vynechán – limiter stačí a nebarví zvuk. Přidá se, jen pokud bude potřeba.
-- **Volba ladění** se zatím neukládá (ukládání přijde v M5).
+- **Volba ladění** v Nastavení se zatím neukládá; generátory se po zavření aplikace nepamatují (M5). Handpan si nastavení pamatuje.
+- **Handpan – realismus:** model je v1. Ladit poslechem: amplitudy a doby módů, rezonance těla a sympatické rozeznění Dingu (zatím chybí).
+- **Výkon na iPhonu:** jeden úder = ~9 uzlů Web Audio; limit 24 úderů. Při sekání zvuku snížit limit nebo přejít na AudioWorklet s bankou rezonátorů.
+- **Síla úderu z dotyku:** iPhone tlak prstu nehlásí, síla je z posuvníku a místa úderu (střed pole silněji).
+- **Pořadí milníků:** M4 (handpan) předběhl M3 na přání autora, aby šlo co nejdřív hrát.
 - **Písma:** používáme systémová písma (offline, bez externích služeb); vlastní písmo případně později.
 - **Ikony:** zatím jednoduché generované; lze nahradit vlastní grafikou (např. mandalou autora).

@@ -4,7 +4,9 @@ Interaktivní zvuková laboratoř: hratelné nástroje (handpan), generátory fr
 experimenty, nahrávání a symbolická meditační vrstva. Běží v prohlížeči, funguje offline
 a jde nainstalovat na iPhone i Windows.
 
-**Stav:** milník M0 – kostra aplikace. Plán viz [docs/ROADMAP.md](docs/ROADMAP.md).
+**Stav:** verze 0.3.0 – hratelný handpan, frekvenční laboratoř, zvukové jádro a ladění. Plán viz [docs/ROADMAP.md](docs/ROADMAP.md).
+
+**Vyzkoušet:** https://jakubkrizsdh-ai.github.io/sound-lab-432/
 
 ## Spuštění na vlastním počítači
 Potřebujete [Node.js](https://nodejs.org) 22 nebo novější.

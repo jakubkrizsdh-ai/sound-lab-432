@@ -8,6 +8,7 @@
   import Placeholder from './lib/components/Placeholder.svelte';
   import Settings from './lib/sections/Settings.svelte';
   import FreqLab from './lib/sections/FreqLab.svelte';
+  import Instruments from './lib/sections/Instruments.svelte';
   import { engine } from './lib/audio/engine.svelte';
 
   let current = $state<SectionId>(sectionFromHash(location.hash));
@@ -45,6 +46,8 @@
     <main id="main">
       {#if current === 'settings'}
         <Settings />
+      {:else if current === 'instruments'}
+        <Instruments />
       {:else if current === 'freqlab'}
         <FreqLab />
       {:else}

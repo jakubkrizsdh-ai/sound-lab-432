@@ -17,6 +17,11 @@
 | D13 | 2026-11-25 | vite-plugin-pwa (Workbox) pro offline | Ručně psaný service worker | Ověřené řešení cache a aktualizací, licence MIT |
 | D14 | 2026-11-25 | Systémová písma, žádné Google Fonts | Webová písma | Offline bez externích požadavků |
 | D15 | 2026-11-25 | Navigace přes `#/sekce` v adrese | Router knihovna | Funguje na GitHub Pages bez serverových pravidel, žádná závislost |
+| D16 | 2026-11-25 | Handpan (M4) před analýzou (M3) | Pořadí podle roadmapy | Přání autora co nejdřív hrát; M4 na M3 nezávisí |
+| D17 | 2026-11-25 | Handpan v1 z nativních uzlů (oscilátory + šum), ne AudioWorklet rezonátory | Banka rezonátorů ve Workletu | Jednodušší, přesné Hz, funguje i offline; Worklet zvážit při problémech s výkonem |
+| D18 | 2026-11-25 | Dozvuk prostoru z vygenerované impulzní odezvy | Nahraná IR | Žádné licence, malá velikost, nastavitelné |
+| D19 | 2026-11-25 | Generátory z PeriodicWave (Fourierova řada) místo vestavěných typů | `OscillatorNode.type` | Umožní nastavit fázi a vlastní harmonické; stejná amplituda pro všechny průběhy |
+| D20 | 2026-11-25 | Výchozí zvuk handpanu: pythagorejské C = 256 (= obrázek) | Samostatný preset jen se 7 tóny | 12tónový systém obsahuje i B♭ a F pro D Kurd a hodnoty obrázku zůstávají přesné |
 
 ## Závislosti
 | Balíček | Licence | Účel |
