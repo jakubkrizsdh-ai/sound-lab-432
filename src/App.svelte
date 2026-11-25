@@ -7,6 +7,7 @@
   import BottomNav from './lib/components/BottomNav.svelte';
   import Placeholder from './lib/components/Placeholder.svelte';
   import Settings from './lib/sections/Settings.svelte';
+  import { engine } from './lib/audio/engine.svelte';
 
   let current = $state<SectionId>(sectionFromHash(location.hash));
   const section = $derived(SECTIONS.find(s => s.id === current)!);
@@ -16,9 +17,13 @@
     document.getElementById('main')?.scrollTo(0, 0);
   }
 
-  // Zvukové jádro (milník M1) se sem napojí; zatím jen místo pro globální STOP ALL.
   function stopAll() {
-    window.dispatchEvent(new CustomEvent('soundlab:stop-all'));
+    engine.stopAll();
+  }
+
+  // Prohlížeče pustí zvuk až po gestu uživatele: první dotyk nebo klik zvuk zapne.
+  function unlock() {
+    if (!engine.running) void engine.start();
   }
 
   function onKey(e: KeyboardEvent) {
@@ -30,7 +35,7 @@
   });
 </script>
 
-<svelte:window onhashchange={onHash} onkeydown={onKey} />
+<svelte:window onhashchange={onHash} onkeydown={onKey} onpointerdown={unlock} />
 
 <div class="shell">
   <TopBar title={t(section.label)} onStopAll={stopAll} />

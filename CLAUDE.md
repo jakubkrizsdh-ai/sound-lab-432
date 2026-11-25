@@ -22,7 +22,7 @@ Každá hodnota v rozhraní nese štítek původu:
 - Každá změna modulu ladění musí projít testy referenčních hodnot (TESTS.md).
 
 ## Zvuk a bezpečnost
-- Výchozí hlasitost −24 dBFS, master limiter se stropem −1 dBTP, globální STOP ALL (Esc).
+- Výchozí hlasitost −24 dBFS, master limiter se stropem −1 dBFS (odhad mezivzorkových špiček), globální STOP ALL (Esc).
 - Každý náběh a konec min. 5 ms rampa; změny parametrů přes `setTargetAtTime`, ne skokem.
 - Zvukové uzly po doznění uvolňovat; limit polyfonie.
 - Vše, co zní živě, musí jít vyrenderovat i v `OfflineAudioContext` (export = živé hraní).

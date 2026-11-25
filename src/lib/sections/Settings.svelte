@@ -1,6 +1,8 @@
 <script lang="ts">
   import { i18n, LOCALES, setLocale, t } from '../i18n/index.svelte';
   import { offlineReady } from '../pwa';
+  import SoundCard from './SoundCard.svelte';
+  import TuningCard from './TuningCard.svelte';
 </script>
 
 <section class="settings">
@@ -16,6 +18,9 @@
       {/each}
     </div>
   </div>
+
+  <SoundCard />
+  <TuningCard />
 
   <div class="card">
     <h2>{t('settings.offline')}</h2>

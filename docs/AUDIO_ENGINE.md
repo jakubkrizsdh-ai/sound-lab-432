@@ -1,12 +1,12 @@
 # AUDIO_ENGINE – dokumentace zvukového systému
 
-Stav: **návrh** (implementace od M1). Každá změna zvuku se zapisuje sem.
+Stav: **M1 – jádro hotové** (`src/lib/audio/`). Každá změna zvuku se zapisuje sem.
 
 ## Signálová cesta
 ```
-zdroje (nástroje, generátory) → sběrnice stop → master gain (−24 dBFS výchozí)
-  → DC blokátor → měkký saturátor → limiter s předstihem (−1 dBTP) → výstup
-                                              ↘ měřicí Worklet (peak, RMS, true peak, f₀)
+zdroje (nástroje, generátory) → bus (engine.input) → master gain (−24 dBFS výchozí)
+  → DC filtr (horní propust 10 Hz) → limiter AudioWorklet (−1 dBFS, předstih 5 ms) → výstup
+  (měřicí Worklet pro peak, RMS, true peak a f₀ přibude v M3)
 ```
 
 ## Zásady
@@ -15,6 +15,17 @@ zdroje (nástroje, generátory) → sběrnice stop → master gain (−24 dBFS v
 - STOP ALL: rampa 30 ms na nulu, uvolnění všech hlasů, obnovení master gainu.
 - Limit polyfonie (výchozí 64), krade se nejstarší nejtišší hlas.
 - Každý zdroj je funkce `build(ctx: BaseAudioContext, …)`, aby šel použít živě i v `OfflineAudioContext`.
+
+## Implementace (M1)
+| Soubor | Obsah |
+| --- | --- |
+| `audio/engine.svelte.ts` | `engine.start()` (z gesta), `setMasterDb`, `addVoice`/`removeVoice` (max 64), `stopAll()`, `buildMasterChain(ctx)` pro živý i offline kontext, `playTone()` |
+| `audio/limiter-dsp.ts` | Limiter: zpožďovací linka, klouzavé minimum (O(1)), attack 1 ms, release 120 ms, odhad mezivzorkové špičky (Catmull-Rom), pojistka stropu, stereo vazba |
+| `audio/limiter.worklet.ts` | AudioWorkletProcessor, hlásí největší ztlumení ~každých 85 ms |
+| `tuning/ratio.ts`, `tuning/systems.ts` | Přesné zlomky, centy, ladicí systémy, `pitch()` vrací Hz + zdroj |
+
+- Náhradní limiter: `DynamicsCompressorNode` (práh −3 dB, poměr 20, attack 1 ms), když AudioWorklet chybí.
+- iOS: `navigator.audioSession.type = 'playback'` (Safari 17+), kontext se vytváří a obnovuje uvnitř gesta.
 
 ## Modální model handpanu (M4)
 | Složka | Popis | Výchozí hodnoty (budou laděny poslechem) |
