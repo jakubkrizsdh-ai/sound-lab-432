@@ -1,0 +1,65 @@
+import type { MessageKey } from './cs';
+
+// English. Must contain every key from cs.ts.
+export const en: Record<MessageKey, string> = {
+  'app.name': 'SOUND LAB 432',
+  'app.tagline': 'Interactive sound laboratory',
+
+  'nav.label': 'Main navigation',
+  'nav.more': 'More',
+  'nav.instruments': 'Instruments',
+  'nav.freqlab': 'Frequency Lab',
+  'nav.analyzer': 'Wave Analyzer',
+  'nav.experiments': 'Experiments',
+  'nav.studio': 'Recording Studio',
+  'nav.meditation': 'Meditation',
+  'nav.library': 'Project Library',
+  'nav.settings': 'Settings',
+  'nav.short.instruments': 'Instruments',
+  'nav.short.freqlab': 'Frequency',
+  'nav.short.analyzer': 'Analyzer',
+  'nav.short.experiments': 'Experiments',
+  'nav.short.studio': 'Studio',
+  'nav.short.meditation': 'Meditation',
+  'nav.short.library': 'Projects',
+  'nav.short.settings': 'Settings',
+
+  'top.tuning': 'Pythagorean · C = 256 Hz · A = 432 Hz',
+  'top.master': 'Master',
+  'top.stopAll': 'STOP ALL',
+  'top.stopAllAria': 'Stop all sounds (Esc)',
+  'top.audioPending': 'The audio engine arrives in milestone M1',
+
+  'section.planned': 'Planned',
+  'section.milestone': 'Milestone',
+
+  'instruments.intro': 'Playable instruments. The first is a handpan with modal synthesis and exact frequencies.',
+  'instruments.items': 'Handpan (8 + Ding, 9 + Ding, bottom fields)|Scale from the 432 image and D Kurd|Tibetan and crystal bowls, gong, kalimba|Piano, flute, synthesizer, bells|Custom instrument',
+  'freqlab.intro': 'Tone and noise generators with exact frequency entry.',
+  'freqlab.items': 'Sine, triangle, square, saw, additive synthesis|White, pink and brown noise|Frequency, amplitude, phase, pan, attack, release|Several generators at once, mute, solo, record|Sweep, glissando, automatic transitions',
+  'analyzer.intro': 'Real-time measurement of the actual signal.',
+  'analyzer.items': 'Oscilloscope and FFT spectrum|Spectrogram over time|Fundamental frequency and harmonics|Peak and RMS in dBFS|Audio import and microphone',
+  'experiments.intro': 'Experiments with interference, beats, intervals and tuning.',
+  'experiments.items': 'Constructive and destructive interference|Beats and binaural beats|Tuning system comparison|Drones and pulsing|Lissajous figures, cymatics model',
+  'studio.intro': 'Recording, timeline, mixing and export.',
+  'studio.items': 'Event recording with exact Hz|Lossless audio recording|Tracks, mix, mute and solo|Metronome and loops|WAV and JSON export',
+  'meditation.intro': 'Optional symbolic layer of the seven chakras and meditation sequences.',
+  'meditation.items': 'Chakra map from the image and other traditions|Play and combine chakras|Sequences with duration and transitions|Personal notes on the experience',
+  'meditation.disclaimer': 'Assigning frequencies to chakras is symbolic. It is not a scientifically proven healing effect.',
+  'library.intro': 'Projects, tuning presets, custom instruments and experiments.',
+  'library.items': 'Automatic local saving|Restore after closing the app|Project import and export|Tuning and instrument presets',
+
+  'settings.intro': 'Language, audio and app information.',
+  'settings.language': 'Interface language',
+  'settings.offline': 'Offline mode',
+  'settings.offlineReady': 'The app is stored and works without a connection.',
+  'settings.offlinePending': 'Storing the app for offline use…',
+  'settings.install': 'Install',
+  'settings.installHint': 'On iPhone: Share → Add to Home Screen. On Windows: the install icon in the Edge or Chrome address bar.',
+  'settings.safety': 'Hearing safety',
+  'settings.safetyText': 'The app starts at a low level (−24 dBFS). Long listening to pure tones on headphones and high frequencies tire hearing faster. Phone speakers barely play below ~300 Hz. dBFS is a digital level, not loudness in the room (dB SPL).',
+  'settings.version': 'Version',
+
+  'update.ready': 'A new version is available.',
+  'update.reload': 'Reload'
+};
