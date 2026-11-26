@@ -1,7 +1,7 @@
 /**
  * Stav handpanu: nastavení (pamatuje se v zařízení), zvuková sběrnice s dozvukem a hraní.
  */
-import { engine, type Voice } from '../audio/engine.svelte';
+import { engine, safeStop, type Voice } from '../audio/engine.svelte';
 import { buildFields, type Field, type HandpanConfig, type HandpanTuning, type LayoutId, type NoteRef, type ScaleId } from './model';
 import { makeRoomImpulse, strike } from './voice';
 import { emitPlay } from '../song/events';
@@ -100,7 +100,7 @@ function play(field: Field, velocity: number) {
   const b = getBus();
   if (!b) return;
   // Opakovaný úder do stejného pole utlumí předchozí kmit (jako na skutečném nástroji).
-  byField.get(field.index)?.stop(b.ctx.currentTime + 0.003);
+  safeStop(byField.get(field.index), b.ctx.currentTime + 0.003);
   const voice = strike(b.ctx, b.input, field.pitch.hz, { velocity, decay: hp.decay, ding: field.kind === 'ding' });
   voice.onEnded = () => {
     engine.removeVoice(voice);
@@ -111,7 +111,7 @@ function play(field: Field, velocity: number) {
   byField.set(field.index, voice);
   active.push(voice);
   engine.addVoice(voice);
-  while (active.length > MAX_STRIKES) active.shift()?.stop();
+  while (active.length > MAX_STRIKES) safeStop(active.shift());
 }
 
 /** Úder do pole. Volat z pointerdown / keydown (gesto uživatele). */

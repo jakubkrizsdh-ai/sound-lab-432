@@ -40,6 +40,7 @@
 | D36 | 2026-11-26 | Skladba ukládá tóny (MIDI-like události s přesnou Hz a zdrojem ladění), ne zvuk | Nahrávat audio stopy | Tóny jdou posouvat, upravovat a opakovat; přesná frekvence zůstává (pravidlo ladění); export = stejné hlasy offline |
 | D37 | 2026-11-26 | Čas v dobách (beats), takt 4/4, změna tempa nemění rozvržení | Čas v sekundách | Bloky a mřížka drží rytmus i po změně BPM |
 | D38 | 2026-11-26 | Záznam hraní přes události z nástrojů, rozdělení do stop podle nástroje | Samostatné nahrávání každé stopy | Odpovídá přání autora: přepínat nástroje během jednoho záznamu |
+| D39 | 2026-11-26 | Zastavení hlasu dvakrát jištěno: složky (`fadeOut`) + výstup hlasu (`silenceOut`), bez výjimek (`safeStop`) | Jen `cancelAndHoldAtTime` na složkách | Safari může při rychlém opakování vyhodit chybu → zůstaly znít alikvoty (slyšet jako jiný tón) |
 
 ## Grafické podklady
 | Podklad | Původ | Úprava |

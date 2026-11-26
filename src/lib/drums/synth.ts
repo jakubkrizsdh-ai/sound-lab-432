@@ -2,7 +2,7 @@
  * Syntéza bicích z nativních uzlů Web Audio (živě i offline, bez samplů).
  * Akustická souprava = přirozenější průběhy; elektronická = styl bicích automatů (808).
  */
-import { holdAt, type Voice } from '../audio/engine.svelte';
+import { fadeOut, silenceOut, type Voice } from '../audio/engine.svelte';
 import { TUNING, type DrumId, type DrumTuning, type KitId } from './kit';
 
 const noiseCache = new WeakMap<BaseAudioContext, AudioBuffer>();
@@ -111,10 +111,10 @@ function finish(h: Hit): Voice {
       if (stopped) return;
       stopped = true;
       for (const g of h.gains) {
-        holdAt(g.gain, t);
-        g.gain.setTargetAtTime(0, t, 0.006);
+        fadeOut(g.gain, t, 0.006);
       }
       for (const s of h.srcs) try { s.stop(t + 0.05); } catch { /* už zastaveno */ }
+      silenceOut(h.ctx, h.out, t, 0.006);
     }
   };
   h.srcs[0]!.onended = () => {

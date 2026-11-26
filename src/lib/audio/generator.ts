@@ -2,7 +2,7 @@
  * Generátor tónu nebo šumu jako hlas zvukového jádra.
  * Funguje v živém i offline kontextu (export), všechny změny přes rampy.
  */
-import { dbToGain, holdAt, type Voice } from './engine.svelte';
+import { dbToGain, fadeOut, holdAt, type Voice } from './engine.svelte';
 import { isNoise, noiseSamples, waveCoefficients, type NoiseWave, type ToneWave } from './waves';
 import { freqAt, planDuration, scheduleCycle, type Plan } from './automation';
 import type { GeneratorSettings } from '../freqlab/types';
@@ -121,8 +121,7 @@ export class Generator implements Voice {
     this.clearPlanTimer();
     const r = Math.max(LIMITS.releaseMin, this.s.releaseMs) / 1000;
     const g = this.env.gain;
-    holdAt(g, when);
-    g.setTargetAtTime(0, when, r / 5); // za `r` klesne pod 1 %
+    fadeOut(g, when, r / 5); // za `r` klesne pod 1 %
     this.source.stop(when + r + 0.05);
   }
 
@@ -162,7 +161,7 @@ export class Generator implements Voice {
     const old = this.source!;
     const g = this.env.gain;
     holdAt(g, t);
-    g.linearRampToValueAtTime(0, t + 0.01);
+    try { g.linearRampToValueAtTime(0, t + 0.01); } catch { fadeOut(g, t, 0.003); }
     old.onended = null;
     old.stop(t + 0.012);
     this.source = this.makeSource(this.s, t + 0.012);

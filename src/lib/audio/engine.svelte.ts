@@ -38,11 +38,54 @@ export const dbToGain = (db: number) => 10 ** (db / 20);
 export function holdAt(param: AudioParam, t: number): void {
   const p = param as AudioParam & { cancelAndHoldAtTime?: (t: number) => AudioParam };
   if (typeof p.cancelAndHoldAtTime === 'function') {
-    p.cancelAndHoldAtTime(t);
-  } else {
+    try {
+      p.cancelAndHoldAtTime(t);
+      return;
+    } catch { /* Safari: některé stavy automatizace vyhodí chybu → náhradní cesta */ }
+  }
+  try {
     param.cancelScheduledValues(t);
     param.setValueAtTime(param.value, t);
+  } catch { /* */ }
+}
+
+/**
+ * Plynulé ztlumení parametru na 0 od času `t` (časová konstanta `tau`). Nikdy nevyhodí chybu.
+ * Když selže „podržet + doznít“ (Safari při rychlém opakování), zkusí doznít z aktuální obálky.
+ */
+export function fadeOut(param: AudioParam, t: number, tau: number): void {
+  try {
+    holdAt(param, t);
+    param.setTargetAtTime(0, t, tau);
+    return;
+  } catch { /* konflikt událostí */ }
+  try {
+    param.cancelScheduledValues(t);
+    param.setTargetAtTime(0, t, tau);
+  } catch {
+    try { param.value = 0; } catch { /* */ }
   }
+}
+
+/**
+ * Pojistka konce hlasu: výstupní zesilovač hlasu (bez vlastní automatizace) ztlumí a po doznění odpojí.
+ * I kdyby některá složka nešla zastavit, hlas jistě utichne a nezatěžuje procesor.
+ */
+export function silenceOut(ctx: BaseAudioContext, out: GainNode, t: number, tau = 0.015): void {
+  try {
+    out.gain.setValueAtTime(out.gain.value, t);
+    out.gain.setTargetAtTime(0, t, tau);
+  } catch { /* */ }
+  if (!('startRendering' in ctx)) {
+    const ms = Math.max(0, (t - ctx.currentTime) * 1000) + tau * 1000 * 10 + 50;
+    setTimeout(() => { try { out.disconnect(); } catch { /* */ } }, ms);
+  }
+}
+
+/** Zastaví hlas a nikdy nevyhodí chybu (aby selhání starého tónu nezablokovalo nový). */
+export function safeStop(v: { stop(t?: number): void } | undefined | null, t?: number): void {
+  if (!v) return;
+  try { v.stop(t); } catch (e) { console.warn('[audio] stop', e); }
 }
 export const gainToDb = (g: number) => 20 * Math.log10(g);
 
@@ -216,7 +259,7 @@ class AudioEngine {
       const oldest = this.order.shift();
       if (oldest && this.voices.has(oldest)) {
         this.voices.delete(oldest);
-        oldest.stop();
+        safeStop(oldest);
       }
     }
     audio.voices = this.voices.size;
@@ -241,9 +284,8 @@ class AudioEngine {
     if (!ctx || !chain) return;
     const t = ctx.currentTime;
     const g = chain.master.gain;
-    holdAt(g, t);
-    g.setTargetAtTime(0, t, 0.008);
-    for (const v of all) v.stop(t + 0.04);
+    fadeOut(g, t, 0.008);
+    for (const v of all) safeStop(v, t + 0.04);
     g.setTargetAtTime(dbToGain(audio.masterDb), t + 0.08, 0.02);
   }
 }
@@ -279,8 +321,7 @@ export function playTone(hz: number, o: ToneOptions = {}): Voice | null {
     stop(when = ctx.currentTime) {
       if (stopped) return;
       stopped = true;
-      holdAt(env.gain, when);
-      env.gain.setTargetAtTime(0, when, 0.008);
+      fadeOut(env.gain, when, 0.008);
       osc.stop(when + 0.08);
     }
   };

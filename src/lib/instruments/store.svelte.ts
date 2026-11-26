@@ -2,7 +2,7 @@
  * Stav nástrojů (mimo handpan): výběr nástroje, nastavení každého nástroje (pamatuje se),
  * společná zvuková sběrnice s prostorem a hraní tónů.
  */
-import { engine } from '../audio/engine.svelte';
+import { engine, safeStop } from '../audio/engine.svelte';
 import { makeRoomImpulse } from '../handpan/voice';
 import type { Pitch } from '../tuning/systems';
 import {
@@ -152,7 +152,7 @@ function start(key: string, p: Pitch, velocity: number): void {
   const ctx = b.ctx;
   // Stejný tón znovu: kalimba, zvonky a klávesy utlumí předchozí kmit; mísy a gong znějí dál.
   const prev = byKey.get(key);
-  if (prev && def.surface !== 'bowls' && def.surface !== 'gong') prev.stop(ctx.currentTime + 0.003);
+  if (prev && def.surface !== 'bowls' && def.surface !== 'gong') safeStop(prev, ctx.currentTime + 0.003);
 
   let voice: NoteVoice;
   const modal = soundDef(id);
@@ -177,7 +177,7 @@ function start(key: string, p: Pitch, velocity: number): void {
   byKey.set(key, voice);
   active.push(voice);
   engine.addVoice(voice);
-  while (active.length > MAX_VOICES) active.shift()?.stop();
+  while (active.length > MAX_VOICES) safeStop(active.shift());
 }
 
 /** Začátek tónu (dotyk, klávesa). `key` = identita tónu na ploše. */

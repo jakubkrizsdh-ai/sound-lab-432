@@ -2,7 +2,7 @@
  * Hlasy nástrojů z nativních uzlů Web Audio (živě i offline).
  * Úderové nástroje dozní samy; držené (tření mísy, klavír, flétna, syntezátor) se uvolní release().
  */
-import { holdAt, type Voice } from '../audio/engine.svelte';
+import { fadeOut, silenceOut, type Voice } from '../audio/engine.svelte';
 import type { ModalDef } from './defs';
 
 export interface NoteVoice extends Voice {
@@ -39,10 +39,10 @@ function makeVoice(ctx: BaseAudioContext, out: GainNode, parts: { src: Src; g: G
       if (stopped) return;
       stopped = true;
       for (const p of parts) {
-        holdAt(p.g.gain, t);
-        p.g.gain.setTargetAtTime(0, t, 0.012);
+        fadeOut(p.g.gain, t, 0.012);
         try { p.src.stop(t + 0.08); } catch { /* už zastaveno */ }
       }
+      silenceOut(ctx, out, t);
     },
     release(t = ctx.currentTime) {
       if (!stopped) onRelease?.(t);
@@ -152,8 +152,7 @@ export function modalRub(ctx: BaseAudioContext, dest: AudioNode, hz: number, def
   return makeVoice(ctx, out, parts, parts[0]!.src, (t) => {
     for (const p of parts) {
       const d = (p.g as GainNode & { _decay?: number })._decay ?? 0.3;
-      holdAt(p.g.gain, t);
-      p.g.gain.setTargetAtTime(0, t, d / LN1000);
+      fadeOut(p.g.gain, t, d / LN1000);
       try { p.src.stop(t + d + 0.1); } catch { /* */ }
     }
   });
@@ -197,8 +196,7 @@ export function pianoNote(ctx: BaseAudioContext, dest: AudioNode, hz: number, ve
   parts.push(burst(ctx, out, hz, 15, 0.25 * v * v, 6, when, 0.8));
   return makeVoice(ctx, out, parts, parts[0]!.src, (t) => {
     for (const p of parts) {
-      holdAt(p.g.gain, t);
-      p.g.gain.setTargetAtTime(0, t, 0.08);
+      fadeOut(p.g.gain, t, 0.08);
       try { p.src.stop(t + 0.6); } catch { /* */ }
     }
   });
@@ -259,8 +257,7 @@ export function fluteNote(ctx: BaseAudioContext, dest: AudioNode, hz: number, ve
   return makeVoice(ctx, out, parts, parts[0]!.src, (t) => {
     const r = Math.max(0.03, releaseS);
     for (const p of parts) {
-      holdAt(p.g.gain, t);
-      p.g.gain.setTargetAtTime(0, t, r / 4);
+      fadeOut(p.g.gain, t, r / 4);
       try { p.src.stop(t + r + 0.1); } catch { /* */ }
     }
   });
@@ -308,8 +305,7 @@ export function synthNote(ctx: BaseAudioContext, dest: AudioNode, hz: number, ve
   const main = parts[0]!.src;
   return makeVoice(ctx, out, [...parts, { src: main, g: amp }], main, (t) => {
     const r = Math.max(0.02, releaseS);
-    holdAt(amp.gain, t);
-    amp.gain.setTargetAtTime(0, t, r / 4);
+    fadeOut(amp.gain, t, r / 4);
     for (const p of parts) try { p.src.stop(t + r + 0.1); } catch { /* */ }
   });
 }

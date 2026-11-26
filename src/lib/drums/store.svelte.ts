@@ -2,7 +2,7 @@
  * Bicí: nastavení (pamatuje se), hraní padů a krokový sekvencer.
  * Sekvencer plánuje údery dopředu přes čas AudioContextu (přesné tempo i při zatíženém telefonu).
  */
-import { engine, type Voice } from '../audio/engine.svelte';
+import { engine, safeStop, type Voice } from '../audio/engine.svelte';
 import { makeRoomImpulse } from '../handpan/voice';
 import { CHOKES, PADS, PRESETS, STEPS, emptyPattern, stepTime, barDuration, type DrumId, type DrumTuning, type KitId, type Pattern, type PresetId } from './kit';
 import { drumHit } from './synth';
@@ -92,9 +92,9 @@ function play(id: DrumId, v: number, when?: number) {
   const b = getBus();
   if (!b) return;
   const t = when ?? b.ctx.currentTime;
-  for (const c of CHOKES[id] ?? []) ringing.get(c)?.stop(t);
+  for (const c of CHOKES[id] ?? []) safeStop(ringing.get(c), t);
   // opakovaný úder stejného činelu/bubnu utne předchozí (šetří výkon telefonu)
-  ringing.get(id)?.stop(t);
+  safeStop(ringing.get(id), t);
   const voice = drumHit(b.ctx, b.input, id, drums.kit, v, drums.tuning, t);
   voice.onEnded = () => {
     engine.removeVoice(voice);
