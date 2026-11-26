@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.9.0 – 2026-11-26 – Studio: skladba
+- Ve Studiu nová záložka **Skladba** (vedle Nahrávek).
+- **Nahrát hraní:** po odpočtu jednoho taktu se zaznamenává hra na kterýkoli nástroj (i klávesami). Při přepínání nástrojů dostane každý nástroj vlastní stopu. Když skladba hraje ve smyčce, nové hraní se nahraje přes ni.
+- Záznam se ukládá jako tóny (čas, délka, síla, přesná frekvence a její zdroj v ladění), ne jako zvuk, takže jde dál upravovat.
+- **Bloky:** opakování ×N, délka v taktech, přesun tažením, kopie za blok, smazání, prázdný blok dvojklikem.
+- **Editor tónů:** přidání klepnutím, posun v čase i výšce, prodloužení, síla úderu, mazání, zarovnání do mřížky (1/4–1/32 nebo volně).
+- **Přehrávání:** tempo (BPM), metronom, smyčka (od–do taktu), pozice, posun klepnutím na pravítko.
+- **Mix stopy:** hlasitost, panorama, dozvuk, M (ztlumit), S (sólo), smazání stopy. Zpět/Znovu (Ctrl+Z, Ctrl+Shift+Z).
+- **Export:** skladba jako WAV (vykreslení offline, stejný zvuk jako živě) a jako JSON, který jde znovu načíst. Skladba se průběžně ukládá v zařízení.
+
 ## 0.8.0 – 2026-11-26 – Klávesy počítače
 - Handpan podle polohy polí: levá strana A S D F, pravá H J K L (shora dolů), 9. pole nahoře G, spodní pole V B, Ding mezerník (platí pro všechny stupnice i vlastní rozložení).
 - Kalimba vzestupně A–L, pak Q–P.

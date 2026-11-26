@@ -81,3 +81,11 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 - [x] Přemapování Dingu na N v panelu → N hraje Ding.
 - [x] Klavír: Q 2 W 3 E R 5 T 6 Y 7 U I 9 O 0 P = C4 … E5 chromaticky. Kalimba: A = C4, Q = E5.
 - [ ] Česká klávesnice na Windows (Edge): popisky + ě š č na číslech (ověří autor).
+
+## V prohlížeči – skladba 0.9.0 (2026-11-26, Chrome headless)
+- Nahrání handpanu klávesami A S D F po odpočtu → 1 stopa, 1 blok, 4 tóny. ✔
+- Nahrávání přes přepnutí nástroje (handpan → bicí) → 2 stopy (Handpan 2 tóny, Bicí 4 údery). ✔
+- Tažení tónu v editoru: čas 0,726 → 1,75 dob (mřížka 1/16), výška 364,5 → 410,06 Hz (o dva řádky výš). ✔ Ctrl+Z vrátí 0,726. ✔
+- Přehrávání: po 1,5 s při 90 BPM pozice 1.3 (2,25 doby). ✔
+- Export WAV: 1 takt 90 BPM = 2,67 s + 4 s doznění = 6,67 s, 44,1 kHz stereo, špička −7,1 dBFS. ✔
+- Testy modelu skladby (tests/song.test.ts): rozvinutí opakování, smyčka, mute/solo, kvantizace, sanitace JSON. ✔

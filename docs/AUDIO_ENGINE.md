@@ -96,3 +96,9 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
 - Worklet převádí stereo na 16bit prokládané vzorky s TPDF ditheringem a posílá bloky po 8192 snímcích (≈ 0,17 s) s měřenou špičkou.
 - Pauza = worklet přestane ukládat; Stop = vyprázdnění bufferu a zpráva „done“ se vzorkovací frekvencí.
 - `encodeWav16()` skládá WAV z bloků bez kopírování dat; nahrávka se uloží do IndexedDB (`soundlab/recordings`).
+
+## Skladba (0.9.0) – `song/`
+- Model (`model.ts`): skladba → stopy → bloky (start, délka, opakování) → tóny v dobách (t, d, v, hz + zdroj ladění, nebo buben). `expand()` rozvine opakování na absolutní události; mute/solo.
+- Záznam: nástroje vysílají události hraní (`events.ts`); přehrávač je převede na doby podle tempa a rozdělí podle nástroje do stop.
+- Přehrávání (`player.svelte.ts`): lookahead plánovač (25 ms, horizont) na čase AudioContextu, smyčka, metronom. Každá stopa: hlasitost → panorama → master; poslání do společného dozvuku (`sound.ts`, `SongMixer`).
+- Zvuk tónu (`playSongNote`) používá stejné hlasy jako živé hraní; export renderuje totéž v `OfflineAudioContext` (44,1 kHz, −3 dB, 4 s doznění, 16 bit TPDF).

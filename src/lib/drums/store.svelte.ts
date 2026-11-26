@@ -6,6 +6,7 @@ import { engine, type Voice } from '../audio/engine.svelte';
 import { makeRoomImpulse } from '../handpan/voice';
 import { CHOKES, PADS, PRESETS, STEPS, emptyPattern, stepTime, barDuration, type DrumId, type DrumTuning, type KitId, type Pattern, type PresetId } from './kit';
 import { drumHit } from './synth';
+import { emitPlay } from '../song/events';
 
 const KEY = 'soundlab.drums';
 const LOOKAHEAD = 0.12;   // s – jak daleko dopředu se plánuje
@@ -106,6 +107,7 @@ function play(id: DrumId, v: number, when?: number) {
 /** Úder z padu nebo klávesy. */
 export function hit(id: DrumId, v = drums.velocity) {
   drums.hits[id] = { n: (drums.hits[id]?.n ?? 0) + 1, v };
+  emitPlay({ kind: 'on', key: `dr:${id}`, drum: id, velocity: v, sound: { instrument: 'drums', kit: drums.kit, drumTuning: drums.tuning } });
   if (engine.running) play(id, v);
   else void engine.start().then(() => play(id, v));
 }

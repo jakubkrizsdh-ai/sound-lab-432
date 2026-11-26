@@ -37,6 +37,9 @@
 | D33 | 2026-11-26 | Klávesy handpanu podle polohy polí (ASDF / HJKL), ne podle výšky | Vzestupně A–L | Návrh autora; ruce odpovídají stranám nástroje |
 | D34 | 2026-11-26 | Klavír: bílé Q–P, půltóny na číslech | Řada A–L | Návrh autora; víc kláves, obvyklé u hudebních programů |
 | D35 | 2026-11-26 | Klávesy podle `KeyboardEvent.code` + popisky z `navigator.keyboard.getLayoutMap()` | Podle znaku (`key`) | Funguje na české i anglické klávesnici; popisky odpovídají tomu, co je na klávesách |
+| D36 | 2026-11-26 | Skladba ukládá tóny (MIDI-like události s přesnou Hz a zdrojem ladění), ne zvuk | Nahrávat audio stopy | Tóny jdou posouvat, upravovat a opakovat; přesná frekvence zůstává (pravidlo ladění); export = stejné hlasy offline |
+| D37 | 2026-11-26 | Čas v dobách (beats), takt 4/4, změna tempa nemění rozvržení | Čas v sekundách | Bloky a mřížka drží rytmus i po změně BPM |
+| D38 | 2026-11-26 | Záznam hraní přes události z nástrojů, rozdělení do stop podle nástroje | Samostatné nahrávání každé stopy | Odpovídá přání autora: přepínat nástroje během jednoho záznamu |
 
 ## Grafické podklady
 | Podklad | Původ | Úprava |

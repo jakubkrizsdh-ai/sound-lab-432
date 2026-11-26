@@ -4,6 +4,7 @@
 import { engine, type Voice } from '../audio/engine.svelte';
 import { buildFields, type Field, type HandpanConfig, type HandpanTuning, type LayoutId, type NoteRef, type ScaleId } from './model';
 import { makeRoomImpulse, strike } from './voice';
+import { emitPlay } from '../song/events';
 
 const KEY = 'soundlab.handpan';
 const MAX_STRIKES = 24;
@@ -118,6 +119,7 @@ export function hit(field: Field, velocity = hp.velocity) {
   const prev = hp.hits[field.index]?.n ?? 0;
   hp.hits[field.index] = { n: prev + 1, v: velocity };
   hp.last = field;
+  emitPlay({ kind: 'on', key: `hp${field.index}`, hz: field.pitch.hz, src: field.pitch.source, variant: field.kind === 'ding' ? 'ding' : undefined, velocity, sound: { instrument: 'handpan', decay: hp.decay } });
   if (engine.running) play(field, velocity);
   else void engine.start().then(() => play(field, velocity));
 }

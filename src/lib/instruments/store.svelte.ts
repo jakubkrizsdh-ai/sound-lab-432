@@ -10,6 +10,7 @@ import {
   type InstrumentId, type KeysTuning, type ModalDef, type ScaleChoice
 } from './defs';
 import { fluteNote, modalRub, modalStrike, pianoNote, synthNote, type NoteVoice, type SynthPreset } from './voices';
+import { emitPlay } from '../song/events';
 
 const KEY = 'soundlab.instruments';
 const MAX_VOICES = 32;
@@ -184,6 +185,13 @@ export function noteOn(key: string, p: Pitch, velocity = settingsOf(inst.current
   inst.hits[key] = { n: (inst.hits[key]?.n ?? 0) + 1, v: velocity };
   inst.held[key] = true;
   inst.last = p;
+  const id = inst.current;
+  const st = settingsOf(id);
+  const rub = st.mode === 'rub' && (INSTRUMENTS[id].surface === 'bowls' || (id === 'custom' && inst.custom.rub));
+  emitPlay({
+    kind: 'on', key: `${id}:${key}`, hz: p.hz, src: p.source, variant: rub ? 'rub' : undefined, velocity,
+    sound: { instrument: id, decayScale: st.decayScale, synthPreset: st.synthPreset, cutoff: st.cutoff, release: st.release, ...(id === 'custom' ? { custom: $state.snapshot(inst.custom) as ModalDef } : {}) }
+  });
   if (engine.running) start(key, p, velocity);
   else void engine.start().then(() => start(key, p, velocity));
 }
@@ -191,6 +199,7 @@ export function noteOn(key: string, p: Pitch, velocity = settingsOf(inst.current
 /** Konec drženého tónu (puštění prstu nebo klávesy). */
 export function noteOff(key: string) {
   inst.held[key] = false;
+  emitPlay({ kind: 'off', key: `${inst.current}:${key}`, velocity: 0, sound: { instrument: inst.current } });
   if (inst.pedal && inst.current === 'piano') return;
   byKey.get(key)?.release();
 }

@@ -13,7 +13,7 @@ Každý milník končí funkční aplikací, kontrolou podle TESTS.md a schvále
 | M6 | Záznam a export: události, časová osa, offline render do WAV, JSON, round-trip test | Záznam zvuku + export WAV **hotovo (0.7.0)**; události a JSON plán |
 | M7 | Experimenty: interference, rázy, intervaly, porovnání ladění, drone, binaurální rázy, Lissajous | Plán |
 | M8 | Pokročilá analýza: spektrogram (WebGL), detekce f₀, harmonické, mikrofon, import audia | Plán |
-| M9 | Studio: stopy, mix, mute/solo, metronom, smyčky, efekty, editace | Plán |
+| M9 | Studio: stopy, mix, mute/solo, metronom, smyčky, efekty, editace | Z velké části hotovo (0.9.0): skladba, stopy, bloky ×N, editor tónů, mix, export WAV/JSON. Chybí: efekty na stopách, automatizace, plánovač v AudioWorkletu |
 | M10 | Meditace (více tradic) a další nástroje: mísy, gong, kalimba, klavír, vlastní nástroj | Nástroje **hotovo (0.4.0)**, meditace plán |
 | M11 | Model cymatiky, výkon, přístupnost, testy na iPhonu a Windows, vydání 1.0 | Plán |
 
@@ -37,6 +37,7 @@ Každý milník končí funkční aplikací, kontrolou podle TESTS.md a schvále
 - **Klavír – neharmonicita:** vyšší alikvoty jsou záměrně mírně roztažené (B = 0,00035); základní tón zůstává přesný (odchylka < 0,3 c).
 - **Mísy – tření:** zjednodušený model (pomalý náběh módů + šum tření), ne fyzikální model tření.
 - **Bicí:** syntéza, ne samply – akustická souprava zní věrohodně, ale ne jako nahraná. Sekvencer zatím jeden takt (16 kroků) a jeden vzor; řetězení vzorů, delší takty a záznam do studia přijdou s M9 (studio používá stejný plánovač).
+- **Skladba (0.9.0):** při skryté kartě nebo zamčeném telefonu může přehrávání skladby vynechávat (časovač v prohlížeči). Nahrávání hraní se ukládá jen po zastavení – zavření aplikace během záznamu ho ztratí. Takt je pevně 4/4. Bicí sekvencer do skladby zatím nenahrává (jen hra rukou/klávesami).
 - **Sekvencer na pozadí:** prohlížeč může při zamčeném telefonu nebo skryté kartě časovač zpomalit; rytmus pak vynechá. Řešením je plánovač v AudioWorkletu (M9).
 - **Nahrávky v zařízení:** IndexedDB; iOS může data webu po delší nečinnosti smazat (upozornění ve studiu, doporučen export). Limit 15 min ≈ 150 MB paměti.
 - **Nahrávka vs. sluchátka Bluetooth:** nahrává se digitální výstup aplikace, zpoždění sluchátek se do nahrávky nepromítne.
