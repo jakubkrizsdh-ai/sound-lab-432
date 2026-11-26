@@ -89,3 +89,6 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 - Přehrávání: po 1,5 s při 90 BPM pozice 1.3 (2,25 doby). ✔
 - Export WAV: 1 takt 90 BPM = 2,67 s + 4 s doznění = 6,67 s, 44,1 kHz stereo, špička −7,1 dBFS. ✔
 - Testy modelu skladby (tests/song.test.ts): rozvinutí opakování, smyčka, mute/solo, kvantizace, sanitace JSON. ✔
+
+## V prohlížeči – 0.9.1 (2026-11-26, šířka 390 px)
+- 2 nahrávky → Smazat všechny → potvrzení → 0 nahrávek, po obnovení stránky stále 0. ✔

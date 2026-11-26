@@ -4,7 +4,7 @@
  */
 import { engine } from '../audio/engine.svelte';
 import { encodeWav16 } from '../audio/wav';
-import { deleteRecording, getRecording, listRecordings, putRecording, type RecordingMeta } from './db';
+import { deleteRecording, clearRecordings, getRecording, listRecordings, putRecording, type RecordingMeta } from './db';
 import workletUrl from '../audio/recorder.worklet.ts?worker&url';
 
 export const MAX_SECONDS = 15 * 60; // ochrana paměti telefonu
@@ -135,6 +135,13 @@ export async function refresh() {
 
 export async function remove(id: string) {
   await deleteRecording(id);
+  await refresh();
+}
+
+/** Smaže všechny uložené nahrávky (probíhající nahrávání nechá běžet). */
+export async function removeAll() {
+  await clearRecordings();
+  rec.lastSaved = null;
   await refresh();
 }
 

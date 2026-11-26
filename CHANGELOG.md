@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.9.1 – 2026-11-26 – Mazání najednou
+- Nahrávky: tlačítko **Smazat všechny nahrávky** (s potvrzením) pod seznamem – i na telefonu.
+- Skladba: tlačítko **Vymazat skladbu** přímo v liště (dřív jen v menu Soubor); jde vrátit tlačítkem Zpět.
+
 ## 0.9.0 – 2026-11-26 – Studio: skladba
 - Ve Studiu nová záložka **Skladba** (vedle Nahrávek).
 - **Nahrát hraní:** po odpočtu jednoho taktu se zaznamenává hra na kterýkoli nástroj (i klávesami). Při přepínání nástrojů dostane každý nástroj vlastní stopu. Když skladba hraje ve smyčce, nové hraní se nahraje přes ni.

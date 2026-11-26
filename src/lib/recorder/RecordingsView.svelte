@@ -3,12 +3,13 @@
   import { i18n, t } from '../i18n/index.svelte';
   import { formatDuration } from '../audio/wav';
   import { num } from '../format';
-  import { rec, start, pause, resume, stop, remove, rename, blobOf, download, share, canShareFiles, MAX_SECONDS } from './store.svelte';
+  import { rec, start, pause, resume, stop, remove, removeAll, rename, blobOf, download, share, canShareFiles, MAX_SECONDS } from './store.svelte';
   import type { RecordingMeta } from './db';
 
   let playingId = $state<string | null>(null);
   let editing = $state<string | null>(null);
   let confirmDel = $state<string | null>(null);
+  let confirmAll = $state(false);
   let audioEl: HTMLAudioElement | null = null;
   let url = '';
   const shareable = canShareFiles();
@@ -100,6 +101,17 @@
         {/each}
       </ul>
     {/if}
+    {#if rec.list.length > 0}
+      <div class="clearall">
+        {#if confirmAll}
+          <span class="muted">{t('rec.deleteAllQ').replace('{n}', String(rec.list.length))}</span>
+          <button class="btn danger" onclick={async () => { stopPlay(); confirmAll = false; await removeAll(); }}>{t('rec.deleteAllYes')}</button>
+          <button class="btn" onclick={() => (confirmAll = false)}>{t('rec.cancel')}</button>
+        {:else}
+          <button class="btn ghost del" onclick={() => (confirmAll = true)}>🗑 {t('rec.deleteAll')}</button>
+        {/if}
+      </div>
+    {/if}
     <p class="hint">{t('rec.storageNote')}</p>
   </section>
 
@@ -130,6 +142,8 @@
   .name { background: none; border: 0; padding: 0; color: var(--text); font-weight: 600; font-size: 14px; text-align: left; cursor: text; min-height: 32px; }
   .name-in { flex: 1; min-height: 36px; background: var(--bg); border: 1px solid var(--accent); border-radius: 8px; color: var(--text); padding: 0 8px; font-size: 14px; }
   .meta { font-size: 11.5px; color: var(--text-2); }
+  .clearall { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 4px; border-top: 1px solid var(--line); }
+  .clearall .del { color: #ff8d86; }
   .actions { display: flex; gap: 6px; flex-wrap: wrap; }
   .actions .btn { min-height: 38px; font-size: 12.5px; }
   .plan ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-3); display: flex; flex-direction: column; gap: 4px; }

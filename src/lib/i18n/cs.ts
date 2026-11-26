@@ -393,6 +393,10 @@ export const cs = {
   'song.editor': 'Editor tónů',
   'song.editorHint': 'Klepnutí do prázdna = nový tón. Táhnutím tón posunete (čas i výška), za pravý okraj prodloužíte. Smazat: vyberte tón a „Smazat tón“ nebo klávesa Delete. Ctrl+Z = zpět.',
   'song.selectHint': 'Klepněte na blok ve stopě – otevře se editor tónů. Dvojklik do prázdné stopy přidá nový blok.',
+  'rec.deleteAll': 'Smazat všechny nahrávky',
+  'rec.deleteAllQ': 'Opravdu smazat všechny nahrávky ({n})? Nejde to vrátit.',
+  'rec.deleteAllYes': 'Ano, smazat vše',
+  'song.clear': 'Vymazat skladbu',
   'update.ready': 'Je k dispozici nová verze.',
   'update.reload': 'Načíst'
 } as const;

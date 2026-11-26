@@ -79,6 +79,14 @@
     addTrack({ instrument: newInst, ...(newInst === 'drums' ? { kit: 'acoustic', drumTuning: 'natural' } : {}) }, t(`ins.name.${newInst}` as never));
   }
 
+  function clearSong() {
+    if (!confirm(t('song.newConfirm'))) return;
+    stop();
+    newSong();
+    selected = null;
+    menu = false;
+  }
+
   const setLoop = (patch: Partial<typeof song.s.loop>) => edit(s => { s.loop = { ...s.loop, ...patch }; });
 </script>
 
@@ -111,6 +119,7 @@
     <button class="chip" disabled={!song.canUndo} onclick={undo} title="Ctrl+Z">↶ {t('song.undo')}</button>
     <button class="chip" disabled={!song.canRedo} onclick={redo} title="Ctrl+Shift+Z">↷</button>
     <button class="chip" aria-expanded={menu} onclick={() => (menu = !menu)}>{t('song.file')} ▾</button>
+    {#if song.s.tracks.length}<button class="chip danger" onclick={clearSong}>🗑 {t('song.clear')}</button>{/if}
   </section>
 
   {#if transport.recording}
@@ -128,7 +137,7 @@
       <button class="chip" onclick={exportJson}>⬇ {t('song.exportJson')}</button>
       <button class="chip" onclick={() => fileIn?.click()}>⬆ {t('song.importJson')}</button>
       <input type="file" accept=".json,application/json" bind:this={fileIn} onchange={importJson} hidden />
-      <button class="chip danger" onclick={() => { if (confirm(t('song.newConfirm'))) { stop(); newSong(); selected = null; } }}>{t('song.new')}</button>
+      <button class="chip danger" onclick={clearSong}>{t('song.new')}</button>
     </section>
   {/if}
 

@@ -394,6 +394,10 @@ export const en: Record<MessageKey, string> = {
   'song.editor': 'Note editor',
   'song.editorHint': 'Tap empty space = new note. Drag a note to move it (time and pitch), drag its right edge to lengthen. Delete: select and “Delete note” or the Delete key. Ctrl+Z = undo.',
   'song.selectHint': 'Tap a block in a track to open the note editor. Double-tap an empty lane to add a block.',
+  'rec.deleteAll': 'Delete all recordings',
+  'rec.deleteAllQ': 'Really delete all recordings ({n})? This cannot be undone.',
+  'rec.deleteAllYes': 'Yes, delete all',
+  'song.clear': 'Clear song',
   'update.ready': 'A new version is available.',
   'update.reload': 'Reload'
 };

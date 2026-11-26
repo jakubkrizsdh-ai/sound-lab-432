@@ -38,6 +38,7 @@ async function tx<T>(mode: IDBTransactionMode, fn: (s: IDBObjectStore) => IDBReq
 export const putRecording = (r: RecordingRow) => tx('readwrite', s => s.put(r));
 export const getRecording = (id: string) => tx<RecordingRow | undefined>('readonly', s => s.get(id));
 export const deleteRecording = (id: string) => tx('readwrite', s => s.delete(id));
+export const clearRecordings = () => tx('readwrite', s => s.clear());
 export async function listRecordings(): Promise<RecordingMeta[]> {
   const rows = await tx<RecordingRow[]>('readonly', s => s.getAll());
   return rows.map(({ blob: _b, ...m }) => m).sort((a, b) => b.created - a.created);
