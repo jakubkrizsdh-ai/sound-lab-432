@@ -40,8 +40,8 @@
     {/each}
     {#if labels}
       {#each labelSpots as h (h.id)}
+        {@const w = name(h.id).length * 19 + 34}
         <g class="lbl" transform={`translate(${h.label[0]} ${h.label[1]})`}>
-          {@const w = name(h.id).length * 19 + 34}
           <rect x={-w / 2} y="-30" width={w} height="56" rx="12" />
           <text text-anchor="middle" y="9">{name(h.id)}</text>
         </g>
