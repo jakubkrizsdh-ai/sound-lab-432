@@ -32,13 +32,20 @@ interface Hit {
   gains: GainNode[];
   when: number;
   end: number;
+  /** 0–1: jak velký je sjezd výšky po úderu (opakovaný úder do kmitající blány = menší) */
+  sweep: number;
 }
 
-function begin(ctx: BaseAudioContext, dest: AudioNode, level: number, when: number): Hit {
+/** Hlas bubnu: kromě zastavení umí i „přitlumit“ (nový úder do kmitající blány, tón dozní). */
+export interface DrumVoice extends Voice {
+  damp(t: number): void;
+}
+
+function begin(ctx: BaseAudioContext, dest: AudioNode, level: number, when: number, sweep = 1): Hit {
   const out = ctx.createGain();
   out.gain.value = level;
   out.connect(dest);
-  return { ctx, out, srcs: [], gains: [], when, end: when };
+  return { ctx, out, srcs: [], gains: [], when, end: when, sweep: Math.min(1, Math.max(0, sweep)) };
 }
 
 /** Obálka: rychlý náběh a exponenciální útlum na −60 dB za `decay` s. */
@@ -57,7 +64,7 @@ function tone(h: Hit, type: OscillatorType, f: number, dest: AudioNode, drop?: {
   const o = h.ctx.createOscillator();
   o.type = type;
   if (drop) {
-    o.frequency.setValueAtTime(f * drop.from, h.when);
+    o.frequency.setValueAtTime(f * (1 + (drop.from - 1) * h.sweep), h.when);
     o.frequency.exponentialRampToValueAtTime(f, h.when + drop.time);
   } else {
     o.frequency.value = f;
@@ -103,10 +110,17 @@ function metal(h: Hit, dest: AudioNode, scale: number, filters: { type: BiquadFi
   for (const f of METAL) tone(h, 'square', f * scale, sum);
 }
 
-function finish(h: Hit): Voice {
+function finish(h: Hit): DrumVoice {
   for (const s of h.srcs) s.stop(h.end);
   let stopped = false;
-  const voice: Voice = {
+  let damped = false;
+  const voice: DrumVoice = {
+    damp(t: number) {
+      if (stopped || damped) return;
+      damped = true;
+      // nový úder paličkou blánu přitlumí, ale nezastaví – výška bubnu zůstane slyšet
+      for (const g of h.gains) fadeOut(g.gain, t, 0.07);
+    },
     stop(t = h.ctx.currentTime) {
       if (stopped) return;
       stopped = true;
@@ -136,11 +150,11 @@ const TRIM: Record<KitId, Record<DrumId, number>> = {
 };
 
 /** Jeden úder bicího nástroje. `v` = síla 0–1. */
-export function drumHit(ctx: BaseAudioContext, dest: AudioNode, id: DrumId, kit: KitId, v: number, tuning: DrumTuning, when = ctx.currentTime): Voice {
+export function drumHit(ctx: BaseAudioContext, dest: AudioNode, id: DrumId, kit: KitId, v: number, tuning: DrumTuning, when = ctx.currentTime, sweep = 1): DrumVoice {
   const e = kit === 'electronic';
   const T = TUNING[tuning];
   const vel = Math.min(1, Math.max(0.05, v));
-  const h = begin(ctx, dest, 0.9 * vel * 10 ** (TRIM[kit][id] / 20), when);
+  const h = begin(ctx, dest, 0.9 * vel * 10 ** (TRIM[kit][id] / 20), when, sweep);
   const bright = 0.5 + 0.5 * vel;
 
   switch (id) {
@@ -201,7 +215,7 @@ export function drumHit(ctx: BaseAudioContext, dest: AudioNode, id: DrumId, kit:
     case 'tomFloor': {
       const f = T[id];
       const dec = id === 'tomFloor' ? 0.65 : id === 'tomMid' ? 0.5 : 0.4;
-      tone(h, 'sine', f, envelope(h, 1, e ? dec * 0.8 : dec), { from: e ? 1.8 : 1.35, time: e ? 0.12 : 0.05 });
+      tone(h, 'sine', f, envelope(h, 1, e ? dec * 0.8 : dec), { from: e ? 1.8 : 1.15, time: e ? 0.12 : 0.06 });
       if (!e) tone(h, 'sine', f * 1.59, envelope(h, 0.3 * bright, dec * 0.4));
       noise(h, envelope(h, 0.25 * bright, 0.03), [{ type: 'lowpass', f: 3500 }]);
       break;

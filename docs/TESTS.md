@@ -105,3 +105,16 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 | Kalimba D4, opraveno, simulovaná chyba | 0 ze 126 | −29,2 dBFS |
 
 Na skutečném iPhonu ověří autor (WebKit v testovacím prostředí nejde stáhnout).
+
+## Rychlá hra – všechny nástroje, 0.9.3 (2026-11-26, offline Chrome, nepravidelné rozestupy ±40 %)
+Vrchol spektra (dominantní výška) při průměrném rozestupu úderů 500 / 130 / 80 ms.
+
+| Buben (akustická) | Ladění | Původně | Opraveno |
+| --- | --- | --- | --- |
+| Kopák | 55 Hz | 54,7 / 55,3 / **63,3** | 54,7 / 57,3 / 56,7 |
+| Horní tom | 200 Hz | 201 / 200 / **244** | 211 / 201 / 207 |
+| Střední tom | 150 Hz | 150 / 151 / **181** | 152 / 153 / 156 |
+| Kotel | 105 Hz | 106 / 106 / **113** | 106 / 106 / 105 |
+
+Ostatní nástroje (500 / 130 / 70 ms) – výška stabilní, beze změny kódu: handpan 324 → 324,5 / 322,7 / 325,0; kalimba D4 288 → 288,2 / 288,6 / 286,8; zvonky 576 → 576 / 576 / 579; klavír 324 → 324 / 327 / 322; flétna 576 → 576 / 580 / 581; syntezátor pad/lead/varhany 322–327; tibetská a křišťálová mísa 288 ± 2.
+Živě v aplikaci (kotel, 40 rychlých klepnutí): vrchol 104,6 Hz.

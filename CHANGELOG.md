@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.9.3 – 2026-11-26 – Oprava: bubny při rychlé hře měnily výšku
+- Oprava: při rychlém bubnování na stejný buben (kotel, tomy, kopák) zněl buben výš – každý úder utnul předchozí, takže byl slyšet jen začátek sjezdu výšky (horní tom až 244 místo 200 Hz, kotel 113 místo 105 Hz).
+- Akustická souprava: opakovaný úder předchozí jen přitlumí (blána dál kmitá na svém tónu, max. 3 doznívající údery na buben), rychlý opakovaný úder má menší sjezd výšky; sjezd tomů zmenšen z 1,35× na 1,15× (realističtější).
+- Elektronická souprava beze změny (bicí automat: každý úder stejný).
+- Ověřeny i ostatní nástroje (handpan, kalimba, zvonky, klavír, flétna, syntezátor 3 předvolby, mísy): výška stabilní i při velmi rychlé hře.
+
 ## 0.9.2 – 2026-11-26 – Oprava: rychlé opakování tónu
 - Oprava: při rychlém klepání na stejný tón (např. handpan E4, kalimba D4) se občas ozval jiný tón – zůstala znít jen oktáva/vyšší alikvoty a nový úder se nezahrál. Ztlumení předchozího tónu (`cancelAndHoldAtTime` + `setTargetAtTime`) mohlo v Safari vyhodit chybu uprostřed; zhasl jen základní tón.
 - Ztlumení je nyní odolné (`fadeOut` s náhradní cestou), každý hlas má pojistku na výstupu (`silenceOut` – ztlumí a odpojí) a selhání starého tónu nikdy nezablokuje nový (`safeStop`). Platí pro handpan, všechny nástroje, bicí, generátory i STOP ALL.

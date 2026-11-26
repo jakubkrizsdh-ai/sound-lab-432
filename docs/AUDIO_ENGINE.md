@@ -107,3 +107,8 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
 - `fadeOut(param, t, tau)`: podržet + doznít; když prohlížeč vyhodí chybu (Safari při kolizi událostí), `cancelScheduledValues` + doznít z obálky; nikdy nevyhodí.
 - `silenceOut(ctx, out, t)`: výstupní zesilovač hlasu nemá vlastní automatizaci → spolehlivé ztlumení a odpojení po doznění (jen živě).
 - `safeStop(v, t)`: chyba při zastavení starého hlasu nezastaví vznik nového.
+
+## Bicí – opakovaný úder (0.9.3)
+- Akustická souprava, bubny s výškou (kopák, virbl, tomy, rim, zvonec, kopule ridu): nový úder předchozí přitlumí (`DrumVoice.damp`, τ = 70 ms), neutne; max. 3 doznívající údery na buben.
+- Sjezd výšky po úderu se při opakování do 300 ms zmenšuje (`sweep` 0,3–1) – kmitající blána se znovu „nenatahuje“.
+- Elektronická souprava a činely/hi-hat: opakovaný úder utne předchozí (bicí automat, úspora výkonu).

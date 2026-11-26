@@ -5,7 +5,7 @@
 import { engine, safeStop, type Voice } from '../audio/engine.svelte';
 import { makeRoomImpulse } from '../handpan/voice';
 import { CHOKES, PADS, PRESETS, STEPS, emptyPattern, stepTime, barDuration, type DrumId, type DrumTuning, type KitId, type Pattern, type PresetId } from './kit';
-import { drumHit } from './synth';
+import { drumHit, type DrumVoice } from './synth';
 import { emitPlay } from '../song/events';
 
 const KEY = 'soundlab.drums';
@@ -86,21 +86,44 @@ export function applyReverb() {
   bus.wet.gain.setTargetAtTime(Math.sin((drums.reverb * Math.PI) / 2) * 0.9, t, 0.02);
 }
 
-const ringing = new Map<DrumId, Voice>();
+/** Znějící údery každého bubnu (nejnovější poslední). */
+const ringing = new Map<DrumId, DrumVoice[]>();
+const lastHit = new Map<DrumId, number>();
+/** Bubny s výškou tónu: opakovaný úder předchozí jen přitlumí (blána dál kmitá na svém tónu). */
+const TONAL = new Set<DrumId>(['kick', 'snare', 'tomHi', 'tomMid', 'tomFloor', 'rim', 'cowbell', 'rideBell']);
+const MAX_PER_DRUM = 3;
+/** Pod touto dobou od předchozího úderu se zmenšuje sjezd výšky (s). */
+const SWEEP_WINDOW = 0.3;
 
 function play(id: DrumId, v: number, when?: number) {
   const b = getBus();
   if (!b) return;
   const t = when ?? b.ctx.currentTime;
-  for (const c of CHOKES[id] ?? []) safeStop(ringing.get(c), t);
-  // opakovaný úder stejného činelu/bubnu utne předchozí (šetří výkon telefonu)
-  safeStop(ringing.get(id), t);
-  const voice = drumHit(b.ctx, b.input, id, drums.kit, v, drums.tuning, t);
+  for (const c of CHOKES[id] ?? []) for (const x of ringing.get(c) ?? []) safeStop(x, t);
+  const list = ringing.get(id) ?? [];
+  // akustická souprava = chování skutečných blan; elektronická = bicí automat (každý úder stejný, utne předchozí)
+  const acoustic = drums.kit === 'acoustic';
+  if (acoustic && TONAL.has(id)) {
+    // jako skutečný buben: předchozí úder dozní (přitlumený), nový nezačíná znovu od vysokého sjezdu
+    for (const x of list) { try { x.damp(t); } catch { /* */ } }
+    while (list.length >= MAX_PER_DRUM) safeStop(list.shift(), t);
+  } else {
+    // činely, hi-hat, perkuse: opakovaný úder utne předchozí (šetří výkon telefonu)
+    for (const x of list.splice(0)) safeStop(x, t);
+  }
+  const prevT = lastHit.get(id);
+  const dt = prevT === undefined ? Infinity : Math.abs(t - prevT);
+  const sweep = !acoustic || dt >= SWEEP_WINDOW ? 1 : 0.3 + 0.7 * (dt / SWEEP_WINDOW);
+  lastHit.set(id, t);
+  const voice = drumHit(b.ctx, b.input, id, drums.kit, v, drums.tuning, t, sweep);
   voice.onEnded = () => {
     engine.removeVoice(voice);
-    if (ringing.get(id) === voice) ringing.delete(id);
+    const l = ringing.get(id);
+    const i = l ? l.indexOf(voice) : -1;
+    if (l && i >= 0) l.splice(i, 1);
   };
-  ringing.set(id, voice);
+  list.push(voice);
+  ringing.set(id, list);
   engine.addVoice(voice);
 }
 
