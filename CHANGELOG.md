@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.9.2 – 2026-11-26 – Oprava: rychlé opakování tónu
+- Oprava: při rychlém klepání na stejný tón (např. handpan E4, kalimba D4) se občas ozval jiný tón – zůstala znít jen oktáva/vyšší alikvoty a nový úder se nezahrál. Ztlumení předchozího tónu (`cancelAndHoldAtTime` + `setTargetAtTime`) mohlo v Safari vyhodit chybu uprostřed; zhasl jen základní tón.
+- Ztlumení je nyní odolné (`fadeOut` s náhradní cestou), každý hlas má pojistku na výstupu (`silenceOut` – ztlumí a odpojí) a selhání starého tónu nikdy nezablokuje nový (`safeStop`). Platí pro handpan, všechny nástroje, bicí, generátory i STOP ALL.
+
 ## 0.9.1 – 2026-11-26 – Mazání najednou
 - Nahrávky: tlačítko **Smazat všechny nahrávky** (s potvrzením) pod seznamem – i na telefonu.
 - Skladba: tlačítko **Vymazat skladbu** přímo v liště (dřív jen v menu Soubor); jde vrátit tlačítkem Zpět.

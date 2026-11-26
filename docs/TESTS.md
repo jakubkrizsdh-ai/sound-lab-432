@@ -92,3 +92,16 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 
 ## V prohlížeči – 0.9.1 (2026-11-26, šířka 390 px)
 - 2 nahrávky → Smazat všechny → potvrzení → 0 nahrávek, po obnovení stránky stále 0. ✔
+
+## Rychlé opakování tónu – 0.9.2 (2026-11-26, Chrome + simulace chyby Safari)
+Živě 40 klepnutí na stejné pole (20–160 ms), nahráno REC, spektrum po 46 ms oknech.
+
+| Případ | Okna s jiným dominantním tónem | Špička |
+| --- | --- | --- |
+| Handpan E4, původní kód, simulovaná chyba Safari | 5 ze 167 (oktáva 645 Hz) | −15,9 dBFS (hromadění) |
+| Handpan E4, opraveno, simulovaná chyba | 0 ze 137 | −25,8 dBFS |
+| Handpan E4, opraveno, běžný Chrome | 0 ze 138 | −25,5 dBFS |
+| Kalimba D4, původní kód, simulovaná chyba | 0 ze 165 | −19,4 dBFS (hromadění) |
+| Kalimba D4, opraveno, simulovaná chyba | 0 ze 126 | −29,2 dBFS |
+
+Na skutečném iPhonu ověří autor (WebKit v testovacím prostředí nejde stáhnout).

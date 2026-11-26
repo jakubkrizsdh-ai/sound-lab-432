@@ -102,3 +102,8 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
 - Záznam: nástroje vysílají události hraní (`events.ts`); přehrávač je převede na doby podle tempa a rozdělí podle nástroje do stop.
 - Přehrávání (`player.svelte.ts`): lookahead plánovač (25 ms, horizont) na čase AudioContextu, smyčka, metronom. Každá stopa: hlasitost → panorama → master; poslání do společného dozvuku (`sound.ts`, `SongMixer`).
 - Zvuk tónu (`playSongNote`) používá stejné hlasy jako živé hraní; export renderuje totéž v `OfflineAudioContext` (44,1 kHz, −3 dB, 4 s doznění, 16 bit TPDF).
+
+## Konec hlasu – odolnost (0.9.2)
+- `fadeOut(param, t, tau)`: podržet + doznít; když prohlížeč vyhodí chybu (Safari při kolizi událostí), `cancelScheduledValues` + doznít z obálky; nikdy nevyhodí.
+- `silenceOut(ctx, out, t)`: výstupní zesilovač hlasu nemá vlastní automatizaci → spolehlivé ztlumení a odpojení po doznění (jen živě).
+- `safeStop(v, t)`: chyba při zastavení starého hlasu nezastaví vznik nového.
