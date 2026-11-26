@@ -40,3 +40,27 @@ describe('časování', () => {
     expect(stepTime(3, 100, 0.5)).toBeLessThan(stepTime(4, 100, 0));
   });
 });
+
+describe('2D pohled na soupravu', () => {
+  it('každý z 16 zvuků má na obrázku klikací místo', async () => {
+    const { KIT_HOTSPOTS } = await import('../src/lib/drums/kit');
+    expect(new Set(KIT_HOTSPOTS.map(h => h.id))).toEqual(new Set(PADS));
+  });
+  it('typická místa vedou na správný zvuk', async () => {
+    const { hotspotAt } = await import('../src/lib/drums/kit');
+    expect(hotspotAt(385, 565)).toBe('snare');      // blána virblu
+    expect(hotspotAt(300, 680)).toBe('rim');        // tělo virblu
+    expect(hotspotAt(615, 860)).toBe('kick');       // šlapka kopáku
+    expect(hotspotAt(640, 640)).toBe('kick');       // přední blána kopáku
+    expect(hotspotAt(922, 196)).toBe('rideBell');   // kopule ridu
+    expect(hotspotAt(1050, 240)).toBe('ride');
+    expect(hotspotAt(163, 420)).toBe('hhOpen');
+    expect(hotspotAt(163, 485)).toBe('hhClosed');
+    expect(hotspotAt(215, 990)).toBe('hhPedal');
+    expect(hotspotAt(1120, 480)).toBe('clap');      // elektronický pad
+    expect(hotspotAt(925, 650)).toBe('tomFloor');
+    expect(hotspotAt(455, 340)).toBe('tomHi');
+    expect(hotspotAt(870, 420)).toBe('cowbell');
+    expect(hotspotAt(780, 1150)).toBeNull();        // stolička
+  });
+});

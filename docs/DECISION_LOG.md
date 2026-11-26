@@ -29,6 +29,14 @@
 | D25 | 2026-11-26 | Bicí syntézou (oscilátory, šum, kovové „mračno“ 6 obdélníků) | Samply bicích | Bez licencí a stahování; dvě soupravy z jednoho kódu; offline export |
 | D26 | 2026-11-26 | Sekvencer s plánováním dopředu (setInterval 25 ms + horizont 120 ms v čase AudioContextu) | setTimeout na každý úder | Přesné tempo nezávislé na zatížení hlavního vlákna |
 | D27 | 2026-11-26 | Pady 4×4 místo kresby soupravy | Kresba bicí soupravy | Lépe se hraje prsty na telefonu, stejné rozložení jako klávesnice |
+| D28 | 2026-11-26 | 2D pohled na soupravu z kresleného obrázku od autora, klikací oblasti jako data (`KIT_HOTSPOTS`) | Fotografie s logy značek; kreslení soupravy v SVG | Obrázek bez ochranných známek, věrný vzhled; oblasti testovatelné |
+| D29 | 2026-11-26 | Ikony padů jako jeden obrázek-maska (sprite 4×4) | 16 souborů / SVG | Jedno stažení, barva ikon z CSS, funguje offline |
+
+## Grafické podklady
+| Podklad | Původ | Úprava |
+| --- | --- | --- |
+| `src/lib/drums/assets/kit.webp` | Obrázek dodal autor projektu (kresba soupravy) | Převod do WebP 82 % |
+| `src/lib/drums/assets/pad-icons.png` | Ikony z podkladu, který dodal autor | Vyříznuto, bílé čáry na průhledném pozadí, 128 px |
 
 ## Závislosti
 | Balíček | Licence | Účel |

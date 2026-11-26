@@ -312,6 +312,14 @@ export const cs = {
   'dr.seqHint': 'Klepnutí na políčko: úder → akcent → nic. Políčka jsou šestnáctiny, 16 = jeden takt. Názvem řádku nástroj vyzkoušíte.',
   'dr.about': 'Všechny zvuky bicích vznikají syntézou (bez nahrávek). Akustická souprava zní přirozeněji, elektronická jako klasický bicí automat.',
   'dr.tuningNote': 'Tomy a kopák jsou naladěné na tóny obrázku: G3 192 Hz, D3 144 Hz, G2 96 Hz, kopák C2 64 Hz.',
+  'dr.view': 'Zobrazení bicích',
+  'dr.view.pads': 'Pady',
+  'dr.view.kit': 'Souprava (obrázek)',
+  'dr.icons': 'Ikony',
+  'dr.labels': 'Popisky',
+  'dr.kitView': 'Bicí souprava – klikací obrázek',
+  'dr.kitAlt': 'Bicí souprava: činely crash, splash a ride, hi-hat, tři tomy, virbl, kopák, kravský zvonec, tamburína a elektronický pad',
+  'dr.kitHint': 'Klepejte na části soupravy. Hi-hat: horní činel = otevřený, spodní = zavřený, pedál = šlapaný. Elektronický pad = tlesk, kopák i jeho šlapka = kopák.',
   'update.ready': 'Je k dispozici nová verze.',
   'update.reload': 'Načíst'
 } as const;

@@ -96,3 +96,46 @@ export function stepTime(step: number, bpm: number, swing: number): number {
 export function barDuration(bpm: number): number {
   return (60 / bpm) * 4;
 }
+
+// --- 2D pohled na soupravu (obrázek 1254 × 1254 px) ---
+
+export const KIT_SIZE = 1254;
+
+export type Hotspot =
+  | { id: DrumId; shape: 'ellipse'; cx: number; cy: number; rx: number; ry: number; label: [number, number] }
+  | { id: DrumId; shape: 'rect'; x0: number; y0: number; x1: number; y1: number; label: [number, number] };
+
+/**
+ * Klikací místa na obrázku soupravy. Pořadí = priorita (co je vpředu nebo menší, je dřív).
+ * Hi-hat: horní činel = otevřený, spodní = zavřený, pedál = šlapaný. Elektronický pad = tlesk.
+ */
+export const KIT_HOTSPOTS: Hotspot[] = [
+  { id: 'rideBell', shape: 'ellipse', cx: 922, cy: 196, rx: 48, ry: 28, label: [922, 150] },
+  { id: 'splash', shape: 'ellipse', cx: 558, cy: 188, rx: 78, ry: 32, label: [558, 130] },
+  { id: 'tambourine', shape: 'ellipse', cx: 1100, cy: 355, rx: 100, ry: 48, label: [1100, 300] },
+  { id: 'clap', shape: 'rect', x0: 1035, y0: 438, x1: 1215, y1: 528, label: [1125, 560] },
+  { id: 'cowbell', shape: 'rect', x0: 800, y0: 372, x1: 940, y1: 470, label: [870, 490] },
+  { id: 'hhOpen', shape: 'ellipse', cx: 163, cy: 430, rx: 130, ry: 30, label: [163, 385] },
+  { id: 'hhClosed', shape: 'ellipse', cx: 163, cy: 478, rx: 130, ry: 30, label: [163, 535] },
+  { id: 'hhPedal', shape: 'rect', x0: 135, y0: 875, x1: 290, y1: 1080, label: [215, 1100] },
+  { id: 'ride', shape: 'ellipse', cx: 935, cy: 225, rx: 196, ry: 112, label: [1010, 260] },
+  { id: 'crash', shape: 'ellipse', cx: 285, cy: 178, rx: 170, ry: 90, label: [285, 120] },
+  { id: 'snare', shape: 'ellipse', cx: 385, cy: 570, rx: 134, ry: 62, label: [385, 570] },
+  { id: 'rim', shape: 'rect', x0: 246, y0: 600, x1: 524, y1: 748, label: [385, 690] },
+  { id: 'tomHi', shape: 'rect', x0: 352, y0: 278, x1: 552, y1: 508, label: [455, 340] },
+  { id: 'tomMid', shape: 'rect', x0: 558, y0: 272, x1: 768, y1: 502, label: [662, 335] },
+  { id: 'tomFloor', shape: 'rect', x0: 788, y0: 498, x1: 1060, y1: 842, label: [925, 570] },
+  { id: 'kick', shape: 'rect', x0: 568, y0: 760, x1: 668, y1: 968, label: [615, 935] },
+  { id: 'kick', shape: 'ellipse', cx: 615, cy: 690, rx: 172, ry: 168, label: [615, 600] }
+];
+
+export function hotspotAt(x: number, y: number): DrumId | null {
+  for (const h of KIT_HOTSPOTS) {
+    if (h.shape === 'ellipse') {
+      if (((x - h.cx) / h.rx) ** 2 + ((y - h.cy) / h.ry) ** 2 <= 1) return h.id;
+    } else if (x >= h.x0 && x <= h.x1 && y >= h.y0 && y <= h.y1) {
+      return h.id;
+    }
+  }
+  return null;
+}

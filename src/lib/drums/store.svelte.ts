@@ -12,6 +12,12 @@ const LOOKAHEAD = 0.12;   // s – jak daleko dopředu se plánuje
 const TICK = 25;          // ms – jak často se plánuje
 
 interface Saved {
+  /** pady, nebo obrázek celé soupravy */
+  view: 'pads' | 'kit';
+  /** ikony nástrojů na padech */
+  icons: boolean;
+  /** popisky na obrázku soupravy */
+  labels: boolean;
   kit: KitId;
   tuning: DrumTuning;
   velocity: number;
@@ -22,7 +28,7 @@ interface Saved {
 }
 
 function load(): Saved {
-  const def: Saved = { kit: 'acoustic', tuning: 'natural', velocity: 0.8, reverb: 0.12, bpm: PRESETS.rock.bpm, swing: 0, pattern: structuredClone(PRESETS.rock.pattern) };
+  const def: Saved = { view: 'pads', icons: true, labels: false, kit: 'acoustic', tuning: 'natural', velocity: 0.8, reverb: 0.12, bpm: PRESETS.rock.bpm, swing: 0, pattern: structuredClone(PRESETS.rock.pattern) };
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {

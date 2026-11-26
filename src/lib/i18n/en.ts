@@ -313,6 +313,14 @@ export const en: Record<MessageKey, string> = {
   'dr.seqHint': 'Tap a cell: hit → accent → off. Cells are sixteenth notes, 16 = one bar. Tap a row name to try the sound.',
   'dr.about': 'All drum sounds are synthesized (no recordings). The acoustic kit sounds more natural, the electronic one like a classic drum machine.',
   'dr.tuningNote': 'Toms and kick are tuned to image tones: G3 192 Hz, D3 144 Hz, G2 96 Hz, kick C2 64 Hz.',
+  'dr.view': 'Drums view',
+  'dr.view.pads': 'Pads',
+  'dr.view.kit': 'Kit (picture)',
+  'dr.icons': 'Icons',
+  'dr.labels': 'Labels',
+  'dr.kitView': 'Drum kit – clickable picture',
+  'dr.kitAlt': 'Drum kit: crash, splash and ride cymbals, hi-hat, three toms, snare, kick, cowbell, tambourine and an electronic pad',
+  'dr.kitHint': 'Tap parts of the kit. Hi-hat: top cymbal = open, bottom = closed, pedal = foot. Electronic pad = clap, kick head and pedal = kick.',
   'update.ready': 'A new version is available.',
   'update.reload': 'Reload'
 };

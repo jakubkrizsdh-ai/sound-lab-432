@@ -5,6 +5,8 @@
   import { audio, engine, MASTER_MAX_DB, MASTER_MIN_DB, MASTER_WARN_DB } from '../../audio/engine.svelte';
   import { GROUP, PADS, PAD_CODES, PAD_LABELS, PRESETS, SEQ_ROWS, STEPS, type DrumId, type KitId, type DrumTuning, type PresetId } from '../kit';
   import { drums, hit, save, applyReverb, start, stop, setBpm, toggleCell, loadPreset, clearPattern } from '../store.svelte';
+  import KitView from './KitView.svelte';
+  import iconsUrl from '../assets/pad-icons.png';
 
   let page = $state(0); // telefon: kroky 1–8 nebo 9–16
   let narrow = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches);
@@ -53,7 +55,7 @@
     hit(id, Math.min(1, Math.max(0.1, v)));
   }
 
-  function set<K extends 'kit' | 'tuning' | 'velocity' | 'reverb' | 'swing'>(k: K, v: (typeof drums)[K]) {
+  function set<K extends 'kit' | 'tuning' | 'velocity' | 'reverb' | 'swing' | 'view' | 'icons' | 'labels'>(k: K, v: (typeof drums)[K]) {
     drums[k] = v;
     if (k === 'reverb') applyReverb();
     save();
@@ -65,6 +67,17 @@
 <div class="drums">
   <div class="stage">
     <div class="chips">
+      <span class="seg" role="radiogroup" aria-label={t('dr.view')}>
+        <button role="radio" aria-checked={drums.view === 'pads'} class:on={drums.view === 'pads'} onclick={() => set('view', 'pads')}>{t('dr.view.pads')}</button>
+        <button role="radio" aria-checked={drums.view === 'kit'} class:on={drums.view === 'kit'} onclick={() => set('view', 'kit')}>{t('dr.view.kit')}</button>
+      </span>
+      {#if drums.view === 'pads'}
+        <button class:on={drums.icons} aria-pressed={drums.icons} onclick={() => set('icons', !drums.icons)}>{t('dr.icons')}</button>
+      {:else}
+        <button class:on={drums.labels} aria-pressed={drums.labels} onclick={() => set('labels', !drums.labels)}>{t('dr.labels')}</button>
+      {/if}
+    </div>
+    <div class="chips">
       {#each ['acoustic', 'electronic'] as const as k (k)}
         <button class:on={drums.kit === k} onclick={() => set('kit', k as KitId)}>{t(`dr.kit.${k}`)}</button>
       {/each}
@@ -73,17 +86,22 @@
       {/each}
     </div>
 
-    <div class="pads" role="group" aria-label={t('dr.pads')}>
+    {#if drums.view === 'kit'}
+      <KitView labels={drums.labels} />
+    {:else}
+    <div class="pads" role="group" aria-label={t('dr.pads')} style:--icons={`url(${iconsUrl})`}>
       {#each PADS as id, i (id)}
         {@const h = drums.hits[id]}
-        <button class="pad {GROUP[id]}" onpointerdown={(e) => padDown(e, id)} oncontextmenu={(e) => e.preventDefault()} aria-label={name(id)}>
+        <button class="pad {GROUP[id]}" class:withIcon={drums.icons} onpointerdown={(e) => padDown(e, id)} oncontextmenu={(e) => e.preventDefault()} aria-label={name(id)}>
           {#if h}{#key h.n}<span class="glow" style:--v={h.v}></span>{/key}{/if}
+          {#if drums.icons}<span class="icon" aria-hidden="true" style:--ix={`${(i % 4) * (100 / 3)}%`} style:--iy={`${Math.floor(i / 4) * (100 / 3)}%`}></span>{/if}
           <span class="pn">{name(id)}</span>
           <span class="pk">{PAD_LABELS[i]}</span>
         </button>
       {/each}
     </div>
     <p class="hint">{t('dr.padHint')}</p>
+    {/if}
 
     <section class="seq" aria-label={t('dr.sequencer')}>
       <div class="transport">
@@ -174,6 +192,19 @@
   .pad.tom { background: linear-gradient(180deg, #2f3a4f, #1c2331); }
   .pad.cymbal { background: linear-gradient(180deg, #3d3a24, #262416); }
   .pad.perc { background: linear-gradient(180deg, #3a2c45, #241b2b); }
+  .seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 999px; padding: 2px; gap: 2px; }
+  .seg button { min-height: 34px; padding: 0 12px; border-radius: 999px; border: 0; background: none; color: var(--text-3); font-size: 12.5px; cursor: pointer; }
+  .seg button.on { background: var(--accent); color: #14171c; font-weight: 600; }
+  .pad.withIcon { justify-content: flex-end; align-items: center; }
+  .pad.withIcon .pn { text-align: center; }
+  .pad.withIcon .pk { position: absolute; top: 6px; left: 8px; }
+  .icon {
+    position: absolute; left: 14%; right: 14%; top: 10%; bottom: 34%; background: #f2f3f5; opacity: 0.92; pointer-events: none;
+    -webkit-mask-image: var(--icons); mask-image: var(--icons);
+    -webkit-mask-size: 400% 400%; mask-size: 400% 400%;
+    -webkit-mask-position: var(--ix) var(--iy); mask-position: var(--ix) var(--iy);
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  }
   .pn { position: relative; font-size: clamp(11px, 2.9vw, 13.5px); font-weight: 600; text-align: left; line-height: 1.15; pointer-events: none; }
   .pk { position: relative; font-family: var(--mono); font-size: 11px; color: #9aa3ae; pointer-events: none; }
   @media (pointer: coarse) { .pk { display: none; } }

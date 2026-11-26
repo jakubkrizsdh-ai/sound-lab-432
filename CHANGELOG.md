@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.6.0 – 2026-11-26 – Bicí: obrázek soupravy a ikony
+- Přepínač zobrazení bicích: **Pady** nebo **Souprava (obrázek)** – 2D obrázek celé sestavy, každá část je klikací (činely, kopule ridu, hi-hat horní/spodní činel a pedál, tomy, kotel, virbl – blána i tělo, kopák – blána i šlapka, zvonec, tamburína, elektronický pad = tlesk).
+- Volitelné popisky na obrázku a ikony nástrojů na padech (zapínají se tlačítky, volba se pamatuje).
+- Obrázek soupravy a ikony dodal autor projektu; obrázek bez log značek.
+
 ## 0.5.0 – 2026-11-26 – Bicí
 - Nový nástroj Bicí: 16 padů (kopák, virbl, rim, tlesk, hi-hat zavřený / šlapaný / otevřený, crash, splash, ride, ride – zvon, 3 tomy, kravský zvonec, tamburína).
 - Akustická a elektronická souprava (styl bicích automatů), vše syntézou bez nahrávek; hlasitosti vyrovnané měřením.

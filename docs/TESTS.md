@@ -14,6 +14,7 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 | Handpan | stupnice z obrázku = přesné hodnoty; D Kurd; 8/9 polí + spodní; pole se nepřekrývají; vlastní tón; jas podle síly úderu | M4 |
 | Nástroje | 10 definic; módy s kladnými poměry a amplitudou ≤ 1; mísy = hodnoty obrázku; C dur; řada přes oktávy; pořadí kalimby; klaviatura 25 kláves / 10 černých; vlastní nástroj se opraví a omezí | 0.4.0 |
 | Bicí | 16 padů a kláves; dusení hi-hatu; ladění tomů = tóny obrázku; rytmy 16 kroků; časování kroků a swing (nikdy za další krok) | 0.5.0 |
+| Obrázek soupravy | každý z 16 zvuků má klikací místo; typická místa (blána/tělo virblu, šlapka kopáku, kopule ridu, horní/spodní činel hi-hatu, pedál, e-pad, kotel, zvonec) vedou na správný zvuk; stolička nic | 0.6.0 |
 | Export | round-trip JSON bit po bitu, WAV v toleranci 0,01 Hz | M6 |
 
 ## Ruční – M0 (ověřeno 2026-11-25, Chrome headless, 390×844 a 1440×900)
@@ -61,3 +62,7 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 - [x] Sekvencer 120 BPM: 17 kroků za 2,0 s (8 kroků/s).
 - [x] Tři současné dotyky na pady; mezerník spustí a zastaví rytmus; rytmus Funk se načte.
 - [ ] iPhone: plynulost rytmu, hraní na pady více prsty (ověří autor).
+
+## V prohlížeči – 0.6.0 (2026-11-26)
+- [x] Tři současné dotyky na obrázek (blána virblu, kopule ridu, šlapka kopáku) → zahrány virbl, ride – zvon, kopák.
+- [x] Ikony na padech, přepnutí na obrázek, popisky; telefon i počítač; bez chyb v konzoli.
