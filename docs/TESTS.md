@@ -129,3 +129,6 @@ Simulace malého reproduktoru: horní propust 4. řádu 380 Hz. Odhad vnímané 
 | Horní tom | 200 Hz | **108 / 106 / 105** | 212 / 203 / 205 (200–214) |
 
 Úroveň na „telefonu“ +4 až +5 dB, na plném rozsahu beze změny (RMS ±0,1 dB). Živě v aplikaci se simulovanou chybou Safari: kotel 104,5 Hz.
+
+## Zvuk úderu bubnů = 0.9.2 – 0.9.5 (2026-11-26, offline Chrome, pevná náhoda šumu)
+32 úderů (16 bubnů × akustická/elektronická), síla 0,8, porovnání vzorků s verzí 0.9.2: rozdíl 0 (shoda < 1e-6). ✔

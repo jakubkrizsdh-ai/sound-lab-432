@@ -6,6 +6,7 @@ Dlouhodobé instrukce pro každou práci na tomto repozitáři. Platí pro Claud
 - S autorem projektu komunikuj **česky**, srozumitelně pro neprogramátora.
 - Před větší změnou řekni, co uděláš a proč. Po milníku shrň, co funguje a jak to vyzkoušet.
 - Upozorňuj na technický dluh, rizika a příležitosti (sekce „Dluh a rizika“ v ROADMAP.md).
+- **Zvuk (barvu) nástroje neměň bez souhlasu autora.** Opravy chyb nesmí změnit zvuk jednoho úderu/tónu; když to jinak nejde, nejdřív se zeptej, případně jako volitelný přepínač. Ověřit porovnáním vzorků s předchozí verzí.
 
 ## Tři vrstvy, které se nesmí slévat
 Každá hodnota v rozhraní nese štítek původu:

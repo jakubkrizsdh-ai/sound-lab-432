@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.9.5 – 2026-11-26 – Původní zvuk bubnů zpět
+- Vrácen původní zvuk úderu všech bubnů (jako v 0.9.2): zrušena vrstva alikvót z 0.9.4, sjezd tomů zpět 1,35×, neharmonická složka tomů zpět. Podle autora bubny nezněly jako bubny.
+- Ponecháno (nemění zvuk jednoho úderu): u akustických bubnů opakovaný úder předchozí přitlumí místo utnutí, menší sjezd výšky jen při rychlém opakování do 0,3 s; tlumení spolehlivé v Safari.
+- Otevřené: výška bubnů na reproduktoru iPhonu – řešit jen se souhlasem autora (např. volitelný přepínač).
+
 ## 0.9.4 – 2026-11-26 – Bubny na reproduktoru telefonu
 - Oprava (iPhone): tomy a kopák na reproduktoru telefonu „přeskakovaly“ výškou. Malý reproduktor nezahraje základní tón bubnu (≈ 100–200 Hz), zbylo jen cvaknutí a nejednoznačné složky (simulace: horní tom vnímán jako 105 místo 200 Hz, střední při rychlé hře 79 místo 150 Hz).
 - Tomy a kopák mají nově vrstvu alikvót (2.–6. násobek tónu), která nese správnou výšku i na telefonu; slabší neharmonická složka tomů. Hlasitost na plných reproduktorech beze změny (±0,1 dB).

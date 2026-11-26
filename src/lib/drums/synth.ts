@@ -75,24 +75,6 @@ function tone(h: Hit, type: OscillatorType, f: number, dest: AudioNode, drop?: {
   return o;
 }
 
-/**
- * Alikvóty bubnu (2.–6. násobek tónu, bez základního). Nesou výšku bubnu i na malém reproduktoru
- * telefonu, který základní tón kotle (≈ 100 Hz) nezahraje – ucho z nich správnou výšku složí.
- */
-const HARM = new WeakMap<BaseAudioContext, PeriodicWave>();
-function harmWave(ctx: BaseAudioContext): PeriodicWave {
-  let w = HARM.get(ctx);
-  if (!w) {
-    const imag = new Float32Array([0, 0, 1, 0.6, 0.4, 0.25, 0.15]);
-    w = ctx.createPeriodicWave(new Float32Array(imag.length), imag);
-    HARM.set(ctx, w);
-  }
-  return w;
-}
-function harmonics(h: Hit, f: number, level: number, dec: number, drop?: { from: number; time: number }) {
-  tone(h, 'sine', f, envelope(h, level, dec), drop).setPeriodicWave(harmWave(h.ctx));
-}
-
 function noise(h: Hit, dest: AudioNode, filters: { type: BiquadFilterType; f: number; q?: number }[]): AudioBufferSourceNode {
   const n = h.ctx.createBufferSource();
   n.buffer = noiseBuf(h.ctx);
@@ -179,9 +161,7 @@ export function drumHit(ctx: BaseAudioContext, dest: AudioNode, id: DrumId, kit:
   switch (id) {
     case 'kick': {
       const f = e ? T.kickE : T.kick;
-      const kd = { from: e ? 2.2 : 3, time: e ? 0.09 : 0.05 };
-      tone(h, 'sine', f, envelope(h, 1, e ? 0.9 : 0.42), kd);
-      harmonics(h, f, e ? 0.3 : 0.35, e ? 0.3 : 0.16, kd);
+      tone(h, 'sine', f, envelope(h, 1, e ? 0.9 : 0.42), { from: e ? 2.2 : 3, time: e ? 0.09 : 0.05 });
       if (!e) tone(h, 'sine', f * 1.6, envelope(h, 0.25, 0.12), { from: 2, time: 0.03 });
       noise(h, envelope(h, 0.35 * bright, 0.012), [{ type: 'highpass', f: 2500 }]); // palička
       break;
@@ -236,10 +216,8 @@ export function drumHit(ctx: BaseAudioContext, dest: AudioNode, id: DrumId, kit:
     case 'tomFloor': {
       const f = T[id];
       const dec = id === 'tomFloor' ? 0.65 : id === 'tomMid' ? 0.5 : 0.4;
-      const td = { from: e ? 1.8 : 1.15, time: e ? 0.12 : 0.06 };
-      tone(h, 'sine', f, envelope(h, 1, e ? dec * 0.8 : dec), td);
-      harmonics(h, f, e ? 0.3 : 0.45, dec * 0.6, td);
-      if (!e) tone(h, 'sine', f * 1.59, envelope(h, 0.18 * bright, dec * 0.4));
+      tone(h, 'sine', f, envelope(h, 1, e ? dec * 0.8 : dec), { from: e ? 1.8 : 1.35, time: e ? 0.12 : 0.05 });
+      if (!e) tone(h, 'sine', f * 1.59, envelope(h, 0.3 * bright, dec * 0.4));
       noise(h, envelope(h, 0.25 * bright, 0.03), [{ type: 'lowpass', f: 3500 }]);
       break;
     }
