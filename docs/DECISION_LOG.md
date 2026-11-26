@@ -22,6 +22,10 @@
 | D18 | 2026-11-25 | Dozvuk prostoru z vygenerované impulzní odezvy | Nahraná IR | Žádné licence, malá velikost, nastavitelné |
 | D19 | 2026-11-25 | Generátory z PeriodicWave (Fourierova řada) místo vestavěných typů | `OscillatorNode.type` | Umožní nastavit fázi a vlastní harmonické; stejná amplituda pro všechny průběhy |
 | D20 | 2026-11-25 | Výchozí zvuk handpanu: pythagorejské C = 256 (= obrázek) | Samostatný preset jen se 7 tóny | 12tónový systém obsahuje i B♭ a F pro D Kurd a hodnoty obrázku zůstávají přesné |
+| D21 | 2026-11-26 | Další nástroje před M3 na přání autora | Pořadí roadmapy | Autor chce hrát; analýza na nástrojích nezávisí |
+| D22 | 2026-11-26 | Nástroje jako data (`instruments/defs.ts`), společný modální engine | Kód pro každý nástroj | Snadné přidávání; vlastní nástroj používá tentýž engine |
+| D23 | 2026-11-26 | Klavír syntézou | Samply (Salamander, VCSL) | Bez stahování a licencí, přesné Hz v libovolném ladění; samply později jako volba |
+| D24 | 2026-11-26 | Mísy hrají stupnici z obrázku (7 tónů), volitelně C dur | Libovolné tóny | Navazuje na obrázek; jiné tóny umí vlastní nástroj a klaviatura |
 
 ## Závislosti
 | Balíček | Licence | Účel |

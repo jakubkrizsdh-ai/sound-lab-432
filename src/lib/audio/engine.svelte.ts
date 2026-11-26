@@ -30,6 +30,20 @@ export interface MasterChain {
 }
 
 export const dbToGain = (db: number) => 10 ** (db / 20);
+
+/**
+ * Zastaví naplánované změny parametru v čase `t` a podrží hodnotu, kterou by v tu chvíli měl.
+ * Funguje i pro čas v budoucnu (offline export); bez cancelAndHoldAtTime (Firefox) použije aktuální hodnotu.
+ */
+export function holdAt(param: AudioParam, t: number): void {
+  const p = param as AudioParam & { cancelAndHoldAtTime?: (t: number) => AudioParam };
+  if (typeof p.cancelAndHoldAtTime === 'function') {
+    p.cancelAndHoldAtTime(t);
+  } else {
+    param.cancelScheduledValues(t);
+    param.setValueAtTime(param.value, t);
+  }
+}
 export const gainToDb = (g: number) => 20 * Math.log10(g);
 
 function clampDb(db: number): number {
@@ -222,8 +236,7 @@ class AudioEngine {
     if (!ctx || !chain) return;
     const t = ctx.currentTime;
     const g = chain.master.gain;
-    g.cancelScheduledValues(t);
-    g.setValueAtTime(g.value, t);
+    holdAt(g, t);
     g.setTargetAtTime(0, t, 0.008);
     for (const v of all) v.stop(t + 0.04);
     g.setTargetAtTime(dbToGain(audio.masterDb), t + 0.08, 0.02);
@@ -261,8 +274,7 @@ export function playTone(hz: number, o: ToneOptions = {}): Voice | null {
     stop(when = ctx.currentTime) {
       if (stopped) return;
       stopped = true;
-      env.gain.cancelScheduledValues(when);
-      env.gain.setValueAtTime(env.gain.value, when);
+      holdAt(env.gain, when);
       env.gain.setTargetAtTime(0, when, 0.008);
       osc.stop(when + 0.08);
     }

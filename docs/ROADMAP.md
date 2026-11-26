@@ -14,7 +14,7 @@ Každý milník končí funkční aplikací, kontrolou podle TESTS.md a schvále
 | M7 | Experimenty: interference, rázy, intervaly, porovnání ladění, drone, binaurální rázy, Lissajous | Plán |
 | M8 | Pokročilá analýza: spektrogram (WebGL), detekce f₀, harmonické, mikrofon, import audia | Plán |
 | M9 | Studio: stopy, mix, mute/solo, metronom, smyčky, efekty, editace | Plán |
-| M10 | Meditace (více tradic) a další nástroje: mísy, gong, kalimba, klavír, vlastní nástroj | Plán |
+| M10 | Meditace (více tradic) a další nástroje: mísy, gong, kalimba, klavír, vlastní nástroj | Nástroje **hotovo (0.4.0)**, meditace plán |
 | M11 | Model cymatiky, výkon, přístupnost, testy na iPhonu a Windows, vydání 1.0 | Plán |
 
 ## M3 – plán
@@ -33,6 +33,9 @@ Každý milník končí funkční aplikací, kontrolou podle TESTS.md a schvále
 - **Handpan – realismus:** model je v1. Ladit poslechem: amplitudy a doby módů, rezonance těla a sympatické rozeznění Dingu (zatím chybí).
 - **Výkon na iPhonu:** jeden úder = ~9 uzlů Web Audio; limit 24 úderů. Při sekání zvuku snížit limit nebo přejít na AudioWorklet s bankou rezonátorů.
 - **Síla úderu z dotyku:** iPhone tlak prstu nehlásí, síla je z posuvníku a místa úderu (střed pole silněji).
+- **Klavír je syntéza, ne samply.** Zní přijatelně, ale ne jako nahraný klavír. Volné samply (CC0/CC-BY) lze doplnit, až je bude možné stáhnout a ověřit licenci (SAMPLES_LICENSES.md); prostředí vývoje teď stahování z webu neumožňuje.
+- **Klavír – neharmonicita:** vyšší alikvoty jsou záměrně mírně roztažené (B = 0,00035); základní tón zůstává přesný (odchylka < 0,3 c).
+- **Mísy – tření:** zjednodušený model (pomalý náběh módů + šum tření), ne fyzikální model tření.
 - **Pořadí milníků:** M4 (handpan) předběhl M3 na přání autora, aby šlo co nejdřív hrát.
 - **Písma:** používáme systémová písma (offline, bez externích služeb); vlastní písmo případně později.
 - **Ikony:** zatím jednoduché generované; lze nahradit vlastní grafikou (např. mandalou autora).

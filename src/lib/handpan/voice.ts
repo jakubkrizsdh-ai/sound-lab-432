@@ -3,7 +3,7 @@
  * Úder = krátký šumový impulz + sada tlumených sinusových módů (f, 2f, 3f + slabé neharmonické).
  * Vše z nativních uzlů Web Audio → stejné v živém i offline kontextu.
  */
-import type { Voice } from '../audio/engine.svelte';
+import { holdAt, type Voice } from '../audio/engine.svelte';
 import { PARTIALS, partialGain } from './model';
 
 export interface StrikeOptions {
@@ -79,8 +79,7 @@ export function strike(ctx: BaseAudioContext, dest: AudioNode, hz: number, o: St
       if (stopped) return;
       stopped = true;
       for (const n of nodes) {
-        n.g.gain.cancelScheduledValues(t);
-        n.g.gain.setValueAtTime(n.g.gain.value, t);
+        holdAt(n.g.gain, t);
         n.g.gain.setTargetAtTime(0, t, 0.012);
         try { n.osc.stop(t + 0.08); } catch { /* už zastaveno */ }
       }

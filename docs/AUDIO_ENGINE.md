@@ -55,3 +55,21 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
 - Grafy: `AnalyserNode` (FFT až 32 768, 1,46 Hz/bin při 48 kHz).
 - Čísla „Měřeno“: vlastní Worklet – peak, RMS, true peak (4× převzorkování), f₀ metodou YIN/McLeod.
 - λ = c / f; c(T) ≈ 331,3 · √(1 + T / 273,15) m/s; voda ~1480 m/s; ocel ~5900 m/s.
+
+## Další nástroje (0.4.0) – `instruments/defs.ts`, `instruments/voices.ts`
+| Nástroj | Model | Klíčové parametry |
+| --- | --- | --- |
+| Tibetská mísa | modální, dvojice módů | 1 : 2,71 : 5,15 : 8,27 : 12; rozladění dvojic 1,4–3,1 Hz; dozvuk 28 s; měkká palička |
+| Křišťálová mísa | modální | základ + slabé 2,76 a 5,4; dvojice 0,35 Hz; dozvuk 40 s |
+| Gong | modální, 15 módů | 1 … 18,1; „bloom“ 1,2 s – vyšší módy nabíhají později; dozvuk 22 s |
+| Kalimba | modální | 1, 2, 5,93, 11,7, 19,3; tvrdý úder; dozvuk 3,2 s |
+| Zvonky | modální | hum 0,5, prima 1, tercie 1,19, kvinta 1,5, nominála 2, 2,51, 3, 4; dozvuk 9 s |
+| Klavír | aditivní struny | f_n = n·f·√(1 + B·n²), B = 0,00035; 24 alikvot; 2 struny ±0,6 c do 6. alikvoty; dvoustupňový útlum; kladívko 15 ms; tlumítko τ 80 ms |
+| Flétna | aditivní + šum | 1 / 0,32–0,47 / 0,12 / 0,05; chiff 30 ms; vibrato 5,2 Hz ±12 c po 0,4 s |
+| Syntezátor | subtraktivní | 2 oscilátory (pad: 2× pila ±8 c; lead: pila + obdélník; varhany: sinus + trojúhelník o oktávu výš), dolní propust s obálkou |
+| Vlastní | modální | až 16 módů [poměr, hlasitost, dozvuk ×, posun Hz], měkkost, úder, tření |
+
+- Úder: šum z pásmové propusti kolem `noiseAt`·f; měkkost paličky tlumí vyšší módy (1/poměr)^(soft·(1,2 − 0,7v)) a prodlužuje náběh.
+- Tření: módy nabíhají s τ = 1,1 + 0,4·poměr s, šum tření kolem základu (Q 8); po puštění každý mód doznívá vlastní dobou.
+- Sběrnice nástrojů: suchý signál + prostor (generovaná IR 3 s), limit 32 současných tónů; stejný tón znovu utlumí předchozí (kromě mís a gongu).
+- `holdAt(param, t)`: `cancelAndHoldAtTime`, jinak aktuální hodnota – konec tónu jde naplánovat dopředu (offline export).

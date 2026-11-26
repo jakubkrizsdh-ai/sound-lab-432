@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 0.4.0 – 2026-11-26 – Další nástroje (část M10)
+- Výběr nástroje v sekci Nástroje: Handpan, Tibetské mísy, Křišťálové mísy, Gong, Kalimba, Zvonky, Klavír, Flétna, Syntezátor, Vlastní nástroj.
+- Mísy: 7 mís ve stupnici z obrázku (nebo C dur), úder i tření (držet prst – zvuk se pomalu rozezní a po puštění doznívá).
+- Gong s volbou výšky, úder do středu plnější; „rozkvétání“ vyšších módů.
+- Kalimba (11 jazýčků na telefonu, 17 na počítači, nejhlubší uprostřed), zvonky (8 tónů).
+- Klaviatura pro klavír, flétnu, syntezátor a vlastní nástroj (1 oktáva na telefonu, 2 na počítači, posun oktáv); u klavíru pedál.
+- Syntezátor: zvuky Plocha, Lead, Varhany a filtr. Flétna s dechem a vibratem.
+- Vlastní nástroj: editor módů (poměr, hlasitost, dozvuk, posun Hz), měkkost paličky, hlasitost úderu, tření; start z libovolného nástroje; ukládá se.
+- Všechny nástroje: volba ladění (Obrázek 432 / ET 432 / ET 440 / čisté), oktávy, síla úderu, dozvuk, prostor, hlavní hlasitost; karta tónu s Hz, poměrem a centy; klávesnice počítače; více prstů najednou.
+- Oprava: konec tónu naplánovaný dopředu (potřebné pro export) už nezpůsobí skok hlasitosti (`holdAt`).
+
 ## 0.3.0 – 2026-11-25 – Milníky M2 a M4
 ### Handpan (M4)
 - Hratelný handpan: myš, dotyk s více prsty najednou, klávesnice (A–L, mezerník = Ding, Z X = spodní pole, Shift = silněji).

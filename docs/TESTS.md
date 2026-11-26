@@ -12,6 +12,7 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 | Průběhy | fáze 180° vyruší sinus; fázový posun = časový posun; hodnoty obdélníku, pily, trojúhelníku; šum bez DC, RMS 0,25 | M2 |
 | Pohyb frekvence | exponenciální sweep v polovině = geometrický průměr; lineární = aritmetický; přechody se smyčkou | M2 |
 | Handpan | stupnice z obrázku = přesné hodnoty; D Kurd; 8/9 polí + spodní; pole se nepřekrývají; vlastní tón; jas podle síly úderu | M4 |
+| Nástroje | 10 definic; módy s kladnými poměry a amplitudou ≤ 1; mísy = hodnoty obrázku; C dur; řada přes oktávy; pořadí kalimby; klaviatura 25 kláves / 10 černých; vlastní nástroj se opraví a omezí | 0.4.0 |
 | Export | round-trip JSON bit po bitu, WAV v toleranci 0,01 Hz | M6 |
 
 ## Ruční – M0 (ověřeno 2026-11-25, Chrome headless, 390×844 a 1440×900)
@@ -42,3 +43,12 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 - [x] Klávesnice F, mezerník, J zahraje C4, Ding, F#4.
 - [x] Editor rozložení: pole H3 → F3 170,67 Hz; obnovení; D Kurd Ding D3 144 Hz; nastavení přežije obnovení stránky.
 - [ ] iPhone: multitouch, latence dotyku, zvuk bez sekání při rychlém hraní (ověří autor).
+
+## V prohlížeči – nástroje 0.4.0 (ověřeno 2026-11-26, Chrome headless, master 0 dB)
+- [x] Plná síla úderu: tibetská mísa −4,6 dBFS, křišťálová −6,2, gong −6,7, kalimba −5,9, zvonky −4,7, klavír −4,2, flétna −11,9, syntezátor −14 až −19 (bez zásahu limiteru).
+- [x] Kalimba 432 Hz → změřeno 432,06 Hz; flétna 512 Hz → 512,12 Hz; klavír C4 – základ přesný, alikvoty mírně roztažené.
+- [x] Tření mísy: náběh −38 → −16 dB za 2 s, po puštění doznívá.
+- [x] Klavír po puštění klávesy utlumen (−166 dB po 0,7 s); flétna a syntezátor po uvolnění ztichnou.
+- [x] Konec tónu naplánovaný dopředu: bez skoku hlasitosti (dříve flétna −1 dBFS, nyní −11,9).
+- [x] Každý nástroj zahraje dotykem na telefonu (390×844) i klávesnicí na počítači; bez chyb v konzoli.
+- [ ] iPhone: tření mísy prstem, klaviatura více prsty (ověří autor).
