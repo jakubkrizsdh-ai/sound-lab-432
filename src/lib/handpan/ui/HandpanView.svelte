@@ -8,6 +8,9 @@
   import { buildFields, CHAKRA_BY_NOTE, PARTIALS, SCALES, type Field, type HandpanTuning, type ScaleId } from '../model';
   import { hp, config, hit, save, applyReverb, setCustomNote, resetCustom } from '../store.svelte';
   import Drum from './Drum.svelte';
+  import KeyBindings from '../../keys/KeyBindings.svelte';
+  import { handpanCodes } from '../../keys/layouts';
+  import { keyLabel, resolve, keys } from '../../keys/bindings.svelte';
   import { audio, engine, MASTER_MAX_DB, MASTER_MIN_DB, MASTER_WARN_DB } from '../../audio/engine.svelte';
   import { dbfs } from '../../format';
 
@@ -25,16 +28,22 @@
     save();
   }
 
-  // Klávesnice: A S D F G H J K L = pole 1–9, mezerník = Ding, Z X = spodní pole
+  // Klávesnice: podle polohy polí (levá strana A S D F, pravá H J K L, nahoře G, spodní V B, Ding mezerník).
+  // Přiřazení je podle rozložení (8/9 polí, spodní pole), aby se dalo přemapovat zvlášť.
+  const kbId = $derived(`handpan-${hp.layout}${hp.bottom ? '-b' : ''}`);
+  const kbDefaults = $derived(Object.fromEntries(Object.entries(handpanCodes(fields)).map(([k, v]) => [k, v])) as Record<string, string>);
+  const kb = $derived((keys.overrides, resolve(kbId, kbDefaults)));
+  const keyLabels = $derived(Object.fromEntries(fields.map(f => [f.index, keyLabel(kb.bySlot[String(f.index)])])) as Record<number, string>);
+  const kbSlots = $derived(fields.map(f => ({ id: String(f.index), label: f.kind === 'ding' ? `Ding ${f.note[0]}${f.note[1]}` : `${f.note[0]}${f.note[1]}` })));
+
   onMount(() => {
-    const map: Record<string, number> = { Space: 0, KeyA: 1, KeyS: 2, KeyD: 3, KeyF: 4, KeyG: 5, KeyH: 6, KeyJ: 7, KeyK: 8, KeyL: 9, KeyZ: 10, KeyX: 11 };
     const onKey = (e: KeyboardEvent) => {
       if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
-      const idx = map[e.code];
-      if (idx === undefined) return;
-      const f = fields.find(x => x.index === idx);
+      const slot = kb.byCode[e.code];
+      if (slot === undefined) return;
+      const f = fields.find(x => String(x.index) === slot);
       if (!f) return;
       e.preventDefault();
       hit(f, e.shiftKey ? Math.min(1, hp.velocity + 0.25) : hp.velocity);
@@ -77,7 +86,7 @@
       <button class:on={edit} aria-pressed={edit} onclick={() => { edit = !edit; selected = null; }}>{edit ? t('hp.editDone') : t('hp.edit')}</button>
     </div>
 
-    <Drum {fields} {edit} {selected} onhit={(f, v) => hit(f, v)} onselect={(f) => (selected = f.index)} />
+    <Drum {fields} {edit} {selected} {keyLabels} onhit={(f, v) => hit(f, v)} onselect={(f) => (selected = f.index)} />
     <p class="hint">{edit ? t('hp.editHint') : t('hp.playHint')}</p>
 
     {#if edit && sel}
@@ -152,6 +161,7 @@
       </label>
       <p class="hint">{t('hp.soundNote')}</p>
     </section>
+    <KeyBindings instrument={kbId} defaults={kbDefaults} slots={kbSlots} />
   </aside>
 </div>
 

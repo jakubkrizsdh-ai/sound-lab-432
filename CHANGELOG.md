@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.8.0 – 2026-11-26 – Klávesy počítače
+- Handpan podle polohy polí: levá strana A S D F, pravá H J K L (shora dolů), 9. pole nahoře G, spodní pole V B, Ding mezerník (platí pro všechny stupnice i vlastní rozložení).
+- Kalimba vzestupně A–L, pak Q–P.
+- Klavír, flétna, syntezátor, vlastní nástroj: bílé klávesy Q–P ([ ] dál), půltóny na číslech (2 3 5 6 7 9 0 =).
+- Přemapování: u každého nástroje panel „Klávesy počítače“ – klepnout na tón/buben a stisknout novou klávesu (prohození, návrat výchozích); ukládá se.
+- Popisky kláves podle skutečné klávesnice (Chrome, Edge), jinak anglické rozložení.
+
 ## 0.7.0 – 2026-11-26 – Nahrávání celé relace a export WAV
 - Tlačítko **REC** v horní liště (telefon i počítač): nahrává výstup aplikace za limiterem – vše, co je slyšet.
 - Nahrávání běží dál při přepínání nástrojů a sekcí; STOP ALL zastaví zvuky, ne nahrávání.

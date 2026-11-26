@@ -3,10 +3,15 @@
   import { t } from '../../i18n/index.svelte';
   import { dbfs } from '../../format';
   import { audio, engine, MASTER_MAX_DB, MASTER_MIN_DB, MASTER_WARN_DB } from '../../audio/engine.svelte';
-  import { GROUP, PADS, PAD_CODES, PAD_LABELS, PRESETS, SEQ_ROWS, STEPS, type DrumId, type KitId, type DrumTuning, type PresetId } from '../kit';
+  import { GROUP, PADS, PAD_CODES, PRESETS, SEQ_ROWS, STEPS, type DrumId, type KitId, type DrumTuning, type PresetId } from '../kit';
   import { drums, hit, save, applyReverb, start, stop, setBpm, toggleCell, loadPreset, clearPattern } from '../store.svelte';
   import KitView from './KitView.svelte';
   import iconsUrl from '../assets/pad-icons.png';
+  import KeyBindings from '../../keys/KeyBindings.svelte';
+  import { keyLabel, resolve, keys } from '../../keys/bindings.svelte';
+
+  const kbDefaults: Record<string, string> = Object.fromEntries(PADS.map((id, i) => [id, PAD_CODES[i]!]));
+  const kb = $derived((keys.overrides, resolve('drums', kbDefaults)));
 
   let page = $state(0); // telefon: kroky 1–8 nebo 9–16
   let narrow = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches);
@@ -24,10 +29,10 @@
         drums.playing ? stop() : void start();
         return;
       }
-      const i = PAD_CODES.indexOf(e.code);
-      if (i < 0) return;
+      const id = kb.byCode[e.code] as DrumId | undefined;
+      if (!id) return;
       e.preventDefault();
-      hit(PADS[i]!, e.shiftKey ? 1 : drums.velocity);
+      hit(id, e.shiftKey ? 1 : drums.velocity);
     };
     window.addEventListener('keydown', key);
     return () => {
@@ -96,7 +101,7 @@
           {#if h}{#key h.n}<span class="glow" style:--v={h.v}></span>{/key}{/if}
           {#if drums.icons}<span class="icon" aria-hidden="true" style:--ix={`${(i % 4) * (100 / 3)}%`} style:--iy={`${Math.floor(i / 4) * (100 / 3)}%`}></span>{/if}
           <span class="pn">{name(id)}</span>
-          <span class="pk">{PAD_LABELS[i]}</span>
+          <span class="pk">{keyLabel(kb.bySlot[id])}</span>
         </button>
       {/each}
     </div>
@@ -168,6 +173,7 @@
       <p class="hint">{t('dr.about')}</p>
       {#if drums.tuning === 'image'}<p class="hint">{t('dr.tuningNote')}</p>{/if}
     </section>
+    <KeyBindings instrument="drums" defaults={kbDefaults} slots={PADS.map(id => ({ id, label: t(`dr.short.${id}` as never) }))} />
   </aside>
 </div>
 

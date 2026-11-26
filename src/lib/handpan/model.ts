@@ -65,7 +65,6 @@ export interface Field {
   h: number;
   /** natočení oválu (stupně) – pole míří ke středu */
   rot: number;
-  key: string;
 }
 
 const ANGLES: Record<LayoutId, number[]> = {
@@ -73,8 +72,6 @@ const ANGLES: Record<LayoutId, number[]> = {
   '8': [112, 68, 152, 28, 196, -16, 240, 300],
   '9': [112, 68, 150, 30, 188, -8, 228, 312, 270]
 };
-const KEYS = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-const BOTTOM_KEYS = ['Z', 'X'];
 
 export interface HandpanConfig {
   scale: ScaleId;
@@ -90,18 +87,18 @@ export function buildFields(cfg: HandpanConfig): Field[] {
   const sys = TUNINGS[cfg.tuning];
   const n = cfg.layout === '9' ? 9 : 8;
   const note = (i: number, def: NoteRef): NoteRef => cfg.custom?.[i] ?? def;
-  const mk = (index: number, kind: Field['kind'], ref: NoteRef, x: number, y: number, w: number, h: number, rot: number, key: string): Field =>
-    ({ index, kind, note: ref, pitch: pitch(sys, ref[0], ref[1]), x, y, w, h, rot, key });
+  const mk = (index: number, kind: Field['kind'], ref: NoteRef, x: number, y: number, w: number, h: number, rot: number): Field =>
+    ({ index, kind, note: ref, pitch: pitch(sys, ref[0], ref[1]), x, y, w, h, rot });
 
-  const out: Field[] = [mk(0, 'ding', note(0, sc.ding), 0.5, 0.5, 0.27, 0.27, 0, '␣')];
+  const out: Field[] = [mk(0, 'ding', note(0, sc.ding), 0.5, 0.5, 0.27, 0.27, 0)];
   const R = 0.345;
   ANGLES[cfg.layout].slice(0, n).forEach((deg, i) => {
     const a = (deg * Math.PI) / 180;
-    out.push(mk(i + 1, 'top', note(i + 1, sc.top[i]!), 0.5 + R * Math.cos(a), 0.5 + R * Math.sin(a), n === 9 ? 0.185 : 0.2, n === 9 ? 0.15 : 0.16, deg + 90, KEYS[i]!));
+    out.push(mk(i + 1, 'top', note(i + 1, sc.top[i]!), 0.5 + R * Math.cos(a), 0.5 + R * Math.sin(a), n === 9 ? 0.185 : 0.2, n === 9 ? 0.15 : 0.16, deg + 90));
   });
   if (cfg.bottom) {
     // spodní pole: vykreslena mimo buben vlevo a vpravo dole (na nástroji jsou zespodu)
-    sc.bottom.forEach((ref, i) => out.push(mk(10 + i, 'bottom', note(10 + i, ref), i === 0 ? 0.1 : 0.9, 0.9, 0.17, 0.13, 0, BOTTOM_KEYS[i]!)));
+    sc.bottom.forEach((ref, i) => out.push(mk(10 + i, 'bottom', note(10 + i, ref), i === 0 ? 0.1 : 0.9, 0.9, 0.17, 0.13, 0)));
   }
   return out;
 }

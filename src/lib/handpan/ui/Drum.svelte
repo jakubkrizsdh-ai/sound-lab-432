@@ -4,8 +4,9 @@
   import type { Field } from '../model';
   import { hp } from '../store.svelte';
 
-  let { fields, edit = false, selected = null, onhit, onselect }: {
+  let { fields, edit = false, selected = null, onhit, onselect, keyLabels = {} }: {
     fields: Field[];
+    keyLabels?: Record<number, string>;
     edit?: boolean;
     selected?: number | null;
     onhit: (f: Field, velocity: number) => void;
@@ -58,7 +59,7 @@
       <span class="label">
         <span class="n">{f.note[0]}<sub>{f.note[1]}</sub></span>
         <span class="hz">{num(f.pitch.hz, i18n.locale, f.pitch.hz % 1 ? 2 : 0)}</span>
-        <span class="k">{f.key}</span>
+        <span class="k">{keyLabels[f.index] ?? ''}</span>
       </span>
     </button>
   {/each}

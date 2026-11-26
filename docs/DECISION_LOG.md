@@ -34,6 +34,9 @@
 | D30 | 2026-11-26 | Nahrávání přes vlastní AudioWorklet za limiterem, 16bit PCM s ditheringem | MediaRecorder | Bezeztrátově, stejně ve všech prohlížečích, přesně to, co je slyšet; MediaRecorder dává různé ztrátové formáty |
 | D31 | 2026-11-26 | Nahrávky v IndexedDB jako WAV Blob | OPFS, jen v paměti | Podpora v Safari, přežije zavření aplikace; jednoduché |
 | D32 | 2026-11-26 | Export 16 bit (ne 24 bit) | 24bit / 32bit float | Poloviční paměť na telefonu, CD kvalita; 24 bit lze přidat jako volbu |
+| D33 | 2026-11-26 | Klávesy handpanu podle polohy polí (ASDF / HJKL), ne podle výšky | Vzestupně A–L | Návrh autora; ruce odpovídají stranám nástroje |
+| D34 | 2026-11-26 | Klavír: bílé Q–P, půltóny na číslech | Řada A–L | Návrh autora; víc kláves, obvyklé u hudebních programů |
+| D35 | 2026-11-26 | Klávesy podle `KeyboardEvent.code` + popisky z `navigator.keyboard.getLayoutMap()` | Podle znaku (`key`) | Funguje na české i anglické klávesnici; popisky odpovídají tomu, co je na klávesách |
 
 ## Grafické podklady
 | Podklad | Původ | Úprava |

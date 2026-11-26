@@ -16,6 +16,7 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 | Bicí | 16 padů a kláves; dusení hi-hatu; ladění tomů = tóny obrázku; rytmy 16 kroků; časování kroků a swing (nikdy za další krok) | 0.5.0 |
 | Obrázek soupravy | každý z 16 zvuků má klikací místo; typická místa (blána/tělo virblu, šlapka kopáku, kopule ridu, horní/spodní činel hi-hatu, pedál, e-pad, kotel, zvonec) vedou na správný zvuk; stolička nic | 0.6.0 |
 | WAV | hlavička 16bit stereo, více bloků, převod na 16 bit s ditheringem (±1 LSB, ořez), formát délky | 0.7.0 |
+| Klávesy | handpan A S D F = F#4 D4 H3 G3, H J K L = G4 E4 C4 A3, G = 9. pole, V B = spodní, mezerník = Ding, bez duplicit; kalimba A–L + Q–P; klavír bílé Q–P, půltóny 2 3 5 6 7; přemapování s prohozením a návratem | 0.8.0 |
 | Export | round-trip JSON bit po bitu, WAV v toleranci 0,01 Hz | M6 |
 
 ## Ruční – M0 (ověřeno 2026-11-25, Chrome headless, 390×844 a 1440×900)
@@ -74,3 +75,9 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 - [x] Upozornění „Nahrávka uložena“, seznam ve studiu, stažení s názvem podle data.
 - [x] Telefon: horní lišta během nahrávání na jednom řádku.
 - [ ] iPhone: Sdílet → Uložit do Souborů, nahrávka po zavření aplikace stále v seznamu (ověří autor).
+
+## V prohlížeči – klávesy 0.8.0 (2026-11-26)
+- [x] Handpan: a=F#4 s=D4 d=H3 f=G3 h=G4 j=E4 k=C4 l=A3, mezerník=C3; 9 + Ding a spodní pole: g=A4 v=C5 b=D5.
+- [x] Přemapování Dingu na N v panelu → N hraje Ding.
+- [x] Klavír: Q 2 W 3 E R 5 T 6 Y 7 U I 9 O 0 P = C4 … E5 chromaticky. Kalimba: A = C4, Q = E5.
+- [ ] Česká klávesnice na Windows (Edge): popisky + ě š č na číslech (ověří autor).

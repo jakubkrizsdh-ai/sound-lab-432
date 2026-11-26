@@ -16,6 +16,9 @@
   import Keys from './Keys.svelte';
   import NoteCard from './NoteCard.svelte';
   import CustomEditor from './CustomEditor.svelte';
+  import KeyBindings from '../../keys/KeyBindings.svelte';
+  import { DIGIT_CODES, KALIMBA_CODES, PIANO_CODES } from '../../keys/layouts';
+  import { keyLabel, resolve, keys } from '../../keys/bindings.svelte';
 
   let { id }: { id: InstrumentId } = $props();
   const def = $derived(INSTRUMENTS[id]);
@@ -41,13 +44,19 @@
     }
   });
 
-  const PAD_CODES = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU'];
-  const PAD_LABELS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U'];
-  const KEY_CODES = ['KeyA', 'KeyW', 'KeyS', 'KeyE', 'KeyD', 'KeyF', 'KeyT', 'KeyG', 'KeyY', 'KeyH', 'KeyU', 'KeyJ', 'KeyK', 'KeyO', 'KeyL', 'KeyP', 'Semicolon', 'Quote'];
-  const KEY_LABELS = ['A', 'W', 'S', 'E', 'D', 'F', 'T', 'G', 'Y', 'H', 'U', 'J', 'K', 'O', 'L', 'P', ';', "'"];
   const isKeys = $derived(def.surface === 'keys');
-  const codes = $derived(isKeys ? KEY_CODES : PAD_CODES);
-  const labels = $derived(isKeys ? KEY_LABELS : PAD_LABELS);
+  // Výchozí klávesy: klaviatura Q–P + čísla, kalimba A–L + Q–P, mísy a zvonky číslice, gong mezerník.
+  const kbDefaults = $derived.by<Record<string, string>>(() => {
+    const src = def.surface === 'keys' ? PIANO_CODES : def.surface === 'kalimba' ? KALIMBA_CODES : def.surface === 'gong' ? ['Space'] : DIGIT_CODES;
+    const o: Record<string, string> = {};
+    notes.forEach((_, i) => { if (src[i]) o[String(i)] = src[i]!; });
+    return o;
+  });
+  const kb = $derived((keys.overrides, resolve(id, kbDefaults)));
+  const labels = $derived(notes.map((_, i) => keyLabel(kb.bySlot[String(i)])));
+  const kbSlots = $derived(def.surface === 'gong'
+    ? [{ id: '0', label: 'Gong' }]
+    : notes.map((p, i) => ({ id: String(i), label: `${p.source.degree}${p.source.octave}` })));
 
   const keyId = (p: Pitch) => (def.surface === 'gong' ? `gong-${p.source.degree}${p.source.octave}` : `${p.source.degree}${p.source.octave}`);
 
@@ -56,23 +65,15 @@
       if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
-      let p: Pitch | undefined;
-      if (def.surface === 'gong' && e.code === 'Space') p = notes[0];
-      else {
-        const i = codes.indexOf(e.code);
-        if (i >= 0) p = notes[i];
-      }
+      const slot = kb.byCode[e.code];
+      const p: Pitch | undefined = slot !== undefined ? notes[Number(slot)] : undefined;
       if (!p) return;
       e.preventDefault();
       noteOn(keyId(p), p, e.shiftKey ? Math.min(1, s.velocity + 0.25) : s.velocity);
     };
     const up = (e: KeyboardEvent) => {
-      let p: Pitch | undefined;
-      if (def.surface === 'gong' && e.code === 'Space') p = notes[0];
-      else {
-        const i = codes.indexOf(e.code);
-        if (i >= 0) p = notes[i];
-      }
+      const slot = kb.byCode[e.code];
+      const p: Pitch | undefined = slot !== undefined ? notes[Number(slot)] : undefined;
       if (p) noteOff(keyId(p));
     };
     window.addEventListener('keydown', down);
@@ -172,6 +173,7 @@
       </label>
       <p class="hint">{t(`ins.about.${id}` as never)}</p>
     </section>
+    <KeyBindings instrument={id} defaults={kbDefaults} slots={kbSlots} />
   </aside>
 </div>
 
