@@ -72,8 +72,9 @@ export function fadeOut(param: AudioParam, t: number, tau: number): void {
  * I kdyby některá složka nešla zastavit, hlas jistě utichne a nezatěžuje procesor.
  */
 export function silenceOut(ctx: BaseAudioContext, out: GainNode, t: number, tau = 0.015): void {
+  // bez podržení hodnoty: doznění navazuje na předchozí automatizaci (nebo stálou hlasitost) – spolehlivé i v Safari
   try {
-    out.gain.setValueAtTime(out.gain.value, t);
+    out.gain.cancelScheduledValues(t);
     out.gain.setTargetAtTime(0, t, tau);
   } catch { /* */ }
   if (!('startRendering' in ctx)) {

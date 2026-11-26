@@ -112,3 +112,7 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
 - Akustická souprava, bubny s výškou (kopák, virbl, tomy, rim, zvonec, kopule ridu): nový úder předchozí přitlumí (`DrumVoice.damp`, τ = 70 ms), neutne; max. 3 doznívající údery na buben.
 - Sjezd výšky po úderu se při opakování do 300 ms zmenšuje (`sweep` 0,3–1) – kmitající blána se znovu „nenatahuje“.
 - Elektronická souprava a činely/hi-hat: opakovaný úder utne předchozí (bicí automat, úspora výkonu).
+
+## Bicí – alikvóty pro malé reproduktory (0.9.4)
+- Tomy a kopák: kromě sinusového těla vrstva `harmonics()` – PeriodicWave s 2.–6. harmonickou (1; 0,6; 0,4; 0,25; 0,15), stejný sjezd výšky, kratší doznění. Nese výšku bubnu na reproduktoru telefonu (chybějící základní tón si ucho doplní).
+- `damp()` tlumí jen výstup hlasu (`setTargetAtTime` bez podržení); `silenceOut` = `cancelScheduledValues` + `setTargetAtTime` (bez čtení `value`).

@@ -118,3 +118,14 @@ Vrchol spektra (dominantní výška) při průměrném rozestupu úderů 500 / 1
 
 Ostatní nástroje (500 / 130 / 70 ms) – výška stabilní, beze změny kódu: handpan 324 → 324,5 / 322,7 / 325,0; kalimba D4 288 → 288,2 / 288,6 / 286,8; zvonky 576 → 576 / 576 / 579; klavír 324 → 324 / 327 / 322; flétna 576 → 576 / 580 / 581; syntezátor pad/lead/varhany 322–327; tibetská a křišťálová mísa 288 ± 2.
 Živě v aplikaci (kotel, 40 rychlých klepnutí): vrchol 104,6 Hz.
+
+## Bubny na reproduktoru telefonu – 0.9.4 (2026-11-26, offline Chrome)
+Simulace malého reproduktoru: horní propust 4. řádu 380 Hz. Odhad vnímané výšky YIN (50 ms okna), medián a rozptyl 10–90 %, rozestup úderů ~500 / 150 / 90 ms (±40 %).
+
+| Buben | Ladění | 0.9.3 na „telefonu“ | 0.9.4 na „telefonu“ |
+| --- | --- | --- | --- |
+| Kotel | 105 Hz | téměř neslyšný, při rychlé hře bez výšky | 106,8 / 106,3 / 107,5 (105–114) |
+| Střední tom | 150 Hz | 150 / 150 / **79** | 153 / 152 / 153 (150–166) |
+| Horní tom | 200 Hz | **108 / 106 / 105** | 212 / 203 / 205 (200–214) |
+
+Úroveň na „telefonu“ +4 až +5 dB, na plném rozsahu beze změny (RMS ±0,1 dB). Živě v aplikaci se simulovanou chybou Safari: kotel 104,5 Hz.

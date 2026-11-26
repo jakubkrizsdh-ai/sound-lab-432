@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.9.4 – 2026-11-26 – Bubny na reproduktoru telefonu
+- Oprava (iPhone): tomy a kopák na reproduktoru telefonu „přeskakovaly“ výškou. Malý reproduktor nezahraje základní tón bubnu (≈ 100–200 Hz), zbylo jen cvaknutí a nejednoznačné složky (simulace: horní tom vnímán jako 105 místo 200 Hz, střední při rychlé hře 79 místo 150 Hz).
+- Tomy a kopák mají nově vrstvu alikvót (2.–6. násobek tónu), která nese správnou výšku i na telefonu; slabší neharmonická složka tomů. Hlasitost na plných reproduktorech beze změny (±0,1 dB).
+- Přitlumení předchozího úderu i konečné ztlumení hlasu bez „podržení hodnoty“ (spolehlivé v Safari).
+
 ## 0.9.3 – 2026-11-26 – Oprava: bubny při rychlé hře měnily výšku
 - Oprava: při rychlém bubnování na stejný buben (kotel, tomy, kopák) zněl buben výš – každý úder utnul předchozí, takže byl slyšet jen začátek sjezdu výšky (horní tom až 244 místo 200 Hz, kotel 113 místo 105 Hz).
 - Akustická souprava: opakovaný úder předchozí jen přitlumí (blána dál kmitá na svém tónu, max. 3 doznívající údery na buben), rychlý opakovaný úder má menší sjezd výšky; sjezd tomů zmenšen z 1,35× na 1,15× (realističtější).

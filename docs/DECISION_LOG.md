@@ -42,6 +42,7 @@
 | D38 | 2026-11-26 | Záznam hraní přes události z nástrojů, rozdělení do stop podle nástroje | Samostatné nahrávání každé stopy | Odpovídá přání autora: přepínat nástroje během jednoho záznamu |
 | D39 | 2026-11-26 | Zastavení hlasu dvakrát jištěno: složky (`fadeOut`) + výstup hlasu (`silenceOut`), bez výjimek (`safeStop`) | Jen `cancelAndHoldAtTime` na složkách | Safari může při rychlém opakování vyhodit chybu → zůstaly znít alikvoty (slyšet jako jiný tón) |
 | D40 | 2026-11-26 | Akustické bubny: opakovaný úder přitlumí předchozí, neutne; menší sjezd výšky při rychlé hře | Utnutí předchozího úderu (dřívější úspora výkonu) | Utnutí nechalo znít jen začátek sjezdu → buben při rychlé hře zněl až o 3,5 půltónu výš |
+| D41 | 2026-11-26 | Tomy a kopák s vrstvou harmonických alikvót | Ponechat čisté sinusové tělo | Reproduktor telefonu nezahraje 100–200 Hz → výška bubnu na iPhonu skákala; alikvóty ji nesou, na plných reproduktorech hlasitost beze změny |
 
 ## Grafické podklady
 | Podklad | Původ | Úprava |
