@@ -73,3 +73,18 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
 - Tření: módy nabíhají s τ = 1,1 + 0,4·poměr s, šum tření kolem základu (Q 8); po puštění každý mód doznívá vlastní dobou.
 - Sběrnice nástrojů: suchý signál + prostor (generovaná IR 3 s), limit 32 současných tónů; stejný tón znovu utlumí předchozí (kromě mís a gongu).
 - `holdAt(param, t)`: `cancelAndHoldAtTime`, jinak aktuální hodnota – konec tónu jde naplánovat dopředu (offline export).
+
+## Bicí (0.5.0) – `drums/synth.ts`, `drums/kit.ts`, `drums/store.svelte.ts`
+| Zvuk | Model |
+| --- | --- |
+| Kopák | sinus s poklesem výšky (3× → f za 50 ms; elektronický 2,2× za 90 ms, dozvuk 0,9 s) + 2. mód 1,6f + šum paličky nad 2,5 kHz |
+| Virbl | tělo (trojúhelník/sinus f a 1,74f) + šum strunek (horní propust 1,2–1,8 kHz) |
+| Rim, tlesk | krátké tóny + pásmový šum; tlesk = 4 rychlé záblesky šumu + dozvuk |
+| Hi-haty, činely | 6 obdélníků (205,3 / 304,4 / 369,6 / 522,7 / 540 / 800 Hz × měřítko) přes pásmovou / horní propust + šum; dozvuky 0,05–2,6 s |
+| Ride – zvon | sinusy 740 / 1180 / 1715 / 2590 Hz + kovový podíl |
+| Tomy | sinus s poklesem výšky + mód 1,59f + šum úderu |
+| Zvonec, tamburína | 540 + 800 Hz obdélníky v pásmu 2,6 kHz; šum nad 7 kHz + kovový podíl |
+
+- Vyrovnání hlasitostí: tabulka `TRIM` (dB) pro každý zvuk a soupravu, z offline měření.
+- Dusení: `CHOKES` – zavřený a šlapaný hi-hat zastaví otevřený (rampa 6 ms).
+- Plánovač: každých 25 ms naplánuje údery do 120 ms dopředu; čas kroku `stepTime(krok, BPM, swing)`; swing posouvá sudé šestnáctiny až o 33 % délky kroku.

@@ -13,6 +13,7 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 | Pohyb frekvence | exponenciální sweep v polovině = geometrický průměr; lineární = aritmetický; přechody se smyčkou | M2 |
 | Handpan | stupnice z obrázku = přesné hodnoty; D Kurd; 8/9 polí + spodní; pole se nepřekrývají; vlastní tón; jas podle síly úderu | M4 |
 | Nástroje | 10 definic; módy s kladnými poměry a amplitudou ≤ 1; mísy = hodnoty obrázku; C dur; řada přes oktávy; pořadí kalimby; klaviatura 25 kláves / 10 černých; vlastní nástroj se opraví a omezí | 0.4.0 |
+| Bicí | 16 padů a kláves; dusení hi-hatu; ladění tomů = tóny obrázku; rytmy 16 kroků; časování kroků a swing (nikdy za další krok) | 0.5.0 |
 | Export | round-trip JSON bit po bitu, WAV v toleranci 0,01 Hz | M6 |
 
 ## Ruční – M0 (ověřeno 2026-11-25, Chrome headless, 390×844 a 1440×900)
@@ -52,3 +53,11 @@ Automatické testy: `npm test` (Vitest). Ruční scénáře se odškrtávají po
 - [x] Konec tónu naplánovaný dopředu: bez skoku hlasitosti (dříve flétna −1 dBFS, nyní −11,9).
 - [x] Každý nástroj zahraje dotykem na telefonu (390×844) i klávesnicí na počítači; bez chyb v konzoli.
 - [ ] iPhone: tření mísy prstem, klaviatura více prsty (ověří autor).
+
+## V prohlížeči – bicí 0.5.0 (ověřeno 2026-11-26, Chrome headless)
+- [x] Všech 16 zvuků × 2 soupravy: bez chyb, plná síla – kopák/virbl ≈ −6 dBFS, tomy ≈ −7, činely a hi-haty −9 až −16 (bez master řetězce).
+- [x] Otevřený hi-hat utlumený po 0,1 s → o 0,2 s později ticho.
+- [x] Kotel v tónech obrázku: změřeno 95,99 Hz (cíl 96 Hz).
+- [x] Sekvencer 120 BPM: 17 kroků za 2,0 s (8 kroků/s).
+- [x] Tři současné dotyky na pady; mezerník spustí a zastaví rytmus; rytmus Funk se načte.
+- [ ] iPhone: plynulost rytmu, hraní na pady více prsty (ověří autor).

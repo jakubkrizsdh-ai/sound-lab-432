@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.5.0 – 2026-11-26 – Bicí
+- Nový nástroj Bicí: 16 padů (kopák, virbl, rim, tlesk, hi-hat zavřený / šlapaný / otevřený, crash, splash, ride, ride – zvon, 3 tomy, kravský zvonec, tamburína).
+- Akustická a elektronická souprava (styl bicích automatů), vše syntézou bez nahrávek; hlasitosti vyrovnané měřením.
+- Dusení hi-hatu (zavřený a šlapaný utne otevřený); volitelně tomy a kopák v tónech obrázku (G3 192, D3 144, G2 96, C2 64 Hz).
+- Hraní více prsty najednou, síla podle výšky úderu na padu, klávesnice 1–4 / Q–R / A–F / Z–V.
+- Krokový sekvencer: 16 kroků × 12 nástrojů, úder / akcent, 40–240 BPM, swing, rytmy Rock, Pop, Funk, Hip-hop, Bossa nova, Meditativní; mezerník = start/stop; na telefonu stránky 1–8 / 9–16.
+- Přesné časování: údery se plánují dopředu v čase AudioContextu (120 BPM = 8 kroků za sekundu); změna tempa za běhu bez skoku.
+- Rytmus a nastavení se pamatují.
+
 ## 0.4.0 – 2026-11-26 – Další nástroje (část M10)
 - Výběr nástroje v sekci Nástroje: Handpan, Tibetské mísy, Křišťálové mísy, Gong, Kalimba, Zvonky, Klavír, Flétna, Syntezátor, Vlastní nástroj.
 - Mísy: 7 mís ve stupnici z obrázku (nebo C dur), úder i tření (držet prst – zvuk se pomalu rozezní a po puštění doznívá).

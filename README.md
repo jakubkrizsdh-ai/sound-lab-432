@@ -4,7 +4,7 @@ Interaktivní zvuková laboratoř: hratelné nástroje (handpan), generátory fr
 experimenty, nahrávání a symbolická meditační vrstva. Běží v prohlížeči, funguje offline
 a jde nainstalovat na iPhone i Windows.
 
-**Stav:** verze 0.4.0 – 10 hratelných nástrojů (handpan, mísy, gong, kalimba, zvonky, klavír, flétna, syntezátor, vlastní), frekvenční laboratoř, zvukové jádro a ladění. Plán viz [docs/ROADMAP.md](docs/ROADMAP.md).
+**Stav:** verze 0.5.0 – 11 hratelných nástrojů (handpan, bicí se sekvencerem, mísy, gong, kalimba, zvonky, klavír, flétna, syntezátor, vlastní), frekvenční laboratoř, zvukové jádro a ladění. Plán viz [docs/ROADMAP.md](docs/ROADMAP.md).
 
 **Vyzkoušet:** https://jakubkrizsdh-ai.github.io/sound-lab-432/
 

@@ -36,6 +36,8 @@ Každý milník končí funkční aplikací, kontrolou podle TESTS.md a schvále
 - **Klavír je syntéza, ne samply.** Zní přijatelně, ale ne jako nahraný klavír. Volné samply (CC0/CC-BY) lze doplnit, až je bude možné stáhnout a ověřit licenci (SAMPLES_LICENSES.md); prostředí vývoje teď stahování z webu neumožňuje.
 - **Klavír – neharmonicita:** vyšší alikvoty jsou záměrně mírně roztažené (B = 0,00035); základní tón zůstává přesný (odchylka < 0,3 c).
 - **Mísy – tření:** zjednodušený model (pomalý náběh módů + šum tření), ne fyzikální model tření.
+- **Bicí:** syntéza, ne samply – akustická souprava zní věrohodně, ale ne jako nahraná. Sekvencer zatím jeden takt (16 kroků) a jeden vzor; řetězení vzorů, delší takty a záznam do studia přijdou s M9 (studio používá stejný plánovač).
+- **Sekvencer na pozadí:** prohlížeč může při zamčeném telefonu nebo skryté kartě časovač zpomalit; rytmus pak vynechá. Řešením je plánovač v AudioWorkletu (M9).
 - **Pořadí milníků:** M4 (handpan) předběhl M3 na přání autora, aby šlo co nejdřív hrát.
 - **Písma:** používáme systémová písma (offline, bez externích služeb); vlastní písmo případně později.
 - **Ikony:** zatím jednoduché generované; lze nahradit vlastní grafikou (např. mandalou autora).

@@ -26,6 +26,9 @@
 | D22 | 2026-11-26 | Nástroje jako data (`instruments/defs.ts`), společný modální engine | Kód pro každý nástroj | Snadné přidávání; vlastní nástroj používá tentýž engine |
 | D23 | 2026-11-26 | Klavír syntézou | Samply (Salamander, VCSL) | Bez stahování a licencí, přesné Hz v libovolném ladění; samply později jako volba |
 | D24 | 2026-11-26 | Mísy hrají stupnici z obrázku (7 tónů), volitelně C dur | Libovolné tóny | Navazuje na obrázek; jiné tóny umí vlastní nástroj a klaviatura |
+| D25 | 2026-11-26 | Bicí syntézou (oscilátory, šum, kovové „mračno“ 6 obdélníků) | Samply bicích | Bez licencí a stahování; dvě soupravy z jednoho kódu; offline export |
+| D26 | 2026-11-26 | Sekvencer s plánováním dopředu (setInterval 25 ms + horizont 120 ms v čase AudioContextu) | setTimeout na každý úder | Přesné tempo nezávislé na zatížení hlavního vlákna |
+| D27 | 2026-11-26 | Pady 4×4 místo kresby soupravy | Kresba bicí soupravy | Lépe se hraje prsty na telefonu, stejné rozložení jako klávesnice |
 
 ## Závislosti
 | Balíček | Licence | Účel |
