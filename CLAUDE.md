@@ -39,6 +39,7 @@ Každá hodnota v rozhraní nese štítek původu:
 2. Po každém milníku: `npm run check`, `npm test`, `npm run build`, kontrola na mobilu i desktopu,
    zápis do CHANGELOG.md, aktualizace ROADMAP.md a TESTS.md.
 3. Hlavní cílová zařízení: **iPhone (Safari)** a **Windows (Edge/Chrome)**.
+4. Kontroly před commitem spouštět tak, aby chyba zastavila řetězec (`set -o pipefail`, `svelte-check --threshold error`); nikdy necommitovat, když build neprošel.
 
 ## Příkazy
 - `npm run dev` – vývojový server

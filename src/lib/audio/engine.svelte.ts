@@ -130,6 +130,11 @@ class AudioEngine {
     return this.chain?.input ?? null;
   }
 
+  /** Konec master řetězce (za limiterem) – odsud se nahrává to, co je slyšet. */
+  get output(): AudioNode | null {
+    return this.chain?.limiter ?? null;
+  }
+
   get running(): boolean {
     return this.ctx?.state === 'running' && this.chain !== null;
   }

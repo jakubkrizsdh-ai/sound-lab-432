@@ -9,6 +9,9 @@
   import Settings from './lib/sections/Settings.svelte';
   import FreqLab from './lib/sections/FreqLab.svelte';
   import Instruments from './lib/sections/Instruments.svelte';
+  import Studio from './lib/sections/Studio.svelte';
+  import { rec } from './lib/recorder/store.svelte';
+  import { formatDuration } from './lib/audio/wav';
   import { engine } from './lib/audio/engine.svelte';
 
   let current = $state<SectionId>(sectionFromHash(location.hash));
@@ -27,6 +30,18 @@
   function unlock() {
     if (!engine.running) void engine.start();
   }
+
+  // krátké upozornění po uložení nahrávky
+  let savedToast = $state(false);
+  let lastId = '';
+  $effect(() => {
+    const id = rec.lastSaved?.id ?? '';
+    if (id && id !== lastId) {
+      lastId = id;
+      savedToast = true;
+      setTimeout(() => (savedToast = false), 8000);
+    }
+  });
 
   function onKey(e: KeyboardEvent) {
     if (e.key === 'Escape') stopAll();
@@ -48,6 +63,8 @@
         <Settings />
       {:else if current === 'instruments'}
         <Instruments />
+      {:else if current === 'studio'}
+        <Studio />
       {:else if current === 'freqlab'}
         <FreqLab />
       {:else}
@@ -63,6 +80,14 @@
     </main>
   </div>
   <div class="bottom-wrap"><BottomNav {current} /></div>
+
+  {#if rec.lastSaved && current !== 'studio' && savedToast}
+    <div class="toast" role="status">
+      <span>{t('rec.saved')} ({formatDuration(rec.lastSaved.duration)})</span>
+      <a href="#/studio" onclick={() => (savedToast = false)}>{t('rec.openStudio')}</a>
+      <button onclick={() => (savedToast = false)} aria-label="×">×</button>
+    </div>
+  {/if}
 
   {#if $needRefresh}
     <div class="toast" role="status">
@@ -87,5 +112,6 @@
     display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px;
     background: var(--panel); border: 1px solid var(--line-strong); font-size: 14px; z-index: 20;
   }
+  .toast a { color: var(--accent); font-weight: 600; }
   .toast button { min-height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--accent); background: none; color: var(--accent); cursor: pointer; }
 </style>

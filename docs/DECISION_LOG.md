@@ -31,6 +31,9 @@
 | D27 | 2026-11-26 | Pady 4×4 místo kresby soupravy | Kresba bicí soupravy | Lépe se hraje prsty na telefonu, stejné rozložení jako klávesnice |
 | D28 | 2026-11-26 | 2D pohled na soupravu z kresleného obrázku od autora, klikací oblasti jako data (`KIT_HOTSPOTS`) | Fotografie s logy značek; kreslení soupravy v SVG | Obrázek bez ochranných známek, věrný vzhled; oblasti testovatelné |
 | D29 | 2026-11-26 | Ikony padů jako jeden obrázek-maska (sprite 4×4) | 16 souborů / SVG | Jedno stažení, barva ikon z CSS, funguje offline |
+| D30 | 2026-11-26 | Nahrávání přes vlastní AudioWorklet za limiterem, 16bit PCM s ditheringem | MediaRecorder | Bezeztrátově, stejně ve všech prohlížečích, přesně to, co je slyšet; MediaRecorder dává různé ztrátové formáty |
+| D31 | 2026-11-26 | Nahrávky v IndexedDB jako WAV Blob | OPFS, jen v paměti | Podpora v Safari, přežije zavření aplikace; jednoduché |
+| D32 | 2026-11-26 | Export 16 bit (ne 24 bit) | 24bit / 32bit float | Poloviční paměť na telefonu, CD kvalita; 24 bit lze přidat jako volbu |
 
 ## Grafické podklady
 | Podklad | Původ | Úprava |

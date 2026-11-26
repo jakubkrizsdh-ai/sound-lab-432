@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.7.0 – 2026-11-26 – Nahrávání celé relace a export WAV
+- Tlačítko **REC** v horní liště (telefon i počítač): nahrává výstup aplikace za limiterem – vše, co je slyšet.
+- Nahrávání běží dál při přepínání nástrojů a sekcí; STOP ALL zastaví zvuky, ne nahrávání.
+- Pauza / pokračovat / stop, čas a měřená úroveň nahrávky; limit 15 minut (paměť telefonu).
+- Bezeztrátový záznam: AudioWorklet, 16 bit s TPDF ditheringem, vzorkovací frekvence zařízení.
+- Nahrávací studio: seznam nahrávek uložených v zařízení (IndexedDB), přehrání, přejmenování, smazání, **Export WAV**, na iPhonu **Sdílet / Uložit do Souborů**.
+- Upozornění „Nahrávka uložena“ s odkazem do studia.
+
 ## 0.6.0 – 2026-11-26 – Bicí: obrázek soupravy a ikony
 - Přepínač zobrazení bicích: **Pady** nebo **Souprava (obrázek)** – 2D obrázek celé sestavy, každá část je klikací (činely, kopule ridu, hi-hat horní/spodní činel a pedál, tomy, kotel, virbl – blána i tělo, kopák – blána i šlapka, zvonec, tamburína, elektronický pad = tlesk).
 - Volitelné popisky na obrázku a ikony nástrojů na padech (zapínají se tlačítky, volba se pamatuje).

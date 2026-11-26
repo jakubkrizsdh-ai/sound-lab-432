@@ -2,6 +2,8 @@
   import { t } from '../i18n/index.svelte';
   import { audio, engine, MASTER_MAX_DB, MASTER_MIN_DB, MASTER_WARN_DB } from '../audio/engine.svelte';
   import { dbfs } from '../format';
+  import RecButton from './RecButton.svelte';
+  import { rec } from '../recorder/store.svelte';
 
   let { title, onStopAll }: { title: string; onStopAll: () => void } = $props();
 
@@ -15,7 +17,7 @@
   );
 </script>
 
-<header class="top">
+<header class="top" class:recording={rec.state !== 'idle'}>
   <div class="brand">
     <span class="name">{t('app.name')}</span>
     <span class="title">{title}</span>
@@ -34,7 +36,8 @@
   <span class="lim" class:on={limiting} title={limiting ? t('audio.limiting') : t('audio.limiterIdle')}>
     <span class="dot" aria-hidden="true"></span><span class="lim-text">{limiting ? `−${audio.reductionDb.toFixed(1)} dB` : 'Limiter'}</span>
   </span>
-  <button class="stop" onclick={onStopAll} aria-label={t('top.stopAllAria')}>{t('top.stopAll')}</button>
+  <RecButton />
+  <button class="stop" onclick={onStopAll} aria-label={t('top.stopAllAria')}><span class="full">{t('top.stopAll')}</span><span class="short">STOP</span></button>
 </header>
 
 <style>
@@ -62,10 +65,16 @@
     min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px;
     background: var(--danger); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer;
   }
+  .short { display: none; }
   @media (max-width: 899px) {
+    .recording .brand { display: none; }
+    .recording .full { display: none; }
+    .recording .short { display: inline; }
+    .recording .spacer { flex: 1 1 0; }
     .tuning, .master, .lim-text { display: none; }
     .lim { min-width: 0; }
     .status { order: 10; flex-basis: 100%; text-align: center; }
+    .top { flex-wrap: wrap; }
   }
   @media (min-width: 900px) {
     .brand { flex-direction: row; align-items: baseline; gap: 14px; }

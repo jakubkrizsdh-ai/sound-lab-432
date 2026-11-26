@@ -88,3 +88,11 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
 - Vyrovnání hlasitostí: tabulka `TRIM` (dB) pro každý zvuk a soupravu, z offline měření.
 - Dusení: `CHOKES` – zavřený a šlapaný hi-hat zastaví otevřený (rampa 6 ms).
 - Plánovač: každých 25 ms naplánuje údery do 120 ms dopředu; čas kroku `stepTime(krok, BPM, swing)`; swing posouvá sudé šestnáctiny až o 33 % délky kroku.
+
+## Nahrávání (0.7.0) – `audio/recorder.worklet.ts`, `audio/wav.ts`, `recorder/`
+```
+… limiter (engine.output) → recorder AudioWorklet → gain 0 → destination   (jen aby se uzel zpracovával)
+```
+- Worklet převádí stereo na 16bit prokládané vzorky s TPDF ditheringem a posílá bloky po 8192 snímcích (≈ 0,17 s) s měřenou špičkou.
+- Pauza = worklet přestane ukládat; Stop = vyprázdnění bufferu a zpráva „done“ se vzorkovací frekvencí.
+- `encodeWav16()` skládá WAV z bloků bez kopírování dat; nahrávka se uloží do IndexedDB (`soundlab/recordings`).
