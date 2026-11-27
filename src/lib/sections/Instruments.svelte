@@ -5,7 +5,8 @@
   import HandpanView from '../handpan/ui/HandpanView.svelte';
   import InstrumentView from '../instruments/ui/InstrumentView.svelte';
   import DrumsView from '../drums/ui/DrumsView.svelte';
-  import CongaView from '../congas/ui/CongaView.svelte';
+  import HandDrumView from '../congas/ui/HandDrumView.svelte';
+  import CajonView from '../cajon/ui/CajonView.svelte';
 </script>
 
 <div class="instruments">
@@ -22,7 +23,11 @@
   {:else if inst.current === 'drums'}
     <DrumsView />
   {:else if inst.current === 'congas'}
-    <CongaView />
+    <HandDrumView set="congas" />
+  {:else if inst.current === 'bongos'}
+    <HandDrumView set="bongos" />
+  {:else if inst.current === 'cajon'}
+    <CajonView />
   {:else}
     {#key inst.current}
       <InstrumentView id={inst.current} />

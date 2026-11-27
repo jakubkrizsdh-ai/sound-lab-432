@@ -3,20 +3,31 @@
   import { t, i18n } from '../../i18n/index.svelte';
   import { dbfs, num } from '../../format';
   import { audio, engine, MASTER_MAX_DB, MASTER_MIN_DB, MASTER_WARN_DB } from '../../audio/engine.svelte';
-  import { CONGA_CODES, CONGA_DRUMS, CONGA_PADS, CONGA_TUNING, DRUM_SIZE, IMAGE_NOTES, ZONE_BASS, ZONE_OPEN, zoneStroke, type CongaDrum, type CongaPad, type CongaStroke, type CongaTuning } from '../kit';
-  import { congas, hit, save, applyReverb } from '../store.svelte';
+  import { DRUM_SIZE, IMAGE_NOTES, SETS, ZONE_BASS, ZONE_OPEN, handFreq, zoneStroke, type CongaTuning, type HandDrum, type HandPad, type HandSet, type HandStroke } from '../kit';
+  import { HAND_STORES } from '../store.svelte';
   import KeyBindings from '../../keys/KeyBindings.svelte';
   import { keyLabel, resolve, keys } from '../../keys/bindings.svelte';
 
-  const kbDefaults: Record<string, string> = { ...CONGA_CODES };
-  const kb = $derived((keys.overrides, resolve('congas', kbDefaults)));
+  let { set = 'congas' }: { set?: HandSet } = $props();
+  // jedna sada na jednu instanci obrazovky (přepnutí nástroje = nová instance)
+  // svelte-ignore state_referenced_locally
+  const store = HAND_STORES[set];
+  const congas = store.state;
+  // svelte-ignore state_referenced_locally
+  const def = SETS[set];
+  const center = def.center;
+  const hit = store.hit;
+  const kbDefaults: Record<string, string> = { ...def.codes };
+  const kb = $derived((keys.overrides, resolve(set, kbDefaults)));
+  // svelte-ignore state_referenced_locally
+  const P = set === 'bongos' ? 'bg' : 'cg';
 
   onMount(() => {
     const key = (e: KeyboardEvent) => {
       if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
-      const pad = kb.byCode[e.code] as CongaPad | undefined;
+      const pad = kb.byCode[e.code] as HandPad | undefined;
       if (!pad) return;
       e.preventDefault();
       hit(pad, e.shiftKey ? 1 : congas.velocity);
@@ -31,7 +42,7 @@
     return Math.min(1, Math.max(0.1, v));
   }
 
-  function headDown(e: PointerEvent, drum: CongaDrum) {
+  function headDown(e: PointerEvent, drum: HandDrum) {
     e.preventDefault();
     const r = (e.currentTarget as SVGElement).getBoundingClientRect();
     const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
@@ -39,44 +50,44 @@
     // obruč (0,92–1,0 viewBoxu) počítáme ještě jako okraj blány
     const d = Math.hypot(dx, dy) / 0.92;
     if (d > 1.09) return;
-    hit(`${drum}.${zoneStroke(Math.min(d, 0.999))}`, velocityOf(e));
+    hit(`${drum}.${zoneStroke(Math.min(d, 0.999), center)}` as HandPad, velocityOf(e));
   }
 
-  function muteDown(e: PointerEvent, drum: CongaDrum) {
+  function muteDown(e: PointerEvent, drum: HandDrum) {
     e.preventDefault();
-    hit(`${drum}.mute`, velocityOf(e));
+    hit(`${drum}.mute` as HandPad, velocityOf(e));
   }
 
-  function set<K extends 'tuning' | 'velocity' | 'reverb' | 'labels'>(k: K, v: (typeof congas)[K]) {
+  function setOpt<K extends 'tuning' | 'velocity' | 'reverb' | 'labels'>(k: K, v: (typeof congas)[K]) {
     congas[k] = v;
-    if (k === 'reverb') applyReverb();
-    save();
+    if (k === 'reverb') store.applyReverb();
+    store.save();
   }
 
   const R = 92; // poloměr blány ve viewBoxu (obruč do 100)
-  const strokeName = (s: CongaStroke) => t(`cg.${s}` as never);
-  const keyOf = (drum: CongaDrum, s: CongaStroke) => keyLabel(kb.bySlot[`${drum}.${s}`]);
-  const flash = (drum: CongaDrum, s: CongaStroke) => congas.hits[`${drum}.${s}`];
+  const strokeName = (s: HandStroke) => t(`cg.${s}` as never);
+  const keyOf = (drum: HandDrum, s: HandStroke) => keyLabel(kb.bySlot[`${drum}.${s}`]);
+  const flash = (drum: HandDrum, s: HandStroke) => congas.hits[`${drum}.${s}`];
 </script>
 
-<div class="congas">
+<div class="congas" class:bongos={set === 'bongos'}>
   <div class="stage">
     <div class="chips">
       {#each ['natural', 'image'] as const as tu (tu)}
-        <button class:on={congas.tuning === tu} onclick={() => set('tuning', tu as CongaTuning)}>{t(`cg.tuning.${tu}`)}</button>
+        <button class:on={congas.tuning === tu} onclick={() => setOpt('tuning', tu as CongaTuning)}>{t(`${P}.tuning.${tu}` as never)}</button>
       {/each}
-      <button class:on={congas.labels} aria-pressed={congas.labels} onclick={() => set('labels', !congas.labels)}>{t('dr.labels')}</button>
+      <button class:on={congas.labels} aria-pressed={congas.labels} onclick={() => setOpt('labels', !congas.labels)}>{t('dr.labels')}</button>
     </div>
 
-    <div class="set" role="group" aria-label={t('ins.name.congas')}>
-      {#each CONGA_DRUMS as drum (drum)}
-        {@const f = CONGA_TUNING[congas.tuning][drum]}
+    <div class="set" role="group" aria-label={t(`ins.name.${set}` as never)}>
+      {#each def.drums as drum (drum)}
+        {@const f = handFreq(congas.tuning, drum)}
         {@const fo = flash(drum, 'open')}
         {@const fs = flash(drum, 'slap')}
-        {@const fb = flash(drum, 'bass')}
+        {@const fb = flash(drum, center)}
         {@const fm = flash(drum, 'mute')}
         <div class="drum" style:--s={DRUM_SIZE[drum]}>
-          <svg viewBox="-100 -100 200 200" class="head" role="button" tabindex="-1" aria-label={`${t(`cg.${drum}` as never)}: ${strokeName('bass')} · ${strokeName('open')} · ${strokeName('slap')}`}
+          <svg viewBox="-100 -100 200 200" class="head" role="button" tabindex="-1" aria-label={`${t(`cg.${drum}` as never)}: ${strokeName(center)} · ${strokeName('open')} · ${strokeName('slap')}`}
             onpointerdown={(e) => headDown(e, drum)} oncontextmenu={(e) => e.preventDefault()}>
             <defs>
               <radialGradient id={`skin-${drum}`} cx="45%" cy="40%" r="70%">
@@ -99,11 +110,11 @@
             {#if congas.labels}
               <text y={-R * (1 + ZONE_OPEN) / 2 + 4} class="zl">{strokeName('slap')}</text>
               <text y={-R * (ZONE_OPEN + ZONE_BASS) / 2 + 4} class="zl">{strokeName('open')}</text>
-              <text y="-6" class="zl">{strokeName('bass')}</text>
+              <text y="-6" class="zl">{strokeName(center)}</text>
             {/if}
             <text y={R * (1 + ZONE_OPEN) / 2 + 5} class="zk">{keyOf(drum, 'slap')}</text>
             <text y={R * (ZONE_OPEN + ZONE_BASS) / 2 + 5} class="zk">{keyOf(drum, 'open')}</text>
-            <text y={congas.labels ? 16 : 5} class="zk">{keyOf(drum, 'bass')}</text>
+            <text y={congas.labels ? 16 : 5} class="zk">{keyOf(drum, center)}</text>
           </svg>
           <button class="mute" onpointerdown={(e) => muteDown(e, drum)} oncontextmenu={(e) => e.preventDefault()}>
             {strokeName('mute')} <span class="k mono">{keyOf(drum, 'mute')}</span>
@@ -116,7 +127,7 @@
         </div>
       {/each}
     </div>
-    <p class="hint">{t('cg.hint')}</p>
+    <p class="hint">{t(`${P}.hint` as never)}</p>
   </div>
 
   <aside class="side">
@@ -127,17 +138,17 @@
       </label>
       <label>
         <span class="lrow"><span>{t('hp.velocity')}</span><span class="mono v">{Math.round(congas.velocity * 100)} %</span></span>
-        <input type="range" min="0.1" max="1" step="0.01" value={congas.velocity} oninput={(e) => set('velocity', +e.currentTarget.value)} />
+        <input type="range" min="0.1" max="1" step="0.01" value={congas.velocity} oninput={(e) => setOpt('velocity', +e.currentTarget.value)} />
       </label>
       <label>
         <span class="lrow"><span>{t('hp.reverb')}</span><span class="mono v">{Math.round(congas.reverb * 100)} %</span></span>
-        <input type="range" min="0" max="1" step="0.01" value={congas.reverb} oninput={(e) => set('reverb', +e.currentTarget.value)} />
+        <input type="range" min="0" max="1" step="0.01" value={congas.reverb} oninput={(e) => setOpt('reverb', +e.currentTarget.value)} />
       </label>
-      <p class="hint">{t('cg.about')}</p>
-      {#if congas.tuning === 'image'}<p class="hint">{t('cg.tuningNote')}</p>{/if}
+      <p class="hint">{t(`${P}.about` as never)}</p>
+      {#if congas.tuning === 'image'}<p class="hint">{t(`${P}.tuningNote` as never)}</p>{/if}
     </section>
-    <KeyBindings instrument="congas" defaults={kbDefaults}
-      slots={CONGA_PADS.map(p => ({ id: p, label: `${t(`cg.${p.split('.')[0]}` as never)} · ${strokeName(p.split('.')[1] as CongaStroke)}` }))} />
+    <KeyBindings instrument={set} defaults={kbDefaults}
+      slots={def.pads.map(p => ({ id: p, label: `${t(`cg.${p.split('.')[0]}` as never)} · ${strokeName(p.split('.')[1] as HandStroke)}` }))} />
   </aside>
 </div>
 
@@ -169,7 +180,7 @@
     background: linear-gradient(180deg, #2b3037, #1d2126); color: #f2f3f5; font-size: clamp(11px, 2.9vw, 13px); font-weight: 600; -webkit-tap-highlight-color: transparent;
   }
   .mute:active { background: #3a414b; }
-  @media (max-width: 640px) { .zk, .k { display: none; } .zl { font-size: 19px; } }
+  @media (max-width: 640px) { .zk, .k { display: none; } .congas:not(.bongos) .zl { font-size: 19px; } }
   .k { color: #9aa3ae; font-weight: 400; font-size: 11px; margin-left: 4px; }
   .info { display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; font-size: 12.5px; }
   .hz { font-size: 11.5px; color: var(--text-2); }

@@ -124,3 +124,9 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
   - tlumený: 1,07f (prsty napnou blánu), 90 ms; bas: tělo 0,4f se sjezdem 1,25×, blána hned utlumená.
 - Opakovaný úder na stejný buben: `damp()` na výstupu hlasu (τ = 80 ms), max. 3 hlasy na buben.
 - Skladba: `SongNote.drum` = `buben.úder` (např. `tumba.open`), `TrackSound.congaTuning`.
+
+## Bonga (0.11.0) – `congas/` (společné s conga)
+- `congaHit` přijímá údery conga i bonga (`HandPad`). Bonga: doznění 0,30 / 0,38 s, jasnější dotyk (pásmo 3,2 kHz) a plesk (horní propust 2,2 kHz, špička 4,5 kHz); nový úder `thumb` (palec do středu): f + 0,62f, 120 ms. Cesty conga beze změny.
+
+## Cajon (0.11.0) – `cajon/`
+- `cajonHit(ctx, dest, pad, wires, v, when)`: bas = rezonance bedny 92 Hz (sjezd 1,3×) + deska 184 / 265 Hz; tón = deska 150 / 235 / 372 Hz + dotyk 1,3 kHz; slap = šum (1,5 kHz+, špička 2,8 kHz) + vysoké módy desky; prsty = tichý šum 2,2 kHz. Struny: šum 2,6–5,2 kHz + 3,4 kHz, délka podle úderu. Nový úder přitlumí předchozí (τ = 120 ms), max. 4 hlasy.

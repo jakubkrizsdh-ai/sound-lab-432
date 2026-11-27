@@ -7,12 +7,13 @@
 import type { PitchSource } from '../tuning/systems';
 import type { InstrumentId } from '../instruments/defs';
 import type { DrumId } from '../drums/kit';
-import type { CongaPad, CongaTuning } from '../congas/kit';
+import type { HandPad, CongaTuning } from '../congas/kit';
+import type { CajonPad } from '../cajon/kit';
 
 /** bicí nebo conga: který buben / úder */
-export type PercId = DrumId | CongaPad;
+export type PercId = DrumId | HandPad | CajonPad;
 /** nástroje bez výšky tónu v editoru (řádky = bubny / údery) */
-export const isPercussion = (instrument: string) => instrument === 'drums' || instrument === 'congas';
+export const isPercussion = (instrument: string) => instrument === 'drums' || instrument === 'congas' || instrument === 'bongos' || instrument === 'cajon';
 import type { ModalDef } from '../instruments/defs';
 
 export const BEATS_PER_BAR = 4;
@@ -55,7 +56,10 @@ export interface TrackSound {
   decayScale?: number;
   kit?: 'acoustic' | 'electronic';
   drumTuning?: 'natural' | 'image';
+  /** conga a bonga: ladění */
   congaTuning?: CongaTuning;
+  /** cajon: struny za deskou */
+  cajonWires?: boolean;
   synthPreset?: 'pad' | 'lead' | 'organ';
   cutoff?: number;
   release?: number;

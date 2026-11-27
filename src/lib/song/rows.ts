@@ -2,7 +2,8 @@
  * Řádky editoru tónů pro stopu: bubny, nebo chromatické tóny v ladění stopy.
  */
 import { PADS, type DrumId } from '../drums/kit';
-import { CONGA_PADS } from '../congas/kit';
+import { BONGO_PADS, CONGA_PADS } from '../congas/kit';
+import { CAJON_PADS } from '../cajon/kit';
 import { KEY_TUNINGS, CHROMATIC_NAMES, SCALE_DEGREES } from '../instruments/defs';
 import { pitch, type PitchSource, type TuningSystem } from '../tuning/systems';
 import type { PercId, Track } from './model';
@@ -34,6 +35,8 @@ export function rowsFor(t: Track, drumName: (d: PercId) => string): Row[] {
   if (t.sound.instrument === 'drums') return DRUM_ORDER.filter(d => PADS.includes(d)).map(d => ({ key: d, label: drumName(d), drum: d }));
   // conga: shora quinto → tumba, v každém slap, otevřený, tlumený, bas
   if (t.sound.instrument === 'congas') return CONGA_PADS.map(d => ({ key: d, label: drumName(d), drum: d }));
+  if (t.sound.instrument === 'bongos') return BONGO_PADS.map(d => ({ key: d, label: drumName(d), drum: d }));
+  if (t.sound.instrument === 'cajon') return CAJON_PADS.map(d => ({ key: d, label: drumName(d), drum: d }));
   const { sys } = trackTuning(t);
   let lo = 3, hi = 5;
   for (const c of t.clips) for (const n of c.notes) {

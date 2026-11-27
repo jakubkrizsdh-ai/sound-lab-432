@@ -6,12 +6,12 @@
 import { PRESETS, pitch, type Pitch, type TuningSystem } from '../tuning/systems';
 
 export type InstrumentId =
-  | 'handpan' | 'drums' | 'congas' | 'tibetan' | 'crystal' | 'gong' | 'kalimba' | 'bells'
+  | 'handpan' | 'drums' | 'congas' | 'bongos' | 'cajon' | 'tibetan' | 'crystal' | 'gong' | 'kalimba' | 'bells'
   | 'piano' | 'flute' | 'synth' | 'custom';
 
-export const INSTRUMENT_ORDER: InstrumentId[] = ['handpan', 'drums', 'congas', 'tibetan', 'crystal', 'gong', 'kalimba', 'bells', 'piano', 'flute', 'synth', 'custom'];
+export const INSTRUMENT_ORDER: InstrumentId[] = ['handpan', 'drums', 'congas', 'bongos', 'cajon', 'tibetan', 'crystal', 'gong', 'kalimba', 'bells', 'piano', 'flute', 'synth', 'custom'];
 
-export type Surface = 'handpan' | 'drums' | 'congas' | 'bowls' | 'gong' | 'kalimba' | 'bells' | 'keys';
+export type Surface = 'handpan' | 'drums' | 'congas' | 'bongos' | 'cajon' | 'bowls' | 'gong' | 'kalimba' | 'bells' | 'keys';
 
 /** [poměr, amplituda, podíl dozvuku, rozladění Hz] */
 export type Mode = [number, number, number, number];
@@ -106,6 +106,8 @@ export const INSTRUMENTS: Record<InstrumentId, InstrumentDef> = {
   handpan: { id: 'handpan', surface: 'handpan', octave: 4, sustained: false, sound: null },
   drums: { id: 'drums', surface: 'drums', octave: 4, sustained: false, sound: null },
   congas: { id: 'congas', surface: 'congas', octave: 4, sustained: false, sound: null },
+  bongos: { id: 'bongos', surface: 'bongos', octave: 4, sustained: false, sound: null },
+  cajon: { id: 'cajon', surface: 'cajon', octave: 4, sustained: false, sound: null },
   tibetan: { id: 'tibetan', surface: 'bowls', octave: 4, sustained: false, sound: MODAL.tibetan },
   crystal: { id: 'crystal', surface: 'bowls', octave: 4, sustained: false, sound: MODAL.crystal },
   gong: { id: 'gong', surface: 'gong', octave: 2, sustained: false, sound: MODAL.gong },

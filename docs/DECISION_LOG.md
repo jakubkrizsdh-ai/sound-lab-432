@@ -45,6 +45,8 @@
 | D42 | 2026-11-26 | Zrušit D41, zvuk úderu bubnů vrácen přesně na 0.9.2 | Ladit alikvóty dál | Autor: bubny nezněly jako bubny. Změny zvuku jen se souhlasem autora |
 | D43 | 2026-11-27 | Conga jako samostatný nástroj, hraní zónami hlavy (bas / otevřený / slap) + tlačítko Tlumený | Mřížka 12 padů | Odpovídá technice hry rukou; méně ovládacích prvků na telefonu |
 | D44 | 2026-11-27 | Údery conga ve skladbě přes pole `drum` (`buben.úder`) | Nové pole v modelu | Stejné řádky editoru a nahrávání jako u bicích, JSON zpětně kompatibilní |
+| D45 | 2026-11-27 | Conga a bonga: společná obrazovka a logika (sada jako parametr) | Kopie obrazovky pro bonga | Stejná technika hry, méně kódu; conga ověřena vzorek po vzorku beze změny zvuku |
+| D46 | 2026-11-27 | Cajon jako samostatný modul se zónami přední desky a přepínačem strun | Mřížka padů | Odpovídá hře na skutečný cajon (slap nahoře, bas uprostřed) |
 | D41 | 2026-11-26 | (zrušeno v D42) Tomy a kopák s vrstvou harmonických alikvót | Ponechat čisté sinusové tělo | Reproduktor telefonu nezahraje 100–200 Hz → výška bubnu na iPhonu skákala; alikvóty ji nesou, na plných reproduktorech hlasitost beze změny |
 
 ## Grafické podklady

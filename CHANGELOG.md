@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.11.0 – 2026-11-27 – Bonga a cajon
+- Nový nástroj **Bonga**: macho (menší, vlevo) a hembra; údery otevřený, slap, tlumený a palec (střed hlavy). Ladění přirozené (620 / 410 Hz) nebo v tónech obrázku (hembra A4 432 Hz, macho D5 576 Hz – čistá kvarta). Klávesy Q W A S (macho), E R D F (hembra).
+- Nový nástroj **Cajon**: přední deska se zónami – horní okraj slap, pod ním tón, střed a níž bas; tlačítka Prsty (tiché ghost údery) pro levou i pravou ruku; přepínač Struny (snare). Klávesy zrcadlově A S D F (levá ruka) a J K L ů (pravá), bas i mezerníkem.
+- Obě se nahrávají do Skladby (vlastní stopy, řádky editoru = údery), export WAV/JSON.
+- Conga a bonga sdílí jednu obrazovku a logiku (`HandDrumView`, `createHandStore`); zvuk conga ověřen jako vzorek po vzorku stejný.
+
 ## 0.10.0 – 2026-11-27 – Conga set
 - Nový nástroj **Conga**: quinto, conga a tumba, každý se čtyřmi údery – otevřený tón, slap, tlumený, bas.
 - Hraní klepnutím do hlavy bubnu (střed = bas, prostřední kruh = otevřený, okraj = slap), tlačítko „Tlumený“ pod každým bubnem, víc prstů najednou, síla z přítlaku (kde zařízení umí).

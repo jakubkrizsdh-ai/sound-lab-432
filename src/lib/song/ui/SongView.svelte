@@ -77,7 +77,7 @@
   }
 
   function addEmptyTrack() {
-    addTrack({ instrument: newInst, ...(newInst === 'drums' ? { kit: 'acoustic', drumTuning: 'natural' } : newInst === 'congas' ? { congaTuning: 'natural' } : {}) }, t(`ins.name.${newInst}` as never));
+    addTrack({ instrument: newInst, ...(newInst === 'drums' ? { kit: 'acoustic', drumTuning: 'natural' } : newInst === 'congas' || newInst === 'bongos' ? { congaTuning: 'natural' } : newInst === 'cajon' ? { cajonWires: true } : {}) }, t(`ins.name.${newInst}` as never));
   }
 
   function clearSong() {

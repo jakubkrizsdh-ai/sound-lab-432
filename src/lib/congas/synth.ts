@@ -6,7 +6,7 @@
  * Vše funguje stejně v AudioContext i OfflineAudioContext (export).
  */
 import { silenceOut, type Voice } from '../audio/engine.svelte';
-import { CONGA_TUNING, padDrum, padStroke, type CongaDrum, type CongaPad, type CongaStroke, type CongaTuning } from './kit';
+import { handFreq, padDrum, padStroke, type CongaTuning, type HandDrum, type HandPad, type HandStroke } from './kit';
 
 export interface CongaVoice extends Voice {
   /** nový úder do stejné blány: předchozí dozní přitlumený (nezmizí) */
@@ -79,15 +79,17 @@ function touch(h: Hit, peak: number, decay: number, filters: { type: BiquadFilte
 }
 
 /** doznění otevřeného tónu (s, na −60 dB) – větší buben zní déle */
-const DECAY: Record<CongaDrum, number> = { quinto: 0.45, conga: 0.6, tumba: 0.75 };
+const DECAY: Record<HandDrum, number> = { quinto: 0.45, conga: 0.6, tumba: 0.75, macho: 0.3, hembra: 0.38 };
 /** vyrovnání hlasitosti úderů (dB), změřeno offline při síle 0,8 */
-const TRIM: Record<CongaStroke, number> = { open: 0, slap: -1, mute: 3, bass: 1 };
+const TRIM: Record<HandStroke, number> = { open: 0, slap: -1, mute: 3, bass: 1, thumb: 2 };
 
-/** Jeden úder na conga. `v` = síla 0–1. */
-export function congaHit(ctx: BaseAudioContext, dest: AudioNode, pad: CongaPad, tuning: CongaTuning, v: number, when = ctx.currentTime): CongaVoice {
+/** Jeden úder na conga nebo bonga. `v` = síla 0–1. */
+export function congaHit(ctx: BaseAudioContext, dest: AudioNode, pad: HandPad, tuning: CongaTuning, v: number, when = ctx.currentTime): CongaVoice {
   const drum = padDrum(pad);
   const stroke = padStroke(pad);
-  const f = CONGA_TUNING[tuning][drum];
+  const f = handFreq(tuning, drum);
+  // bonga: menší, napnutější blána → jasnější dotyk a plesk (conga beze změny)
+  const bongo = drum === 'macho' || drum === 'hembra';
   const vel = Math.min(1, Math.max(0.05, v));
   const bright = 0.45 + 0.55 * vel;
   const out = ctx.createGain();
@@ -104,7 +106,7 @@ export function congaHit(ctx: BaseAudioContext, dest: AudioNode, pad: CongaPad, 
       mode(h, f * 1.98, 0.16 * bright, dec * 0.38);
       mode(h, f * 2.44, 0.08 * bright, dec * 0.3);
       mode(h, f * 0.5, 0.1, dec * 0.35); // tělo bubnu
-      touch(h, 0.22 * bright, 0.025, [{ type: 'bandpass', f: 1800, q: 0.8 }]);
+      touch(h, 0.22 * bright, 0.025, [{ type: 'bandpass', f: bongo ? 3200 : 1800, q: 0.8 }]);
       break;
     }
     case 'slap': {
@@ -114,7 +116,7 @@ export function congaHit(ctx: BaseAudioContext, dest: AudioNode, pad: CongaPad, 
       mode(h, f * 3.1, 0.36 * bright, 0.1);
       mode(h, f * 3.92, 0.28 * bright, 0.08);
       mode(h, f * 5.2, 0.18 * bright, 0.06);
-      touch(h, 0.9 * bright, 0.06, [{ type: 'highpass', f: 1400 }, { type: 'peaking', f: 3200, q: 1.2 }]);
+      touch(h, 0.9 * bright, bongo ? 0.045 : 0.06, [{ type: 'highpass', f: bongo ? 2200 : 1400 }, { type: 'peaking', f: bongo ? 4500 : 3200, q: 1.2 }]);
       touch(h, 0.35 * bright, 0.012, [{ type: 'highpass', f: 5000 }]);
       break;
     }
@@ -123,6 +125,14 @@ export function congaHit(ctx: BaseAudioContext, dest: AudioNode, pad: CongaPad, 
       mode(h, f * 1.07, 0.85, 0.09, 1.02);
       mode(h, f * 1.62, 0.2 * bright, 0.06);
       touch(h, 0.25 * bright, 0.015, [{ type: 'lowpass', f: 2600 }]);
+      break;
+    }
+    case 'thumb': {
+      // bonga: palec do středu – krátký tlumený „tuk“, základ blány slyšet jen krátce
+      mode(h, f, 0.9, 0.12, 1.03);
+      mode(h, f * 0.62, 0.35, 0.08);
+      mode(h, f * 1.52, 0.12 * bright, 0.05);
+      touch(h, 0.25 * bright, 0.02, [{ type: 'lowpass', f: 1800 }]);
       break;
     }
     case 'bass': {

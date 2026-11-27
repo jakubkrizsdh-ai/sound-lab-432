@@ -1,7 +1,7 @@
 /**
  * Stav skladby a úpravy (s historií Zpět / Znovu). Ukládá se automaticky v zařízení.
  */
-import { BEATS_PER_BAR, emptySong, sanitizeSong, snap, quantize, uid, type Clip, type Song, type SongNote, type Track, type TrackSound } from './model';
+import { BEATS_PER_BAR, isPercussion, emptySong, sanitizeSong, snap, quantize, uid, type Clip, type Song, type SongNote, type Track, type TrackSound } from './model';
 import type { InstrumentId } from '../instruments/defs';
 
 const KEY = 'soundlab.song';
@@ -80,7 +80,7 @@ export function findClip(id: string): { track: Track; clip: Clip } | null {
 
 // --- stopy ---
 export function addTrack(sound: TrackSound, name: string): Track {
-  const t: Track = { id: uid('t'), name, sound, volumeDb: 0, pan: 0, reverb: sound.instrument === 'drums' ? 0.08 : sound.instrument === 'congas' ? 0.12 : 0.2, mute: false, solo: false, clips: [] };
+  const t: Track = { id: uid('t'), name, sound, volumeDb: 0, pan: 0, reverb: sound.instrument === 'drums' ? 0.08 : isPercussion(sound.instrument) ? 0.12 : 0.2, mute: false, solo: false, clips: [] };
   edit(s => { s.tracks.push(t); });
   return findTrack(t.id)!;
 }

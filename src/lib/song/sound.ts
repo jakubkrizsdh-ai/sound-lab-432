@@ -6,7 +6,9 @@ import { dbToGain, type Voice } from '../audio/engine.svelte';
 import { strike } from '../handpan/voice';
 import { drumHit } from '../drums/synth';
 import { congaHit } from '../congas/synth';
-import { isCongaPad } from '../congas/kit';
+import { isBongoPad, isCongaPad, isHandPad } from '../congas/kit';
+import { cajonHit } from '../cajon/synth';
+import { isCajonPad } from '../cajon/kit';
 import type { DrumId } from '../drums/kit';
 import { INSTRUMENTS, MODAL, sanitizeModal } from '../instruments/defs';
 import { fluteNote, modalRub, modalStrike, pianoNote, synthNote } from '../instruments/voices';
@@ -18,10 +20,16 @@ export function playSongNote(ctx: BaseAudioContext, dest: AudioNode, sound: Trac
   const v = n.v;
   const id = sound.instrument;
   if (id === 'drums') {
-    return n.drum && !isCongaPad(n.drum) ? drumHit(ctx, dest, n.drum as DrumId, sound.kit ?? 'acoustic', v, sound.drumTuning ?? 'natural', when) : null;
+    return n.drum && !isHandPad(n.drum) && !isCajonPad(n.drum) ? drumHit(ctx, dest, n.drum as DrumId, sound.kit ?? 'acoustic', v, sound.drumTuning ?? 'natural', when) : null;
   }
   if (id === 'congas') {
     return isCongaPad(n.drum) ? congaHit(ctx, dest, n.drum, sound.congaTuning ?? 'natural', v, when) : null;
+  }
+  if (id === 'bongos') {
+    return isBongoPad(n.drum) ? congaHit(ctx, dest, n.drum, sound.congaTuning ?? 'natural', v, when) : null;
+  }
+  if (id === 'cajon') {
+    return isCajonPad(n.drum) ? cajonHit(ctx, dest, n.drum, sound.cajonWires ?? true, v, when) : null;
   }
   const hz = n.hz;
   if (!hz) return null;

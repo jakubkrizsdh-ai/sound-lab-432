@@ -139,3 +139,11 @@ Simulace malého reproduktoru: horní propust 4. řádu 380 Hz. Odhad vnímané 
 - Prohlížeč: klepnutí do středu / kruhu / okraje tumby → bas / otevřený / slap; tlačítko Tlumený; klávesy D E F R → správné údery; nahrávání do Skladby → stopa „Conga“ s 8 údery; editor 12 řádků. ✔
 - Export skladby (ladění obrázku): údery 216,7 / 287,5 / 383,3 Hz (rozlišení FFT ~2 Hz). ✔
 - Telefon 390 px: tři hlavy vedle sebe, čitelné popisky zón. ✔
+
+## Bonga a cajon – 0.11.0 (2026-11-27)
+- Jednotkové testy (tests/handperc.test.ts): bonga 8 úderů s unikátními klávesami, ladění obrázku 256 × 27/16 a 9/4 (čistá kvarta), střed hlavy = palec; cajon 4 údery, 9 klávesových slotů, zóny desky; studio – bonga/cajon jako bicí, JSON beze ztráty. ✔
+- Conga beze změny zvuku: 24 úderů (12 × 2 ladění) vzorek po vzorku shodných s 0.10.0. ✔
+- Offline Chrome, síla 0,8: bonga otevřené tóny 620,0 / 410,0 Hz (obrázek 575,8 / 431,7 Hz, rozlišení FFT ~0,8 Hz); špičky −7,4 až −10,7 dBFS. Cajon špičky −8,7 až −11,3 dBFS (prsty −19 dBFS), bas 91,7 Hz. ✔
+- Prohlížeč: bonga – střed / kruh / okraj → palec / otevřený / slap, Tlumený, klávesy; cajon – zóny desky, Prsty, klávesy K ů mezerník J; nahrávání do Skladby → stopy Bonga a Cajon. Žádné chyby stránky. ✔
+- Export skladby conga + bonga + cajon: 8,8 s, špička −8,7 dBFS. ✔
+- Telefon 390 px: bonga i cajon čitelné, popisky nepřekrývají obruč. ✔
