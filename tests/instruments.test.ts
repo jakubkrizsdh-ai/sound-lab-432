@@ -5,8 +5,8 @@ import {
 } from '../src/lib/instruments/defs';
 
 describe('definice nástrojů', () => {
-  it('všech 11 nástrojů má definici', () => {
-    expect(INSTRUMENT_ORDER).toHaveLength(11);
+  it('všech 12 nástrojů má definici', () => {
+    expect(INSTRUMENT_ORDER).toHaveLength(12);
     for (const id of INSTRUMENT_ORDER) expect(INSTRUMENTS[id].id).toBe(id);
   });
   it('modální nástroje: tón s poměrem 1 má plnou amplitudu, amplitudy 0–1, poměry kladné', () => {

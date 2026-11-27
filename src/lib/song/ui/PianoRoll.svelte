@@ -2,19 +2,19 @@
   import { onMount } from 'svelte';
   import { t } from '../../i18n/index.svelte';
   import { engine } from '../../audio/engine.svelte';
-  import { BEATS_PER_BAR, snap, type Clip, type SongNote, type Track } from '../model';
+  import { BEATS_PER_BAR, isPercussion, snap, type Clip, type SongNote, type Track } from '../model';
   import { addNote, updateNote, deleteNote, beginDrag } from '../store.svelte';
   import { transport } from '../player.svelte';
   import { playSongNote } from '../sound';
   import { rowIndexOf, rowsFor, type Row } from '../rows';
-  import type { DrumId } from '../../drums/kit';
+  import { percName } from '../labels';
 
   let { track, clip, grid, ppb, selectedNote = $bindable<string | null>(null) }: {
     track: Track; clip: Clip; grid: number; ppb: number; selectedNote: string | null;
   } = $props();
 
-  const isDrums = $derived(track.sound.instrument === 'drums');
-  const rows = $derived<Row[]>(rowsFor(track, (d: DrumId) => t(`dr.short.${d}` as never)));
+  const isDrums = $derived(isPercussion(track.sound.instrument));
+  const rows = $derived<Row[]>(rowsFor(track, (d) => percName(d)));
   const rowH = 24;
   const width = $derived(clip.len * ppb);
   let scroller: HTMLDivElement | undefined = $state();

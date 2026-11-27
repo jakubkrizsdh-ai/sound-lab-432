@@ -2,16 +2,17 @@
  * Řádky editoru tónů pro stopu: bubny, nebo chromatické tóny v ladění stopy.
  */
 import { PADS, type DrumId } from '../drums/kit';
+import { CONGA_PADS } from '../congas/kit';
 import { KEY_TUNINGS, CHROMATIC_NAMES, SCALE_DEGREES } from '../instruments/defs';
 import { pitch, type PitchSource, type TuningSystem } from '../tuning/systems';
-import type { Track } from './model';
+import type { PercId, Track } from './model';
 
 export interface Row {
   key: string;
   label: string;
   hz?: number;
   src?: PitchSource;
-  drum?: DrumId;
+  drum?: PercId;
   /** tón stupnice z obrázku (zvýraznění) */
   inScale?: boolean;
 }
@@ -29,8 +30,10 @@ export function trackTuning(t: Track): { sys: TuningSystem; id: keyof typeof KEY
 const DRUM_ORDER: DrumId[] = ['crash', 'splash', 'ride', 'rideBell', 'hhOpen', 'hhClosed', 'hhPedal', 'tomHi', 'tomMid', 'tomFloor', 'cowbell', 'tambourine', 'clap', 'rim', 'snare', 'kick'];
 
 /** Řádky shora dolů (vysoké tóny nahoře). */
-export function rowsFor(t: Track, drumName: (d: DrumId) => string): Row[] {
+export function rowsFor(t: Track, drumName: (d: PercId) => string): Row[] {
   if (t.sound.instrument === 'drums') return DRUM_ORDER.filter(d => PADS.includes(d)).map(d => ({ key: d, label: drumName(d), drum: d }));
+  // conga: shora quinto → tumba, v každém slap, otevřený, tlumený, bas
+  if (t.sound.instrument === 'congas') return CONGA_PADS.map(d => ({ key: d, label: drumName(d), drum: d }));
   const { sys } = trackTuning(t);
   let lo = 3, hi = 5;
   for (const c of t.clips) for (const n of c.notes) {
@@ -52,7 +55,7 @@ export function rowsFor(t: Track, drumName: (d: DrumId) => string): Row[] {
 }
 
 /** Na který řádek tón patří (nejbližší frekvence v centech, u bubnů podle bubnu). */
-export function rowIndexOf(rows: Row[], n: { hz?: number; drum?: DrumId }): number {
+export function rowIndexOf(rows: Row[], n: { hz?: number; drum?: PercId }): number {
   if (n.drum) return rows.findIndex(r => r.drum === n.drum);
   if (!n.hz) return -1;
   let best = -1, dist = Infinity;

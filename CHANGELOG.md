@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.10.0 – 2026-11-27 – Conga set
+- Nový nástroj **Conga**: quinto, conga a tumba, každý se čtyřmi údery – otevřený tón, slap, tlumený, bas.
+- Hraní klepnutím do hlavy bubnu (střed = bas, prostřední kruh = otevřený, okraj = slap), tlačítko „Tlumený“ pod každým bubnem, víc prstů najednou, síla z přítlaku (kde zařízení umí).
+- Klávesy: Q W A S (quinto), E R D F (conga), T Z G H (tumba) – horní řada slap · tlumený, prostřední otevřený · bas; Shift = silný úder; přemapování.
+- Ladění: přirozené (370 / 290 / 220 Hz) nebo v tónech obrázku (G4 384, D4 288, A3 216 Hz – čisté kvinty), u každého bubnu frekvence se štítkem „Vypočteno“.
+- Údery jednoho bubnu sdílí blánu: nový úder předchozí přitlumí (neutne), max. 3 doznívající.
+- Studio: conga se nahrávají do vlastní stopy, editor tónů má 12 řádků (buben × úder), export WAV/JSON.
+
 ## 0.9.5 – 2026-11-26 – Původní zvuk bubnů zpět
 - Vrácen původní zvuk úderu všech bubnů (jako v 0.9.2): zrušena vrstva alikvót z 0.9.4, sjezd tomů zpět 1,35×, neharmonická složka tomů zpět. Podle autora bubny nezněly jako bubny.
 - Ponecháno (nemění zvuk jednoho úderu): u akustických bubnů opakovaný úder předchozí přitlumí místo utnutí, menší sjezd výšky jen při rychlém opakování do 0,3 s; tlumení spolehlivé v Safari.

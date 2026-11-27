@@ -132,3 +132,10 @@ Simulace malého reproduktoru: horní propust 4. řádu 380 Hz. Odhad vnímané 
 
 ## Zvuk úderu bubnů = 0.9.2 – 0.9.5 (2026-11-26, offline Chrome, pevná náhoda šumu)
 32 úderů (16 bubnů × akustická/elektronická), síla 0,8, porovnání vzorků s verzí 0.9.2: rozdíl 0 (shoda < 1e-6). ✔
+
+## Conga – 0.10.0 (2026-11-27)
+- Jednotkové testy (tests/congas.test.ts): 12 úderů s unikátními klávesami; ladění obrázku = 256 × 27/32, 9/8, 3/2 (čisté kvarty mezi bubny); zóny hlavy; JSON skladby s conga stopou beze ztráty. ✔
+- Offline Chrome, síla 0,8: otevřené tóny přesně 370,0 / 290,0 / 220,0 Hz; špičky −9 až −11,6 dBFS (bicí −9,2 až −9,6). ✔
+- Prohlížeč: klepnutí do středu / kruhu / okraje tumby → bas / otevřený / slap; tlačítko Tlumený; klávesy D E F R → správné údery; nahrávání do Skladby → stopa „Conga“ s 8 údery; editor 12 řádků. ✔
+- Export skladby (ladění obrázku): údery 216,7 / 287,5 / 383,3 Hz (rozlišení FFT ~2 Hz). ✔
+- Telefon 390 px: tři hlavy vedle sebe, čitelné popisky zón. ✔

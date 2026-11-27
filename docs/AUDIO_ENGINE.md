@@ -116,3 +116,11 @@ Sběrnice: suchý signál + konvoluční prostor (generovaná IR 2,2 s, vyšší
 ## Bicí – alikvóty pro malé reproduktory (0.9.4, ZRUŠENO v 0.9.5 – měnilo charakter bubnů)
 - Tomy a kopák: kromě sinusového těla vrstva `harmonics()` – PeriodicWave s 2.–6. harmonickou (1; 0,6; 0,4; 0,25; 0,15), stejný sjezd výšky, kratší doznění. Nese výšku bubnu na reproduktoru telefonu (chybějící základní tón si ucho doplní).
 - `damp()` tlumí jen výstup hlasu (`setTargetAtTime` bez podržení); `silenceOut` = `cancelScheduledValues` + `setTargetAtTime` (bez čtení `value`).
+
+## Conga (0.10.0) – `congas/`
+- `congaHit(ctx, dest, pad, tuning, v, when)`: model módů blány (sinusové módy s obálkou) + šum dotyku ruky.
+  - otevřený: f, 1,52f, 1,98f, 2,44f + tělo 0,5f, doznění 0,45 / 0,6 / 0,75 s (quinto / conga / tumba);
+  - slap: utlumený základ, módy 2,44–5,2f, ostrý šum (horní propust 1,4 kHz + špička 3,2 kHz);
+  - tlumený: 1,07f (prsty napnou blánu), 90 ms; bas: tělo 0,4f se sjezdem 1,25×, blána hned utlumená.
+- Opakovaný úder na stejný buben: `damp()` na výstupu hlasu (τ = 80 ms), max. 3 hlasy na buben.
+- Skladba: `SongNote.drum` = `buben.úder` (např. `tumba.open`), `TrackSound.congaTuning`.

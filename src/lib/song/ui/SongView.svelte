@@ -8,6 +8,7 @@
   import { download } from '../../recorder/store.svelte';
   import { formatDuration } from '../../audio/wav';
   import Arrange from './Arrange.svelte';
+  import { percName } from '../labels';
   import PianoRoll from './PianoRoll.svelte';
 
   let selected = $state<string | null>(null);
@@ -76,7 +77,7 @@
   }
 
   function addEmptyTrack() {
-    addTrack({ instrument: newInst, ...(newInst === 'drums' ? { kit: 'acoustic', drumTuning: 'natural' } : {}) }, t(`ins.name.${newInst}` as never));
+    addTrack({ instrument: newInst, ...(newInst === 'drums' ? { kit: 'acoustic', drumTuning: 'natural' } : newInst === 'congas' ? { congaTuning: 'natural' } : {}) }, t(`ins.name.${newInst}` as never));
   }
 
   function clearSong() {
@@ -191,7 +192,7 @@
       </div>
       {#if selNote}
         <div class="ntools">
-          <span class="muted">{t('song.note')}: {selNote.drum ? t(`dr.${selNote.drum}` as never) : `${selNote.src ? selNote.src.degree + selNote.src.octave : ''} ${selNote.hz?.toFixed(2)} Hz`}</span>
+          <span class="muted">{t('song.note')}: {selNote.drum ? percName(selNote.drum, false) : `${selNote.src ? selNote.src.degree + selNote.src.octave : ''} ${selNote.hz?.toFixed(2)} Hz`}</span>
           <label class="grp">{t('hp.velocity')}
             <input type="range" min="0.05" max="1" step="0.01" value={selNote.v} onchange={(e) => updateNote(sel.clip.id, selNote.id, { v: +e.currentTarget.value })} />
             <span class="mono val">{Math.round(selNote.v * 100)} %</span>

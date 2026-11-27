@@ -3,8 +3,7 @@
  * Hraje-li nástroj sám (sekvencer bicích, přehrávání skladby), událost se nevysílá.
  */
 import type { PitchSource } from '../tuning/systems';
-import type { DrumId } from '../drums/kit';
-import type { TrackSound } from './model';
+import type { PercId, TrackSound } from './model';
 
 export interface PlayEvent {
   kind: 'on' | 'off';
@@ -13,7 +12,7 @@ export interface PlayEvent {
   sound: TrackSound;
   hz?: number;
   src?: PitchSource;
-  drum?: DrumId;
+  drum?: PercId;
   variant?: 'ding' | 'rub';
   velocity: number;
 }

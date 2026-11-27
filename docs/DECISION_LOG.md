@@ -43,6 +43,8 @@
 | D39 | 2026-11-26 | Zastavení hlasu dvakrát jištěno: složky (`fadeOut`) + výstup hlasu (`silenceOut`), bez výjimek (`safeStop`) | Jen `cancelAndHoldAtTime` na složkách | Safari může při rychlém opakování vyhodit chybu → zůstaly znít alikvoty (slyšet jako jiný tón) |
 | D40 | 2026-11-26 | Akustické bubny: opakovaný úder přitlumí předchozí, neutne; menší sjezd výšky při rychlé hře | Utnutí předchozího úderu (dřívější úspora výkonu) | Utnutí nechalo znít jen začátek sjezdu → buben při rychlé hře zněl až o 3,5 půltónu výš |
 | D42 | 2026-11-26 | Zrušit D41, zvuk úderu bubnů vrácen přesně na 0.9.2 | Ladit alikvóty dál | Autor: bubny nezněly jako bubny. Změny zvuku jen se souhlasem autora |
+| D43 | 2026-11-27 | Conga jako samostatný nástroj, hraní zónami hlavy (bas / otevřený / slap) + tlačítko Tlumený | Mřížka 12 padů | Odpovídá technice hry rukou; méně ovládacích prvků na telefonu |
+| D44 | 2026-11-27 | Údery conga ve skladbě přes pole `drum` (`buben.úder`) | Nové pole v modelu | Stejné řádky editoru a nahrávání jako u bicích, JSON zpětně kompatibilní |
 | D41 | 2026-11-26 | (zrušeno v D42) Tomy a kopák s vrstvou harmonických alikvót | Ponechat čisté sinusové tělo | Reproduktor telefonu nezahraje 100–200 Hz → výška bubnu na iPhonu skákala; alikvóty ji nesou, na plných reproduktorech hlasitost beze změny |
 
 ## Grafické podklady

@@ -37,6 +37,7 @@ Každý milník končí funkční aplikací, kontrolou podle TESTS.md a schvále
 - **Klavír – neharmonicita:** vyšší alikvoty jsou záměrně mírně roztažené (B = 0,00035); základní tón zůstává přesný (odchylka < 0,3 c).
 - **Mísy – tření:** zjednodušený model (pomalý náběh módů + šum tření), ne fyzikální model tření.
 - **Bicí:** syntéza, ne samply – akustická souprava zní věrohodně, ale ne jako nahraná. Sekvencer zatím jeden takt (16 kroků) a jeden vzor; řetězení vzorů, delší takty a záznam do studia přijdou s M9 (studio používá stejný plánovač).
+- **Conga (0.10.0):** zvuk je syntéza (model), ne nahrávka – případné samply jen CC0/CC-BY. Na reproduktoru telefonu bas úder (88–148 Hz) zní slabě.
 - **Skladba (0.9.0):** při skryté kartě nebo zamčeném telefonu může přehrávání skladby vynechávat (časovač v prohlížeči). Nahrávání hraní se ukládá jen po zastavení – zavření aplikace během záznamu ho ztratí. Takt je pevně 4/4. Bicí sekvencer do skladby zatím nenahrává (jen hra rukou/klávesami).
 - **Sekvencer na pozadí:** prohlížeč může při zamčeném telefonu nebo skryté kartě časovač zpomalit; rytmus pak vynechá. Řešením je plánovač v AudioWorkletu (M9).
 - **Nahrávky v zařízení:** IndexedDB; iOS může data webu po delší nečinnosti smazat (upozornění ve studiu, doporučen export). Limit 15 min ≈ 150 MB paměti.

@@ -4,7 +4,7 @@
  */
 import { buildMasterChain, engine, type Voice } from '../audio/engine.svelte';
 import { encodeWav16, floatTo16 } from '../audio/wav';
-import { BEATS_PER_BAR, beatsToSec, expand, loopRange, secToBeats, songBeats, uid, type Ev, type Song, type SongNote, type TrackSound } from './model';
+import { isPercussion, BEATS_PER_BAR, beatsToSec, expand, loopRange, secToBeats, songBeats, uid, type Ev, type Song, type SongNote, type TrackSound } from './model';
 import { addClip, addTrack, findTrack, song, trackFor } from './store.svelte';
 import { onPlay, type PlayEvent } from './events';
 import { playSongNote, SongMixer } from './sound';
@@ -201,7 +201,7 @@ function onEvent(e: PlayEvent) {
   if (!transport.recording || transport.countIn > 0) return;
   const at = beatNow();
   if (e.kind === 'on') {
-    const isDrum = e.sound.instrument === 'drums';
+    const isDrum = isPercussion(e.sound.instrument);
     const note: SongNote = {
       id: uid('n'), t: 0, d: isDrum ? 0.25 : 0.5, v: Math.round(e.velocity * 1000) / 1000,
       ...(e.hz !== undefined ? { hz: e.hz } : {}), ...(e.src ? { src: e.src } : {}),

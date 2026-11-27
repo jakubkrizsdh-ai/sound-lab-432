@@ -7,6 +7,12 @@
 import type { PitchSource } from '../tuning/systems';
 import type { InstrumentId } from '../instruments/defs';
 import type { DrumId } from '../drums/kit';
+import type { CongaPad, CongaTuning } from '../congas/kit';
+
+/** bicí nebo conga: který buben / úder */
+export type PercId = DrumId | CongaPad;
+/** nástroje bez výšky tónu v editoru (řádky = bubny / údery) */
+export const isPercussion = (instrument: string) => instrument === 'drums' || instrument === 'congas';
 import type { ModalDef } from '../instruments/defs';
 
 export const BEATS_PER_BAR = 4;
@@ -24,8 +30,8 @@ export interface SongNote {
   hz?: number;
   /** odkud frekvence pochází */
   src?: PitchSource;
-  /** bicí: který buben */
-  drum?: DrumId;
+  /** bicí: který buben; conga: buben.úder (např. 'tumba.open') */
+  drum?: PercId;
   /** zvláštní způsob hry: 'ding' (handpan), 'rub' (tření mísy) */
   variant?: 'ding' | 'rub';
 }
@@ -49,6 +55,7 @@ export interface TrackSound {
   decayScale?: number;
   kit?: 'acoustic' | 'electronic';
   drumTuning?: 'natural' | 'image';
+  congaTuning?: CongaTuning;
   synthPreset?: 'pad' | 'lead' | 'organ';
   cutoff?: number;
   release?: number;

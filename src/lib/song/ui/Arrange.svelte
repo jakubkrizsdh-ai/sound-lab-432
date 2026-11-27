@@ -107,7 +107,7 @@
         <div class="lane" class:muted={tr.mute || (anySolo && !tr.solo)} onpointerdown={(e) => lane(e, tr)} role="presentation">
           {#each tr.clips as c (c.id)}
             {#each Array.from({ length: Math.max(1, c.repeat) }, (_, r) => r) as r (r)}
-              <div class="clip {tr.sound.instrument === 'drums' ? 'drums' : ''}" class:ghost={r > 0} class:sel={selected === c.id}
+              <div class="clip {tr.sound.instrument === 'drums' || tr.sound.instrument === 'congas' ? 'drums' : ''}" class:ghost={r > 0} class:sel={selected === c.id}
                 style:left={`${(c.start + r * c.len) * ppb}px`} style:width={`${c.len * ppb - 2}px`}
                 onpointerdown={(e) => clipDown(e, c.id, c.start)} onpointermove={clipMove} onpointerup={clipUp} onpointercancel={clipUp}
                 role="button" tabindex="0" aria-label={`${tr.name} ${t('song.block')} ${r + 1}/${c.repeat}`}

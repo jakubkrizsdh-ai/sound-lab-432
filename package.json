@@ -1,7 +1,7 @@
 {
   "name": "sound-lab-432",
   "private": true,
-  "version": "0.9.5",
+  "version": "0.10.0",
   "type": "module",
   "description": "SOUND LAB 432 – interaktivní zvuková laboratoř",
   "scripts": {
